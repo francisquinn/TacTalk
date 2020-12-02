@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <title>API Documentation</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <p>For sample query, attach the query to the end of the root of this server</p>
+        <p>For example: https://rojaknodeapp.herokuapp.com/?command=create%20game&gameID=69&startTime=1920</p>
+        <br>
+        <br>
+        <p><b>Create game</b></p>
+        <p>Creates a game using a given game id and start time</p>
+        <p><b>sample query</b></p>
+        <p>?command=create_game&gameID=100&startTime=1920</p>
+        <br>
+        <br>
+        <p><b>Create possession</b></p>
+        <p>Creates a possession event based on the given game ID and start time</p>
+        <p>?command=create_possession&gameID=100&possessionID=21&startTime=77&possessionTeam=42</p>
+        <br>
+        <br>
+        <p><b>update possession event</b></p>
+        <p>Pushes a possession event to a possession with the given possession ID</p>
+        <p>?command=update_possession_event&possessionID=21&eventID=1&timeInSecond=32&eventType=1&playerID=33&teamID=34&outcomeID=1&outcomeTeamID=34&outcomePlayerID=33</p>
+        
+        
+        
+    </body>
+</html>

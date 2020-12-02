@@ -1,0 +1,18 @@
+{
+    "name": "rojaknodeappserver",
+    "version": "1.0.0",
+    "keywords": [
+        "util",
+        "functional",
+        "server",
+        "client",
+        "browser"
+    ],
+    "author": "Timot",
+    "contributors": [],
+    "dependencies": {
+        "mongodb": "^3.6.3",
+        "string-similarity": "^4.0.3",
+        "words-to-numbers": "^1.5.1"
+    }
+}
