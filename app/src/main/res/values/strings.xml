@@ -1,4 +1,34 @@
 <resources>
     <string name="app_name">TacTalk</string>
     <string name="welcome">Welcome to TacTalk</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Strings related to login -->
+    <string name="modifiedEditText">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="login_email_hint">LoginEmail</string>
+    <string name="login_password_hint">LoginPassword</string>
+    <string name="project_name">TacTalk</string>
+    <string name="manage_team">Manage Team</string>
+    <string name="set_up_match">Set up match</string>
+    <string name="logo_img">logo</string>
+    <string name="register_name">Name</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="register_button">Register</string>
+    <string name="have_account">Already have an account?</string>
+    <string name="new_user">New user? Register Now</string>
+    <string name="team_player">Player</string>
+    <string name="team_number">Number</string>
+    <string name="bio">Ryan Smith        1
+    \n\nJohn Doe        2
+    \nPaddy Brady        3</string>
+    <string name="done_button">Done</string>
+    <string name="match_date">dd/mm/yy</string>
+    <string name="match_opposition">Opposition</string>
+    <string name="match_location">Location</string>
 </resources>
