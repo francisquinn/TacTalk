@@ -133,15 +133,15 @@ module.exports.position =
         positionID:3
     },
     {
-        keywords:["mid left"],
+        keywords:["mid left","mid-left"],
         positionID:4
     },
     {
-        keywords:["mid centre","mid center"],
+        keywords:["mid centre","mid center","mid-center"],
         positionID:5
     },
     {
-        keywords:["mid right"],
+        keywords:["mid right","mid-right"],
         positionID:6
     },
     {

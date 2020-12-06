@@ -48,6 +48,4 @@ function findMatchingSegment(input)
     return null;
 }
 
-parseTextCommand("game starch");
-
 

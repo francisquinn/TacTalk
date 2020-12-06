@@ -11,6 +11,7 @@
     "author": "Timot",
     "contributors": [],
     "dependencies": {
+        "express": "^4.17.1",
         "mongodb": "^3.6.3",
         "string-similarity": "^4.0.3",
         "words-to-numbers": "^1.5.1"
