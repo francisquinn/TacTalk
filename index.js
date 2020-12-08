@@ -1,6 +1,8 @@
 let port = process.env.PORT;
-if (port == null || port == "") {
-  port = 8080;
+if (port == null || port == "") 
+{
+    //default port number if none is assigned
+    port = 8080;
 }
 const http = require('http');
 const url = require('url');
@@ -10,12 +12,6 @@ const cp = require('./commandParser');
 const express = require('express');
 const app = express();
 
-
-
-var dbo;
-const uri = "mongodb+srv://RojakAdmin:RojakIsASalad@rojakcluster.ho1ff.mongodb.net/sample_analytics?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-
 app.get('/user/games/delete', async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
@@ -23,7 +19,7 @@ app.get('/user/games/delete', async (req, res) =>
     res.setHeader('Content-Type', 'application/json');
     try
     {
-        const searchQuery = { _id: new MongoDB.ObjectID(req.query.object_id) };
+        const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId) };
         dbo.collection("games").deleteOne(searchQuery);
         res.end(JSON.stringify({code:200}));
     }catch(ex)
@@ -39,7 +35,7 @@ app.get('/user/possessions/delete', async (req, res) =>
     res.setHeader('Content-Type', 'application/json');
     try
     {
-        const searchQuery = { _id: new MongoDB.ObjectID(req.query.object_id), "possessions.possessionID": req.query.pid };
+        const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId), "possessions.possessionID": req.query.pid };
         dbo.collection("games").deleteOne(searchQuery);
         res.end(JSON.stringify({code:200}));
     }catch(ex)
@@ -55,7 +51,7 @@ app.get('/user/game_events/delete', async (req, res) =>
     res.setHeader('Content-Type', 'application/json');
     try
     {
-        const searchQuery = { _id: new MongoDB.ObjectID(req.query.object_id), "possessions.possessionID": req.query.pid, "possessions.events.eventID0": req.query.eid };
+        const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId), "possessions.possessionID": req.query.pid, "possessions.events.eventID0": req.query.eid };
         dbo.collection("games").deleteOne(searchQuery);
         res.end(JSON.stringify({code:200}));
     }catch(ex)
@@ -64,15 +60,34 @@ app.get('/user/game_events/delete', async (req, res) =>
     }
 })
 
-app.get('/user/games/get', async (req, res) => 
+app.get('/user/games/get/id', async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
     res.setHeader('Content-Type', 'application/json');
     try
     {
-        const searchQuery = { _id: new MongoDB.ObjectID(req.query.object_id)};
+        const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId)};
+        
         var result = await dbo.collection("games").findOne(searchQuery);
+        res.end(JSON.stringify({code:200, result: result}));
+        
+    }catch(ex)
+    {
+        res.end(JSON.stringify({code:500}));
+    }
+})
+
+app.get('/user/games/get/gameName', async (req, res) => 
+{
+    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
+    const dbo = db.db("TacTalk");
+    res.setHeader('Content-Type', 'application/json');
+    try
+    {
+        const searchQuery = { gameName: "/.*" + req.query.gameName + ".*/"};
+        
+        var result = await dbo.collection("games").find(searchQuery);
         res.end(JSON.stringify({code:200, result: result}));
         
     }catch(ex)
@@ -88,7 +103,7 @@ app.get('/user/users/get_secure', async (req, res) =>
     res.setHeader('Content-Type', 'application/json');
     try
     {
-        const searchQuery = { _id: new MongoDB.ObjectID(req.query.object_id)};
+        const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId)};
         var result = await dbo.collection("games").findOne(searchQuery);
         res.end(JSON.stringify({code:200, result: result}));
         
@@ -105,7 +120,15 @@ app.get('/user/games/create', async (req, res) =>
     res.setHeader('Content-Type', 'application/json');
     try
     {
-        var newGameObject = {gameName:req.gameName,startTime:0,possessions:[]};
+        var newGameObject = 
+                {
+                    gameName:req.gameName,
+                    user_id:req.query.userId,
+                    teamId:req.query.teamId,
+                    startTime:0,
+                    public:req.query.public,
+                    possessions:[]
+                };
         await dbo.collection("games").insertOne(newGameObject, function(err){
             if (err) return;
             // Object inserted successfully.
@@ -164,18 +187,7 @@ app.get('/user/game_events/create', async (req, res) =>
     try
     {
         var newGameEventObject = cp.parseCommand(req.query.textInput,req.query.time,null);
-//            {
-//                eventID:req.query.eventID,
-//                time:req.query.timeInSecond,
-//                eventTypeID:req.query.eventType,
-//                eventPositionID:req.query.position,
-//                playerID:req.query.playerID,
-//                teamID:req.query.teamID,
-//                outcomeID:req.query.outcomeID,
-//                outcomeTeamID:req.query.outcomeTeamID,
-//                outcomePlayerID:req.query.outcomePlayerID
-//            }
-        const searchQuery = { _id: new MongoDB.ObjectID(req.query.object_id),"possessions.possessionID":req.query.pid };
+        const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId),"possessions.possessionID":req.query.pid };
         
         const updateDocument = 
         {
@@ -200,85 +212,12 @@ app.get('/user/game_events/create', async (req, res) =>
 
 app.get('/', async (req, res) => 
 {
-    res.sendFile("index.html");
+    var fs = require("fs");
+    fs.readFile(__dirname+'/index.html', 'utf8', (err, text) => {
+        res.send(text);
+    });
 })
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
-
-
-//http.createServer(function (request, response) 
-//{
-//    var q = url.parse(request.url, true).query;
-//    processQuery(q, response);
-//    response.end();
-//}).listen(port);
-
-
-async function parseAndSubmitEvent(query, response)
-{
-    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
-    const dbo = db.db("TacTalk");
-    var newPossessionEvent = cp.parseCommand(query.input,query.time);
-    const searchQuery = { possessionID: query.possessionID.toString() };
-    const updateDocument = {
-      $push: { events: newPossessionEvent }
-    };
-    
-    dbo.collection("game_events").updateOne(searchQuery, updateDocument);
-}
-
-async function startGame(query)
-{
-    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
-    const dbo = db.db("TacTalk");
-    var newGameObject = {gameID:0,startTime:0};
-
-}
-
-async function createGame(query, response)
-{
-    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
-    const dbo = db.db("TacTalk");
-    var newGameObject = {gameID:query.gameID,startTime:query.startTime,possessions:[]};
-    await dbo.collection("games").insertOne(newGameObject);
-}
-
-async function createpossession(query, response)
-{
-    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
-    const dbo = db.db("TacTalk");
-    var newpossessionObject = 
-            {
-                possessionID:query.possessionID,
-                startTime:query.startTime,
-                teamInPossession:query.possessionTeam,
-                events: []
-            };
-    await dbo.collection("game_events").insertOne(newpossessionObject);
-    
-}
-
-async function updatePossession(query, response)
-{
-    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
-    const dbo = db.db("TacTalk");
-    var newPossessionEventObject =
-            {
-                eventID:query.eventID,
-                time:query.timeInSecond,
-                eventTypeID:query.eventType,
-                eventPositionID:query.position,
-                playerID:query.playerID,
-                teamID:query.teamID,
-                outcomeID:query.outcomeID,
-                outcomeTeamID:query.outcomeTeamID,
-                outcomePlayerID:query.outcomePlayerID
-            }
-    const searchQuery = { possessionID: query.possessionID.toString() };
-    const updateDocument = {
-      $push: { events: newPossessionEventObject }
-    };
-    dbo.collection("game_events").updateOne(searchQuery, updateDocument);
-}
