@@ -1,23 +1,19 @@
 // Imports the Google Cloud client library
 const speech = require("@google-cloud/speech");
-const fs = require("fs").promises;
+const fs = require("fs");
+const os = require("os");
 
 // Creates a client
 const client = new speech.SpeechClient();
 
-async function quickstart() {
-  // The name of the audio file to transcribe
-  const fileName = "audioFileTest.wav";
-  console.log(`file: ${fileName}`);
-
+async function audioRecognition() {
   console.log("reading audio ...");
-  // Reads a local audio file and converts it to base64
-  const file = await fs.readFile(fileName);
-  const audioBytes = file.toString("base64");
+  // remote storage of the audio file
+  const gcsUri = "gs://tactalk-bucket/audioFileTest.wav";
 
   // The audio file's encoding, sample rate in hertz, and BCP-47 language code
   const audio = {
-    content: audioBytes,
+    uri: gcsUri,
   };
   const config = {
     enableWordTimeOffsets: true,
@@ -29,20 +25,6 @@ async function quickstart() {
     audio: audio,
     config: config,
   };
-  
-  // String of converted audio
-  // Detects speech in the audio file
-  const [response] = await client.recognize(request);
-  console.log('detecting...');
-  const transcription = response.results
-    .map(result => result.alternatives[0].transcript)
-    .join('\n');
-  console.log(`Transcription: ${transcription}`);
-  
-
-  /*
-
-  // Timestamp of each word
 
   // Detects speech in the audio file. This creates a recognition job that you
   // can wait for now, or get its result later.
@@ -51,7 +33,8 @@ async function quickstart() {
   // Get a Promise representation of the final result of the job
   const [response] = await operation.promise();
   response.results.forEach((result) => {
-    console.log(`Transcription: ${result.alternatives[0].transcript}`);
+    //console.log(`Transcription: ${result.alternatives[0].transcript}`);
+    //console.log(`confidence: ${result.alternatives[0].confidence}`);
     result.alternatives[0].words.forEach((wordInfo) => {
       // NOTE: If you have a time offset exceeding 2^32 seconds, use the
       // wordInfo.{x}Time.seconds.high to calculate seconds.
@@ -63,10 +46,12 @@ async function quickstart() {
         `${wordInfo.endTime.seconds}` +
         "." +
         wordInfo.endTime.nanos / 100000000;
-      console.log(`Word: ${wordInfo.word}`);
-      console.log(`\t ${startSecs} secs - ${endSecs} secs`);
+
+      // write the text to a text file
+      fs.appendFileSync("test.txt", `${wordInfo.word},${startSecs}` + os.EOL);
     });
   });
-  */
+  console.log("File saved.");
+  process.exit();
 }
-quickstart();
+audioRecognition();
