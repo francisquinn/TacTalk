@@ -4,24 +4,28 @@ module.exports.event =
         keywords:["kickout","kick out"],
         eventID:1,
         defaultOutcome:1,
-        defaultTeam:0
+        defaultTeam:0,
+        statType:"kickout"
     },
     {
         keywords:["sideline","side line"],
         eventID:2,
         defaultOutcome:1,
-        defaultTeam:1
+        defaultTeam:1,
+        statType:"shot"
     },
     {
         keywords:["sideline shot","side line shot"],
         eventID:3,
         defaultOutcome:1,
-        defaultTeam:1
+        defaultTeam:1,
+        statType:"shot"
     },
     {
         keywords:["free shot"],
         eventID:5,
-        defaultTeam:1
+        defaultTeam:1,
+        statType:"shot"
     },
     {
         keywords:["free"],
@@ -34,38 +38,44 @@ module.exports.event =
         eventID:7,
         defaultOutcome:1,
         defaultTeam:0,
-        defaultPosition:12
+        defaultPosition:12,
+        statType:"shot"
     },
     {
         keywords:["45","forty-five","forty five","fortify"],
         eventID:6,
         defaultOutcome:1,
         defaultTeam:0,
-        defaultPosition:12
+        defaultPosition:12,
+        statType:"shot"
     },
     {
         keywords:["kickpass","kick pass","kick past","kickpast"],
         eventID:8,
         defaultOutcome:1,
-        defaultTeam:0
+        defaultTeam:0,
+        statType:"pass"
     },
     {
         keywords:["handpass shot","hand pass shot","handpast shot","hand past shot"],
         eventID:11,
         defaultOutcome:1,
-        defaultTeam:1
+        defaultTeam:1,
+        statType:"shot"
     },
     {
         keywords:["shot"],
         eventID:9,
         defaultOutcome:1,
-        defaultTeam:1
+        defaultTeam:1,
+        statType:"shot"
     },
     {
         keywords:["handpass","hand pass","handpast","hand past"],
         eventID:10,
         defaultOutcome:1,
-        defaultTeam:0
+        defaultTeam:0,
+        statType:"pass"
     },
     {
         keywords:["advanced mark kick past","advance mark kick pass","advanced mark kick past","advanced mark kick past"],
@@ -83,13 +93,15 @@ module.exports.event =
         keywords:["advanced mark shot","advance mark shot"],
         eventID:14,
         defaultOutcome:1,
-        defaultTeam:1
+        defaultTeam:1,
+        statType:"shot"
     },
     {
         keywords:["carry ball"],
         eventID:15,
         defaultOutcome:1,
-        defaultTeam:0
+        defaultTeam:0,
+        statType:"carry"
     },
     {
         keywords:["start game"],
@@ -174,19 +186,23 @@ module.exports.outcome =
 [
     {
         keywords:["pass successful","past successful"],
-        outcomeID:1
+        outcomeID:1,
+        statType:"pass"
     },
     {
         keywords:["ball wide"],
-        outcomeID:2
+        outcomeID:2,
+        statType:"shot fail"
     },
     {
         keywords:["ball out side line","ball out sideline"],
-        outcomeID:3
+        outcomeID:3,
+        statType:"shot fail"
     },
     {
         keywords:["ball out forty five","ball out forty-five","ball out 45"],
-        outcomeID:4
+        outcomeID:4,
+        statType:"shot fail"
     },
     {
         keywords:["free"],
@@ -198,15 +214,18 @@ module.exports.outcome =
     },
     {
         keywords:["point"],
-        outcomeID:6
+        outcomeID:6,
+        statType:"score 1"
     },
     {
         keywords:["goal"],
-        outcomeID:7
+        outcomeID:7,
+        statType:"score 3"
     },
     {
         keywords:["turnover"],
-        outcomeID:8
+        outcomeID:8,
+        statType:"turnover"
     },
     {
         keywords:["mark"],
@@ -218,7 +237,8 @@ module.exports.outcome =
     },
     {
         keywords:["won throw in"],
-        outcomeID:12
+        outcomeID:12,
+        statType:"take initiative"
     },
     {
         keywords:["throw in awarded","throw in award"],
