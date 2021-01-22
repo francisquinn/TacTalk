@@ -16,20 +16,8 @@ const uri = "mongodb+srv://RojakAdmin:RojakIsASalad@rojakcluster.ho1ff.mongodb.n
 const Games = require("./Games");
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 var FormData = require('form-data');
-loadDoc();
 
-function loadDoc() {
-  var data = FormData();
-  data.append("text","texta");
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-        console.log(this.responseText);
-    }
-  };
-  xhttp.open("GET", "https://tactalk-rojak.herokuapp.com/cloud/game_events/create", true);
-  xhttp.send(data);
-}
+
 
 
 app.get('/user/games/delete', async (req, res) => 
@@ -129,13 +117,34 @@ app.get('/cloud/game_events/create', async (req, res) =>
     res.setHeader('Content-Type', 'application/json');
     try
     {
+        var jsonObj = JSON.parse(req.query.package);
         
+        var fullText = "";
         
-        res.end(JSON.stringify({code:200, result: "hello i am here",package:req.query}));
+        for (var i = 0;i < jsonObj.length; i++)
+        {
+            fullText = fullText + " " + jsonObj[i].text;
+        }
+        
+        var currentTime = new Date();
+        var newLogObject = 
+                {
+                    submitTime:currentTime,
+                    text:fullText
+                    
+                };
+        await dbo.collection("log").insertOne(newLogObject, function(err){
+            if (err) return;
+            // Object inserted successfully.
+           
+            
+            
+            res.end(JSON.stringify({code:200,_id:newLogObject._id}));
+        });
         
     }catch(ex)
     {
-        res.end(JSON.stringify({code:500}));
+        res.end(JSON.stringify({code:500,error:ex}));
     }
 })
 
