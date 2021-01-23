@@ -20,6 +20,7 @@ var FormData = require('form-data');
 
 
 
+
 app.get('/user/games/delete', async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
@@ -130,7 +131,8 @@ app.get('/cloud/game_events/create', async (req, res) =>
         var newLogObject = 
                 {
                     submitTime:currentTime,
-                    text:fullText
+                    text:fullText,
+                    gameID:req.query.object_id
                     
                 };
         await dbo.collection("log").insertOne(newLogObject, function(err){
