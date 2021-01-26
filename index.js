@@ -44,7 +44,7 @@ app.get('/user/possessions/delete', async (req, res) =>
     res.setHeader('Content-Type', 'application/json');
     try
     {
-        const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId), "possessions.possessionID": req.query.pid };
+        const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId), "possessions.possession_id": req.query.pid };
         dbo.collection("games").deleteOne(searchQuery);
         res.end(JSON.stringify({code:200}));
     }catch(ex)
@@ -60,7 +60,7 @@ app.get('/user/game_events/delete', async (req, res) =>
     res.setHeader('Content-Type', 'application/json');
     try
     {
-        const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId), "possessions.possessionID": req.query.pid, "possessions.events.eventID0": req.query.eid };
+        const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId), "possessions.possession_id": req.query.pid, "possessions.events.event_id": req.query.eid };
         dbo.collection("games").deleteOne(searchQuery);
         res.end(JSON.stringify({code:200}));
     }catch(ex)
@@ -130,9 +130,9 @@ app.get('/cloud/game_events/create', async (req, res) =>
         var currentTime = new Date();
         var newLogObject = 
                 {
-                    submitTime:currentTime,
+                    submit_time:currentTime,
                     text:fullText,
-                    gameID:req.query.object_id
+                    game_id:req.query.object_id
                     
                 };
         await dbo.collection("log").insertOne(newLogObject, function(err){
@@ -157,7 +157,7 @@ app.get('/user/games/get/gameName', async (req, res) =>
     res.setHeader('Content-Type', 'application/json');
     try
     {
-        const searchQuery = { gameName: "/.*" + req.query.gameName + ".*/"};
+        const searchQuery = { game_name: "/.*" + req.query.gameName + ".*/"};
         
         var result = await dbo.collection("games").find(searchQuery);
         res.end(JSON.stringify({code:200, result: result}));
@@ -196,10 +196,10 @@ app.get('/user/games/create', async (req, res) =>
         console.log(req.userquery);
         var newGameObject = 
                 {
-                    gameName:req.query.gameName,
+                    game_name:req.query.gameName,
                     user_id:req.query.userId,
-                    teamId:req.query.teamId,
-                    startTime:0,
+                    team_id:req.query.teamId,
+                    start_time:0,
                     public:req.query.public,
                     date:req.query.matchDate.toString(),
                     possessions:[]
@@ -229,9 +229,9 @@ app.get('/user/possessions/create', async (req, res) =>
         
         var newPossessionEventObject = 
                 {
-                    possessionID: new ObjectID(),
-                    startTime: req.query.startTime,
-                    teamInPossession: req.query.possessionTeam,
+                    possession_id: new ObjectID(),
+                    start_time: req.query.startTime,
+                    team_in_possession: req.query.possessionTeam,
                     events: []
                 };
         const searchQuery = { _id: new MongoDB.ObjectID(req.query.object_id) };
@@ -243,7 +243,7 @@ app.get('/user/possessions/create', async (req, res) =>
         {
             if (err) return;
             
-            res.end(JSON.stringify({code:200, possessionId:newPossessionEventObject.possessionID}));
+            res.end(JSON.stringify({code:200, possession_id:newPossessionEventObject.possessionID}));
         });
     }catch(ex)
     {
@@ -264,7 +264,7 @@ app.get('/user/game_events/create', async (req, res) =>
     {
         
         var newGameEventObject = cp.parseCommand(req.query.textInput,req.query.time,null);
-        const searchQuery = { _id: new MongoDB.ObjectID(req.query.object_id),"possessions.possessionID":new MongoDB.ObjectID(req.query.pid) };
+        const searchQuery = { _id: new MongoDB.ObjectID(req.query.object_id),"possessions.possession_id":new MongoDB.ObjectID(req.query.pid) };
         
         const updateDocument = 
         {
@@ -293,7 +293,7 @@ app.get('/user/game_events/update', async (req, res) =>
     try
     {
         var newGameEventObject = cp.parseCommand(req.query.textInput,req.query.time,null);
-        const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId),"possessions.possessionID":req.query.pid,"possessions.events.eventID": req.query.eid };
+        const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId),"possessions.possession_id":req.query.pid,"possessions.events.event_id": req.query.eid };
         
         const updateDocument = 
         {

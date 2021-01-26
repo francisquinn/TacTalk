@@ -18,30 +18,30 @@ module.exports =
 
         var newEvent =
                 {
-                    eventID: new ObjectID(),
+                    event_id: new ObjectID(),
                     time:time,
-                    eventTypeID:-1,
-                    eventPositionID:-1,
-                    playerID:-1,
-                    teamID:-1,
-                    outcomeID:-1,
-                    outcomeTeamID:-1,
-                    outcomePlayerID:-1
+                    event_type_id:-1,
+                    event_position_id:-1,
+                    player_id:-1,
+                    team_id:-1,
+                    outcome_id:-1,
+                    outcome_team_id:-1,
+                    outcome_player_id:-1
                 }
 
         if (input.includes("blue"))
         {
-            newEvent.teamID = 0;
+            newEvent.team_id = 0;
         }
         else if (input.includes("green"))
         {
-            newEvent.teamID = 1;
+            newEvent.team_id = 1;
         }
 
 
         if (input == "free")
         {
-            newEvent.outcomeID = 5;
+            newEvent.outcome_id = 5;
             input = "";
         }
 
@@ -52,7 +52,7 @@ module.exports =
             {
                 if (input.includes(enums.event[i].keywords[j]))
                 {
-                    newEvent.eventTypeID = enums.event[i].eventID;
+                    newEvent.event_type_id = enums.event[i].eventID;
                     input.replace(enums.event[i].keywords[j],"");
                     hasEvent = true;
                     break;
@@ -66,7 +66,7 @@ module.exports =
             {
                 if (input.includes(enums.position[i].keywords[j]))
                 {
-                    newEvent.eventPositionID = enums.position[i].positionID;
+                    newEvent.event_position_id = enums.position[i].positionID;
                     input.replace(enums.position[i].keywords[j],"");
                     hasPosition = true;
                     break;
@@ -80,7 +80,7 @@ module.exports =
             {
                 if (input.includes(enums.outcome[i].keywords[j]))
                 {
-                    newEvent.outcomeID = enums.outcome[i].outcomeID;
+                    newEvent.outcome_id = enums.outcome[i].outcomeID;
                     input.replace(enums.outcome[i].keywords[j],"");
                     hasOutcome = true;
                     break;
@@ -94,7 +94,7 @@ module.exports =
             {
                 if (enums.event[i].eventID === newEvent.eventID)
                 {
-                    newEvent.outcomeID = enums.event[i].defaultOutcome;
+                    newEvent.outcome_id = enums.event[i].defaultOutcome;
                     break;
                 }
             }
@@ -110,11 +110,11 @@ module.exports =
                     {
                         if (newEvent.teamID === 1)
                         {
-                            newEvent.outcomeTeamID = 0;
+                            newEvent.outcome_team_id = 0;
                         }
                         else
                         {
-                            newEvent.outcomeTeamID = 1;
+                            newEvent.outcome_team_id = 1;
                         }
                     }
                 }
@@ -130,7 +130,7 @@ module.exports =
                 {
                     if (enums.event[i].hasOwnProperty("defaultPosition"))
                     {
-                        newEvent.eventPositionID = enums.event[i].defaultPosition;
+                        newEvent.event_position_id = enums.event[i].defaultPosition;
                     }
                     break;
                 }
@@ -154,7 +154,7 @@ module.exports =
             playerText = wtn.wordsToNumbers(playerText.replace(/player(?:$|\W)/,""));
 
             var playerNum = parseInt(playerText);
-            newEvent.playerID =  playerNum;
+            newEvent.player_id =  playerNum;
         }
         
         
