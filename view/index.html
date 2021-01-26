@@ -177,6 +177,70 @@
         </table>
         <br>
         
+        <p><b>api_endpoint/user/register</b></p>
+        <p>Register a user</p>
+        <table>
+            <tr><th>Parameter</th><th></th></tr>
+            <tr><td>username</td><td>The username of the user</td></tr>
+            <tr><td>password</td><td>Password of the user.</td></tr>
+            <tr><td>email</td><td>Email of the user.</td></tr>
+        </table>
+        <table>
+            <tr><th>Returns</th><th></th></tr>
+            <tr><td>userID</td><td>User id to initiate a login session</td></tr>
+            <tr><td>code</td><td>Status code of the operation</td></tr>
+        </table>
+        
+        
+        <br>
+        
+        <p><b>api_endpoint/user/register/checkNameDuplicates</b></p>
+        <p>Check whether a username is already registered, usernames are case sensitives</p>
+        <table>
+            <tr><th>Parameter</th><th></th></tr>
+            <tr><td>username</td><td>The username of the user</td></tr>
+        </table>
+        <table>
+            <tr><th>Returns</th><th></th></tr>
+            <tr><td>result</td><td>1 = this username has been registered, you cannot use it to register, 0 = this username is available</td></tr>
+            <tr><td>code</td><td>Status code of the operation</td></tr>
+        </table>
+        
+        
+        <br>
+        
+        
+        <p><b>api_endpoint/user/register/checkEmailDuplicates</b></p>
+        <p>Check whether an email is already registered, email  are not case sensitives</p>
+        <table>
+            <tr><th>Parameter</th><th></th></tr>
+            <tr><td>email</td><td>The email of the user</td></tr>
+        </table>
+        <table>
+            <tr><th>Returns</th><th></th></tr>
+            <tr><td>result</td><td>1 = this email has been registered, you cannot use it to register, 0 = this email is available</td></tr>
+            <tr><td>code</td><td>Status code of the operation</td></tr>
+        </table>
+        
+        
+        <br>
+        
+        <p><b>api_endpoint/user/login</b></p>
+        <p>Initiates user session with username and password</p>
+        <table>
+            <tr><th>Parameter</th><th></th></tr>
+            <tr><td>email</td><td>The username of the user</td></tr>
+            <tr><td>email</td><td>The email of the user</td></tr>
+        </table>
+        <table>
+            <tr><th>Returns</th><th></th></tr>
+            <tr><td>UserID</td><td>User id to initiate session, returns 0 if no user with matching password and username found</td></tr>
+            <tr><td>code</td><td>Status code of the operation</td></tr>
+        </table>
+        
+        
+        <br>
+        
         
     </body>
 </html>

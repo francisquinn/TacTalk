@@ -314,6 +314,122 @@ app.get('/user/game_events/update', async (req, res) =>
     }
 })
 
+app.get('/user/login', async (req, res) => 
+{
+    
+    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
+    const dbo = db.db("TacTalk");
+    res.setHeader('Content-Type', 'application/json');
+    try
+    {
+        
+        var result = await dbo.collection("users").findOne(
+                {
+                    username: req.query.username,
+                    password: req.query.password
+                });
+        
+        
+        
+        if (result)
+        {
+            res.end(JSON.stringify({code:200, userID: result._id}));
+        }
+        else
+        {
+            res.end(JSON.stringify({code:200, userID: 0}));
+        }
+    }catch(ex)
+    {
+        res.end(JSON.stringify({code:500}));
+    }
+})
+
+app.get('/user/register', async (req, res) => 
+{
+    
+    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
+    const dbo = db.db("TacTalk");
+    res.setHeader('Content-Type', 'application/json');
+    try
+    {
+        var newUserObject = 
+        {
+            username: req.query.username,
+            password: req.query.password,
+            email: req.query.email
+        }
+        
+        await dbo.collection("users").insertOne(newUserObject, function(err){
+            if (err) return;
+            // Object inserted successfully.
+           
+        
+            res.end(JSON.stringify({code:200,_id:newUserObject._id}));
+        });
+        
+        
+    }catch(ex)
+    {
+        res.end(JSON.stringify({code:500,error:ex.toString()}));
+    }
+})
+
+app.get('/user/register/checkNameDuplicates', async (req, res) => 
+{
+    
+    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
+    const dbo = db.db("TacTalk");
+    res.setHeader('Content-Type', 'application/json');
+    try
+    {
+        const searchQuery = { username: req.query.username};
+        
+        var result = await dbo.collection("users").findOne(searchQuery);
+        
+        
+        
+        if (result)
+        {
+            res.end(JSON.stringify({code:200, result: 1}));
+        }
+        else
+        {
+            res.end(JSON.stringify({code:200, result: 0}));
+        }
+    }catch(ex)
+    {
+        res.end(JSON.stringify({code:500}));
+    }
+})
+
+app.get('/user/register/checkEmailDuplicates', async (req, res) => 
+{
+    
+    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
+    const dbo = db.db("TacTalk");
+    res.setHeader('Content-Type', 'application/json');
+    try
+    {
+        
+        var result = await dbo.collection("users").findOne({ "email" : { $regex : new RegExp(req.query.email, "i") } });
+        
+        
+        
+        if (result)
+        {
+            res.end(JSON.stringify({code:200, result: 1}));
+        }
+        else
+        {
+            res.end(JSON.stringify({code:200, result: 0}));
+        }
+    }catch(ex)
+    {
+        res.end(JSON.stringify({code:500}));
+    }
+})
+
 
 
 app.get('/', async (req, res) => 

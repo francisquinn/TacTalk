@@ -50,7 +50,7 @@ module.exports.event =
         statType:"shot"
     },
     {
-        keywords:["kickpass","kick pass","kick past","kickpast"],
+        keywords:["kickpass","kick pass","kick past","kickpast", "capace"],
         eventID:8,
         defaultOutcome:1,
         defaultTeam:0,
@@ -78,13 +78,13 @@ module.exports.event =
         statType:"pass"
     },
     {
-        keywords:["advanced mark kick past","advance mark kick pass","advanced mark kick past","advanced mark kick past"],
+        keywords:["advanced mark kick past","advance mark kick pass","advanced mark kick past","advanced mark kick past", "advanced mark capace", "advance mark capace"],
         eventID:13,
         defaultOutcome:1,
         defaultTeam:0
     },
     {
-        keywords:["mark kick pass","mark kick past"],
+        keywords:["mark kick pass","mark kick past", "mark capace"],
         eventID:12,
         defaultOutcome:1,
         defaultTeam:0
@@ -173,11 +173,11 @@ module.exports.position =
         positionID:10
     },
     {
-        keywords:["attack forty-five","attack forty five","attack 45"],
+        keywords:["attack forty-five","attack forty five","attack 45", "tap 45", "tap forty five", "tap forty-five"],
         positionID:11
     },
     {
-        keywords:["attack twenty","attack 20"],
+        keywords:["attack twenty","attack 20", "tap twenty", "tap 20"],
         positionID:12
     }
 ];
