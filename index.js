@@ -441,7 +441,7 @@ app.get('/user/game_events/update', async (req, res) =>
     }
 })
 
-app.get('/user/login', async (req, res) => 
+app.post('/user/login', async (req, res) => 
 {
     
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
@@ -472,7 +472,7 @@ app.get('/user/login', async (req, res) =>
     }
 })
 
-app.get('/user/register', async (req, res) => 
+app.post('/user/register', async (req, res) => 
 {
     
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
