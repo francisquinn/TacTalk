@@ -16,10 +16,20 @@ const app = express();
 const uri = "mongodb+srv://RojakAdmin:RojakIsASalad@rojakcluster.ho1ff.mongodb.net/sample_analytics?retryWrites=true&w=majority";
 const Games = require("./Games");
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+const bodyParser = require("body-parser");
 var FormData = require('form-data');
 
 
 createGameEvent("60084b37e8c56c0978f5b004",{event:"yep"});
+
+
+// create application/json parser
+var jsonParser = bodyParser.json()
+
+// create application/x-www-form-urlencoded parser
+var urlencodedParser = bodyParser.urlencoded({ extended: true })
+
+app.use(urlencodedParser);
 
 
 app.get('/user/games/delete', async (req, res) => 
@@ -482,9 +492,9 @@ app.post('/user/register', async (req, res) =>
     {
         var newUserObject = 
         {
-            username: req.query.username,
-            password: req.query.password,
-            email: req.query.email
+            username: req.body.username,
+            password: req.body.password,
+            email: req.body.email
         }
         
         await dbo.collection("users").insertOne(newUserObject, function(err){
@@ -492,7 +502,7 @@ app.post('/user/register', async (req, res) =>
             // Object inserted successfully.
            
         
-            res.end(JSON.stringify({code:200,_id:newUserObject._id}));
+            res.end(JSON.stringify({code:200,_id:newUserObject._id,body:req.body}));
         });
         
         
