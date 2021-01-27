@@ -80,13 +80,18 @@
         <br>
         
         <p><b>api_endpoint/user/games/create</b></p>
-        <p>Create a game to begin record, returns the game's id</p>
+        <p>Create a game to begin record, returns the game's id, this action will also create a active_match document which is required for user/update</p>
         <table>
             <tr><th>Parameter</th><th></th></tr>
             <tr><td>teamId</td><td>Team id of the user's team</td></tr>
             <tr><td>userId</td><td>The user id of the user who created this game</td></tr>
             <tr><td>public</td><td>Whether this game is available to the public, 0 = private, 1 = public</td></tr>
             <tr><td>gameName</td><td>The name of the game</td></tr>
+            <tr><td>location</td><td>The location of the game</td></tr>
+            <tr><td>matchDate</td><td>Date of the game</td></tr>
+            <tr><td>matchTime</td><td>The time when the game started</td></tr>
+            <tr><td>teamColor</td><td>Color of the team</td></tr>
+            <tr><td>oppTeamColor</td><td>Color of the opposite team</td></tr>
         </table>
         <table>
             <tr><th>Returns</th><th></th></tr>

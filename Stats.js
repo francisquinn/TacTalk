@@ -2,16 +2,19 @@ module.exports =
 {
     getCurrentStats: function(json)
     {
-        var teamGoal = 0;
-        var teamPoints = 0;
-        var teamShots = 0;
-        var teamKickouts = 0;
-        var teamTurnover = 0;
-        var teamWides = 0;
-        var oppTeamGoal = 0;
-        var oppTeamPoints = 0;
-        var oppTeamShots = 0;
-        var oppTeamTurnover = 0;
+        var statObject =
+        {
+            teamGoal : 0,
+            teamPoints : 0,
+            teamShots : 0,
+            teamKickouts : 0,
+            teamTurnover : 0,
+            teamWides : 0,
+            oppTeamGoal : 0,
+            oppTeamPoints : 0,
+            oppTeamShots : 0,
+            oppTeamTurnover : 0
+        }
         
         for (var i = 0;i < json.possessions.length; i++)
         {
@@ -25,24 +28,24 @@ module.exports =
                                 //point
                                 if (event.teamID === 0)
                                 {
-                                    teamPoints++;
-                                    teamShots++;
+                                    statObject.teamPoints++;
+                                    statObject.teamShots++;
                                 } else if (event.teamID === 1)
                                 {
-                                    oppTeamPoints++;
-                                    oppTeamShots++;
+                                    statObject.oppTeamPoints++;
+                                    statObject.oppTeamShots++;
                                 }
                             } else if (event.outcomeID === 7)
                             {
                                 //goal
                                 if (event.teamID === 0)
                                 {
-                                    teamPoints += 3;
-                                    teamShots++;
+                                    statObject.teamPoints += 3;
+                                    statObject.teamShots++;
                                 } else if (event.teamID === 1)
                                 {
-                                    oppTeamPoints += 3;
-                                    oppTeamShots++;
+                                    statObject.oppTeamPoints += 3;
+                                    statObject.oppTeamShots++;
                                 }
                             }        
                 }        
@@ -50,6 +53,11 @@ module.exports =
                 
             }
         }
+        
+        return statObject;
+        
+
+        
     },
     
     getEventTypeById: function(eventID)
@@ -62,7 +70,7 @@ module.exports =
                 return enums.event[i].statType;
             }
         }
-    },
+    }
     
 
 }

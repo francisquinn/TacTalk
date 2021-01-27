@@ -10,6 +10,7 @@ const MongoClient = require('mongodb').MongoClient;
 const ObjectID = require("mongodb").ObjectID;
 const MongoDB = require('mongodb');
 const cp = require('./CommandParser');
+const stats = require('./Stats');
 const express = require('express');
 const app = express();
 const uri = "mongodb+srv://RojakAdmin:RojakIsASalad@rojakcluster.ho1ff.mongodb.net/sample_analytics?retryWrites=true&w=majority";
@@ -18,7 +19,7 @@ const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 var FormData = require('form-data');
 
 
-
+createGameEvent("60084b37e8c56c0978f5b004",{event:"yep"});
 
 
 app.get('/user/games/delete', async (req, res) => 
@@ -88,7 +89,7 @@ app.get('/user/games/get/id', async (req, res) =>
     }
 })
 
-app.get('/user/games/get/stats', async (req, res) => 
+app.get('/user/games/updateGame', async (req, res) => 
 {
     //3-20
     //first is goal second is points
@@ -97,19 +98,134 @@ app.get('/user/games/get/stats', async (req, res) =>
     res.setHeader('Content-Type', 'application/json');
     try
     {
+        if (req.query.hasOwnProperty("dummyData"))
+        {
+            var statsObj = 
+            {
+                teamGoal : 1,
+                teamPoints : 2,
+                teamShots : 3,
+                teamKickouts : 4,
+                teamTurnover : 5,
+                teamWides : 6,
+                oppTeamGoal : 7,
+                oppTeamPoints : 8,
+                oppTeamShots : 9,
+                oppTeamTurnover : 10
+            }
+            
+            res.end(JSON.stringify({
+            result: statsObj,
+            code: 200
+            }));
+            return;
+        }
         const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId)};
         
-        var result = await dbo.collection("games").findOne(searchQuery);
+        var activeGame = await dbo.collection("active_games").findOne(searchQuery);
+        
+        if (!activeGame)
+        {
+            res.end(JSON.stringify({code:200, gameStatus:"NO_ACTIVE_GAME"}));
+        }
+        else if (activeGame.input_list.length > 0)
+        {
+            //if there is item in input list
+            
+            //sort the input list
+            activeGame.input_list.sort(inputListCompare);
+            
+            for (var i = 0; i < activeGame.input_list.length;i++)
+            {
+                if (activeGame.current_order + 1 === activeGame.input_list[i].order)
+                {
+                    activeGame.current_order += 1;
+                    activeGame.last_string.push(activeGame.input_list[i].text);
+                }
+                else
+                {
+                    break;
+                }
+            }
+            
+            var i = 0;
+            var segmentString = "";
+            while(i < activeGame.input_list.length)
+            {
+                segmentString += activeGame.input_list[i];
+                
+                var parseResult = cp.parseCommandSegmented(segmentString);
+                
+                if (parseResult.result === 1)
+                {
+                    if (parseResult.hasOwnProperty("event_id"))
+                    {
+                        if (activeGame.current_event.event_id !== -1)
+                        {
+                            
+                        }
+                        else
+                        {
+                            activeGame.current_event.event_id = parseResult.event_id;
+                        }
+                    }
+                    
+                }
+                
+                
+                
+                i++;
+            }
+            
+            
+            
+            
+            var gameObject = await dbo.collection("games").findOne(searchQuery);
+            var statsResult = stats.getCurrentStats(gameObject.possessions);
+            res.end(JSON.stringify({code:200, gameStatus: "UPDATING",result: statsResult}));
+            
+        }
         
         
         
-        res.end(JSON.stringify({code:200, result: result}));
         
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
     }
 })
+
+
+async function createGameEvent(gameID,gameEvent)
+{
+    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
+    const dbo = db.db("TacTalk");
+    console.log("called")
+    try
+    {
+        
+        const searchQuery = { _id: new MongoDB.ObjectID(gameID) };
+        
+        const updateDocument = 
+        {
+            "$push":
+            {
+                "possessions": 
+                {
+                    $last:"$possessions"
+                }
+            }
+        }
+        await dbo.collection("games").updateOne(searchQuery, updateDocument, function(err)
+        {
+            if (err) return;
+            console.log("success")
+        });
+    }catch(ex)
+    {
+        console.log(ex)
+    }
+}
 
 app.get('/cloud/game_events/create', async (req, res) => 
 {
@@ -120,11 +236,11 @@ app.get('/cloud/game_events/create', async (req, res) =>
     {
         var jsonObj = JSON.parse(req.query.package);
         
-        var fullText = "";
+        var fullText = [];
         
         for (var i = 0;i < jsonObj.length; i++)
         {
-            fullText = fullText + " " + jsonObj[i].text;
+            fullText.push(jsonObj[i].text);
         }
         
         var currentTime = new Date();
@@ -199,22 +315,33 @@ app.get('/user/games/create', async (req, res) =>
                     game_name:req.query.gameName,
                     user_id:req.query.userId,
                     team_id:req.query.teamId,
-                    start_time:0,
+                    start_time:req.query.matchTime,
                     public:req.query.public,
                     date:req.query.matchDate.toString(),
+                    location:req.query.location,
+                    team_color:req.query.teamColor,
+                    opp_team_color:req.query.oppTeamColor,
                     possessions:[]
                 };
+        
         await dbo.collection("games").insertOne(newGameObject, function(err){
             if (err) return;
             // Object inserted successfully.
            
-            
+            var newActiveGameObject =
+                    {
+                        game_id: newGameObject._id,
+                        last_string:[],
+                        input_list:[],
+                        current_order:0
+                    }
+            dbo.collection("active_games").insertOne(newActiveGameObject)
             
             res.end(JSON.stringify({code:200,_id:newGameObject._id}));
         });
         
     }catch(ex)
-    {
+    { 
         res.end(JSON.stringify({code:500,error:ex}));
     }
 })
@@ -443,3 +570,20 @@ app.get('/', async (req, res) =>
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`)
 })
+
+
+function inputListCompare(inputA,inputB)
+{
+    if (inputA.order < inputB.order)
+    {
+        return -1;
+    }
+    else if(inputA.order > inputB.order)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
