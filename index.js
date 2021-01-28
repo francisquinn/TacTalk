@@ -320,7 +320,7 @@ app.get('/cloud/game_events/create', async (req, res) =>
                 }
             };
         
-        await dbo.collection("_active_games").updateOne(searchQuery, updateDocument, function(err){
+        await dbo.collection("active_games").updateOne(searchQuery, updateDocument, function(err){
             if (err) return;
             // Object inserted successfully.
            
