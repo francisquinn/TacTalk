@@ -99,6 +99,21 @@ app.get('/user/games/get/id', async (req, res) =>
     }
 })
 
+const eventPropertyList = ["event_type_id","event_position_id","player_id","team_id","outcome_id","outcome_team_id","outcome_player_id"];
+
+const defaultEvent =
+        {
+                    event_id: new ObjectID(),
+                    time:0,
+                    event_type_id:-1,
+                    event_position_id:-1,
+                    player_id:-1,
+                    team_id:-1,
+                    outcome_id:-1,
+                    outcome_team_id:-1,
+                    outcome_player_id:-1
+        };
+
 app.get('/user/games/updateGame', async (req, res) => 
 {
     //3-20
@@ -166,17 +181,30 @@ app.get('/user/games/updateGame', async (req, res) =>
                 
                 var parseResult = cp.parseCommandSegmented(segmentString);
                 
+                //if the parse result extracted a value
                 if (parseResult.result === 1)
                 {
-                    if (parseResult.hasOwnProperty("event_id"))
+                    //cycle through the list of properties
+                    for (var i = 0; i < eventPropertyList.length; i++)
                     {
-                        if (activeGame.current_event.event_id !== -1)
+                        if (parseResult.hasOwnProperty(eventPropertyList[i]))
                         {
+                            // if the current event already has this property, upload this event, and replace it with a new one
+                            if (activeGame.current_event[eventPropertyList[i]] !== -1)
+                            {
+                                createGameEvent(activeGame.game_id,activeGame.current_event);
+                                
+                                activeGame.current_event = defaultEvent;
+                            }
+                            else // or else, add this new property to the exisiting event
+                            {
+                                activeGame.current_event[eventPropertyList[i]] = parseResult[eventPropertyList[i]];
+                            }
                             
-                        }
-                        else
-                        {
-                            activeGame.current_event.event_id = parseResult.event_id;
+                            //and remove the parsed string from last_string, since it is already processed
+                            
+                            activeGame.last_string = activeGame.last_string.substring(segmentString.length);
+                            
                         }
                     }
                     
@@ -187,9 +215,13 @@ app.get('/user/games/updateGame', async (req, res) =>
                 i++;
             }
             
+            //update the active_game document in the database to match with the current one
             
             
             
+            
+            
+            //compile stats and send the response back to user
             var gameObject = await dbo.collection("games").findOne(searchQuery);
             var statsResult = stats.getCurrentStats(gameObject.possessions);
             res.end(JSON.stringify({code:200, gameStatus: "UPDATING",result: statsResult}));
@@ -214,22 +246,33 @@ async function createGameEvent(gameID,gameEvent)
     try
     {
         
-        const searchQuery = { _id: new MongoDB.ObjectID(gameID) };
+        var searchQueryA = { _id: new MongoDB.ObjectID(gameID)};
+        
+        
+        
+        
+        var result = await dbo.collection("games").findOne(searchQueryA);
+        
+        var possessionID = result.possessions[result.possessions.length-1].possession_id.toString();
+        console.log("the id is "+possessionID);
+        
+        
+        
+        var searchQueryB = { _id: new MongoDB.ObjectID(gameID),"possessions.possession_id":new MongoDB.ObjectID(possessionID) };
         
         const updateDocument = 
         {
             "$push":
             {
-                "possessions": 
-                {
-                    $last:"$possessions"
-                }
+                "possessions.$.events": gameEvent
             }
         }
-        await dbo.collection("games").updateOne(searchQuery, updateDocument, function(err)
+        
+        await dbo.collection("games").updateOne(searchQueryB, updateDocument, function(err)
         {
-            if (err) return;
-            console.log("success")
+            if(err)
+                console.log(err)
+            console.log("done");
         });
     }catch(ex)
     {
@@ -244,6 +287,11 @@ app.get('/cloud/game_events/create', async (req, res) =>
     res.setHeader('Content-Type', 'application/json');
     try
     {
+        
+        var gameID = req.query.object_id;
+        
+        var searchQuery = { game_id:gameID }
+        
         var jsonObj = JSON.parse(req.query.package);
         
         var fullText = [];
@@ -253,15 +301,25 @@ app.get('/cloud/game_events/create', async (req, res) =>
             fullText.push(jsonObj[i].text);
         }
         
+        
+        
+        
         var currentTime = new Date();
         var newLogObject = 
                 {
                     submit_time:currentTime,
                     text:fullText,
                     game_id:req.query.object_id
-                    
-                };
-        await dbo.collection("log").insertOne(newLogObject, function(err){
+                }
+                
+        var updateDocument =
+            {
+                $push:
+                {
+                    "input_list":newLogObject
+                }
+            };
+        await dbo.collection("active_games").insertOne(newLogObject, function(err){
             if (err) return;
             // Object inserted successfully.
            
@@ -462,8 +520,8 @@ app.post('/user/login', async (req, res) =>
         
         var result = await dbo.collection("users").findOne(
                 {
-                    username: req.query.username,
-                    password: req.query.password
+                    username: req.body.username,
+                    password: req.body.password
                 });
         
         
