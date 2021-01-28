@@ -319,13 +319,14 @@ app.get('/cloud/game_events/create', async (req, res) =>
                     "input_list":newLogObject
                 }
             };
-        await dbo.collection("active_games").insertOne(newLogObject, function(err){
+        
+        await dbo.collection("_active_games").updateOne(searchQuery, updateDocument, function(err){
             if (err) return;
             // Object inserted successfully.
            
             
             
-            res.end(JSON.stringify({code:200,_id:newLogObject._id}));
+            res.end(JSON.stringify({code:2000,_id:newLogObject._id}));
         });
         
     }catch(ex)
