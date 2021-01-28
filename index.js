@@ -20,7 +20,58 @@ const bodyParser = require("body-parser");
 var FormData = require('form-data');
 
 
-createGameEvent("60084b37e8c56c0978f5b004",{event:"yep"});
+testF();
+
+async function testF()
+{
+    console.log("run");
+    
+    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
+    const dbo = db.db("TacTalk");
+    
+
+        var gameID = "60084b37e8c56c0978f5b004";
+        
+        var searchQuery = { game_id:new MongoDB.ObjectID(gameID) };
+        
+        var jsonObj = 
+                [
+                    ["kickpass","player","37"]
+                ];
+        
+        var fullText = [];
+        
+        for (var i = 0;i < jsonObj.length; i++)
+        {
+            fullText.push(jsonObj[i].text);
+        }
+        
+        
+        
+        
+        var currentTime = new Date();
+        var newLogObject = 
+                {
+                    submit_time:currentTime,
+                    text:fullText,
+                    game_id:gameID
+                }
+                
+        var updateDocument =
+            {
+                $push:
+                {
+                    "input_list":newLogObject
+                }
+            };
+        
+        dbo.collection("active_games").updateOne(searchQuery, updateDocument, function()
+        {
+            
+        });
+
+}
+
 
 
 // create application/json parser
@@ -288,9 +339,9 @@ app.get('/cloud/game_events/create', async (req, res) =>
     try
     {
         
-        var gameID = req.query.object_id;
+        var gameID = new MongoDB.ObjectID(req.query.object_id);
         
-        var searchQuery = { game_id:new MongoDB.ObjectID(gameID) }
+        var searchQuery = { game_id:gameID }
         
         var jsonObj = JSON.parse(req.query.package);
         
@@ -309,7 +360,7 @@ app.get('/cloud/game_events/create', async (req, res) =>
                 {
                     submit_time:currentTime,
                     text:fullText,
-                    game_id:req.query.object_id
+                    game_id:gameID
                 }
                 
         var updateDocument =
@@ -326,7 +377,7 @@ app.get('/cloud/game_events/create', async (req, res) =>
            
             
             
-            res.end(JSON.stringify({code:2000,_id:newLogObject._id}));
+            res.end(JSON.stringify({code:200,_id:newLogObject._id}));
         });
         
     }catch(ex)
@@ -641,18 +692,3 @@ app.listen(port, () => {
 })
 
 
-function inputListCompare(inputA,inputB)
-{
-    if (inputA.order < inputB.order)
-    {
-        return -1;
-    }
-    else if(inputA.order > inputB.order)
-    {
-        return 1;
-    }
-    else
-    {
-        return 0;
-    }
-}
