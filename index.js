@@ -290,7 +290,7 @@ app.get('/cloud/game_events/create', async (req, res) =>
         
         var gameID = req.query.object_id;
         
-        var searchQuery = { game_id:gameID }
+        var searchQuery = { game_id:new MongoDB.ObjectID(gameID) }
         
         var jsonObj = JSON.parse(req.query.package);
         
