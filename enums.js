@@ -104,7 +104,7 @@ module.exports.event =
         statType:"carry"
     },
     {
-        keywords:["start game"],
+        keywords:["start game","game start"],
         eventID:21,
         defaultOutcome:1,
         defaultTeam:-1

@@ -195,10 +195,12 @@ module.exports =
             {
                 if (input.includes(enums.event[i].keywords[j]))
                 {
-                    newEvent.event_type_id = enums.event[i].eventID;
+                    
                     input.replace(enums.event[i].keywords[j],"");
                     hasEvent = true;
-                    break;
+                    console.log("The id is "+enums.event[i].eventID);
+                    return {event_type_id:enums.event[i].eventID};
+                    
                 }
             }
         }
@@ -209,10 +211,11 @@ module.exports =
             {
                 if (input.includes(enums.position[i].keywords[j]))
                 {
-                    newEvent.event_position_id = enums.position[i].positionID;
+                    
                     input.replace(enums.position[i].keywords[j],"");
                     hasPosition = true;
-                    break;
+                    return {event_position_id:enums.position[i].positionID};
+                    
                 }
             }
         }
@@ -223,62 +226,62 @@ module.exports =
             {
                 if (input.includes(enums.outcome[i].keywords[j]))
                 {
-                    newEvent.outcome_id = enums.outcome[i].outcomeID;
+                    
                     input.replace(enums.outcome[i].keywords[j],"");
                     hasOutcome = true;
-                    break;
+                    return {outcome_id:enums.outcome[i].outcomeID}
                 }
             }
         }
         
-        if (!hasOutcome)
-        {
-            for (var i = 0; i < enums.event.length; i++)
-            {
-                if (enums.event[i].eventID === newEvent.eventID)
-                {
-                    newEvent.outcome_id = enums.event[i].defaultOutcome;
-                    break;
-                }
-            }
-        }
+//        if (!hasOutcome)
+//        {
+//            for (var i = 0; i < enums.event.length; i++)
+//            {
+//                if (enums.event[i].eventID === newEvent.eventID)
+//                {
+//                    newEvent.outcome_id = enums.event[i].defaultOutcome;
+//                    break;
+//                }
+//            }
+//        }
         
-        for (var i = 0; i < enums.event.length; i++)
-        {
-            if (enums.event[i].eventID === newEvent.eventID)
-            {
-                if (enums.event[i].hasOwnProperty("defaultTeam"))
-                {
-                    if (enums.event[i].defaultTeam === 1)
-                    {
-                        if (newEvent.teamID === 1)
-                        {
-                            newEvent.outcome_team_id = 0;
-                        }
-                        else
-                        {
-                            newEvent.outcome_team_id = 1;
-                        }
-                    }
-                }
-                break;
-            }
-        }
+//        for (var i = 0; i < enums.event.length; i++)
+//        {
+//            if (enums.event[i].eventID === newEvent.eventID)
+//            {
+//                if (enums.event[i].hasOwnProperty("defaultTeam"))
+//                {
+//                    if (enums.event[i].defaultTeam === 1)
+//                    {
+//                        if (newEvent.teamID === 1)
+//                        {
+//                            newEvent.outcome_team_id = 0;
+//                        }
+//                        else
+//                        {
+//                            newEvent.outcome_team_id = 1;
+//                        }
+//                    }
+//                }
+//                break;
+//            }
+//        }
         
-        if (!hasPosition)
-        {
-            for (var i = 0; i < enums.event.length; i++)
-            {
-                if (enums.event[i].eventID === newEvent.eventID)
-                {
-                    if (enums.event[i].hasOwnProperty("defaultPosition"))
-                    {
-                        newEvent.event_position_id = enums.event[i].defaultPosition;
-                    }
-                    break;
-                }
-            }
-        }
+//        if (!hasPosition)
+//        {
+//            for (var i = 0; i < enums.event.length; i++)
+//            {
+//                if (enums.event[i].eventID === newEvent.eventID)
+//                {
+//                    if (enums.event[i].hasOwnProperty("defaultPosition"))
+//                    {
+//                        newEvent.event_position_id = enums.event[i].defaultPosition;
+//                    }
+//                    break;
+//                }
+//            }
+//        }
         
 
         var playerMatch = input.match(playerRegex);
@@ -297,15 +300,11 @@ module.exports =
             playerText = wtn.wordsToNumbers(playerText.replace(/player(?:$|\W)/,""));
 
             var playerNum = parseInt(playerText);
-            newEvent.player_id =  playerNum;
+            return {player_id: playerNum};
         }
         
         
-        
-        
-
-
-        return newEvent;
+        return null;
 
     }
     

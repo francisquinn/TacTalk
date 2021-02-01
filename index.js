@@ -20,60 +20,6 @@ const bodyParser = require("body-parser");
 var FormData = require('form-data');
 
 
-testF();
-
-async function testF()
-{
-    console.log("run");
-    
-    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
-    const dbo = db.db("TacTalk");
-    
-
-        var gameID = "60084b37e8c56c0978f5b004";
-        
-        var searchQuery = { game_id:new MongoDB.ObjectID(gameID) };
-        
-        var jsonObj = 
-                [
-                    ["kickpass","player","37"]
-                ];
-        
-        var fullText = [];
-        
-        for (var i = 0;i < jsonObj.length; i++)
-        {
-            fullText.push(jsonObj[i].text);
-        }
-        
-        
-        
-        
-        var currentTime = new Date();
-        var newLogObject = 
-                {
-                    submit_time:currentTime,
-                    text:fullText,
-                    game_id:gameID
-                }
-                
-        var updateDocument =
-            {
-                $push:
-                {
-                    "input_list":newLogObject
-                }
-            };
-        
-        dbo.collection("active_games").updateOne(searchQuery, updateDocument, function()
-        {
-            
-        });
-
-}
-
-
-
 // create application/json parser
 var jsonParser = bodyParser.json()
 
@@ -137,6 +83,15 @@ app.get('/user/games/get/id', async (req, res) =>
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
     res.setHeader('Content-Type', 'application/json');
+    
+    var badRequest = checkParams(req.query,["game_id"]);
+    if (badRequest.length !== 0)
+    {
+        res.end(JSON.stringify({code:400,error:badRequest}));
+        return;
+    }
+    
+    
     try
     {
         const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId)};
@@ -172,6 +127,14 @@ app.get('/user/games/updateGame', async (req, res) =>
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
     res.setHeader('Content-Type', 'application/json');
+    
+    var badRequest = checkParams(req.query,["user_id","game_id"]);
+    if (badRequest.length !== 0)
+    {
+        res.end(JSON.stringify({code:400,error:badRequest}));
+        return;
+    }
+    
     try
     {
         if (req.query.hasOwnProperty("dummyData"))
@@ -196,86 +159,135 @@ app.get('/user/games/updateGame', async (req, res) =>
             }));
             return;
         }
-        const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId)};
+        const searchQuery = { game_id: new MongoDB.ObjectID(req.query.game_id)};
         
         var activeGame = await dbo.collection("active_games").findOne(searchQuery);
+        
+        
         
         if (!activeGame)
         {
             res.end(JSON.stringify({code:200, gameStatus:"NO_ACTIVE_GAME"}));
         }
+        else if(!activeGame.user_id.equals (new MongoDB.ObjectID(req.query.user_id)))
+        {
+            res.end(JSON.stringify({code:200, gameStatus:"NOT_AUTHORIZED"}));
+        }
         else if (activeGame.input_list.length > 0)
         {
             //if there is item in input list
+            console.log(activeGame);
+            
+            
             
             //sort the input list
             activeGame.input_list.sort(inputListCompare);
             
             for (var i = 0; i < activeGame.input_list.length;i++)
             {
-                if (activeGame.current_order + 1 === activeGame.input_list[i].order)
+                console.log("input list loop")
+                if (activeGame.current_order + 1 === activeGame.input_list[i].audio_order)
                 {
+                    console.log("input list order increment")
                     activeGame.current_order += 1;
-                    activeGame.last_string.push(activeGame.input_list[i].text);
-                }
-                else
-                {
-                    break;
+                    for (var j = 0;j < activeGame.input_list[i].text.length; j++)
+                    {
+                        activeGame.last_string.push(activeGame.input_list[i].text[j]);
+                    }
+                    
+                    
                 }
             }
             
-            var i = 0;
+            
             var segmentString = "";
-            while(i < activeGame.input_list.length)
+            var removeIndex = -1;
+            for(var i = 0;i < activeGame.last_string.length;i++)
             {
-                segmentString += activeGame.input_list[i];
-                
+                console.log("segment while loop");
+                console.log("the array lenght is "+activeGame.last_string.length)
+                segmentString += " "+activeGame.last_string[i];
+                console.log("current state: "+segmentString);
                 var parseResult = cp.parseCommandSegmented(segmentString);
                 
                 //if the parse result extracted a value
-                if (parseResult.result === 1)
+                if (parseResult !== null)
                 {
                     //cycle through the list of properties
-                    for (var i = 0; i < eventPropertyList.length; i++)
+                    for (var j = 0; j < eventPropertyList.length; j++)
                     {
-                        if (parseResult.hasOwnProperty(eventPropertyList[i]))
+                        if (parseResult.hasOwnProperty(eventPropertyList[j]))
                         {
-                            // if the current event already has this property, upload this event, and replace it with a new one
-                            if (activeGame.current_event[eventPropertyList[i]] !== -1)
+                            if (!activeGame.current_event.hasOwnProperty("event_id"))
                             {
-                                createGameEvent(activeGame.game_id,activeGame.current_event);
+                                activeGame.current_event = Object.assign({},defaultEvent);
+                            }
+                            
+                            
+                            // if the current event already has this property, upload this event, and replace it with a new one
+                            if (activeGame.current_event[eventPropertyList[j]] !== -1)
+                            {
+                                console.log("add and update");
+                                await createGameEvent(activeGame.game_id,activeGame.current_event);
                                 
-                                activeGame.current_event = defaultEvent;
+                                activeGame.current_event = Object.assign({},defaultEvent);
+                                activeGame.current_event[eventPropertyList[j]] = parseResult[eventPropertyList[j]];
                             }
                             else // or else, add this new property to the exisiting event
                             {
-                                activeGame.current_event[eventPropertyList[i]] = parseResult[eventPropertyList[i]];
+                                console.log("only add");
+                                activeGame.current_event[eventPropertyList[j]] = parseResult[eventPropertyList[j]];
                             }
                             
-                            //and remove the parsed string from last_string, since it is already processed
+                            //reset segment string because the information is extracted
+                            segmentString = "";
                             
-                            activeGame.last_string = activeGame.last_string.substring(segmentString.length);
+                            //remembers the index which has already been parsed
+                            removeIndex = i;
+                            
                             
                         }
                     }
                     
                 }
                 
-                
-                
-                i++;
             }
+            
+            //remove the used strings that has already been parsed
+            if (removeIndex !== -1)
+            {
+                activeGame.last_string = activeGame.last_string.slice(removeIndex);
+            }
+            
+            
             
             //update the active_game document in the database to match with the current one
             
+            var newActiveGameValues = 
+                    {
+                        $set:
+                        activeGame
+                    }
             
+            dbo.collection("active_games").updateOne(searchQuery,newActiveGameValues);
             
-            
+            console.log(req.query.game_id);
+            var gameSearchQuery = {_id:new MongoDB.ObjectID(req.query.game_id)};
             
             //compile stats and send the response back to user
-            var gameObject = await dbo.collection("games").findOne(searchQuery);
-            var statsResult = stats.getCurrentStats(gameObject.possessions);
-            res.end(JSON.stringify({code:200, gameStatus: "UPDATING",result: statsResult}));
+            var gameObject = await dbo.collection("games").findOne(gameSearchQuery, function(err)
+            {
+                if (err)
+                    console.log(err);
+                
+                
+                console.log("C");
+                console.log(gameObject);
+                statsResult = {"hello":"hello"};
+                console.log("D");
+                res.end(JSON.stringify({code:200, gameStatus: "UPDATING",result: statsResult}));
+            });
+            
             
         }
         
@@ -284,7 +296,7 @@ app.get('/user/games/updateGame', async (req, res) =>
         
     }catch(ex)
     {
-        res.end(JSON.stringify({code:500}));
+        res.end(JSON.stringify({code:500, error:ex.toString()}));
     }
 })
 
@@ -294,6 +306,7 @@ async function createGameEvent(gameID,gameEvent)
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
     console.log("called")
+    console.log("pushing "+gameEvent.event_type_id);
     try
     {
         
@@ -360,7 +373,8 @@ app.get('/cloud/game_events/create', async (req, res) =>
                 {
                     submit_time:currentTime,
                     text:fullText,
-                    game_id:gameID
+                    game_id:gameID,
+                    audio_order: req.query.audioOrder
                 }
                 
         var updateDocument =
@@ -393,14 +407,14 @@ app.get('/user/games/get/gameName', async (req, res) =>
     res.setHeader('Content-Type', 'application/json');
     try
     {
-        const searchQuery = { game_name: "/.*" + req.query.gameName + ".*/"};
-        
-        var result = await dbo.collection("games").find(searchQuery);
+        const searchQuery = { game_name: req.query.game_name};
+        var result = await dbo.collection("games").findOne(searchQuery);
+        console.log(result);
         res.end(JSON.stringify({code:200, result: result}));
         
     }catch(ex)
     {
-        res.end(JSON.stringify({code:500}));
+        res.end(JSON.stringify({code:500, error: ex.toString()}));
     }
 })
 
@@ -433,7 +447,7 @@ app.get('/user/games/create', async (req, res) =>
         var newGameObject = 
                 {
                     game_name:req.query.gameName,
-                    user_id:req.query.userId,
+                    user_id:new MongoDB.ObjectID(req.query.userId),
                     team_id:req.query.teamId,
                     start_time:req.query.matchTime,
                     public:req.query.public,
@@ -451,9 +465,12 @@ app.get('/user/games/create', async (req, res) =>
             var newActiveGameObject =
                     {
                         game_id: newGameObject._id,
+                        user_id:req.query.userId,    
                         last_string:[],
                         input_list:[],
-                        current_order:0
+                        current_order:0,
+                        current_event:{}
+                        
                     }
             dbo.collection("active_games").insertOne(newActiveGameObject)
             
@@ -692,3 +709,40 @@ app.listen(port, () => {
 })
 
 
+function inputListCompare(inputA, inputB)
+{
+    if (inputA.order > inputB.order)
+    {
+        return 1;
+    }
+    else if (inputA.order < inputB.order)
+    {
+        return -1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+function checkParams(query,paramList)
+{
+    var errorMsg = "";
+    for (var i = 0;i < paramList.length;i++)
+    {
+        if (!query.hasOwnProperty(paramList[i]))
+        {
+            if (errorMsg.length === 0)
+            {
+                errorMsg = "ERROR_BAD_REQUEST: The following parameters are missing from the query: "+paramList[i];
+            }
+            else
+            {
+                errorMsg = errorMsg + ", " + paramList[i];
+            }
+        }
+    }
+    
+    return errorMsg;
+    
+}
