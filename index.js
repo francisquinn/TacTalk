@@ -389,6 +389,51 @@ app.get('/cloud/game_events/create', async (req, res) =>
     }
 })
 
+app.get('/cloud/dictionary/create', async (req, res) => 
+{
+    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
+    const dbo = db.db("TacTalk");
+    res.setHeader('Content-Type', 'application/json');
+    try
+    {
+        
+        
+        var jsonObj = JSON.parse(req.query.package);
+        
+        var fullText = [];
+        
+        for (var i = 0;i < jsonObj.length; i++)
+        {
+            fullText.push(jsonObj[i].text);
+        }
+                
+        var keyword = req.query.keyword;
+        
+        var uniqueNumber = req.query.uniqueNumber;
+        
+        var newDictionaryObject = 
+                {
+                    keyword: keyword,
+                    text: fullText,
+                    unique_number: uniqueNumber
+                }
+        
+        await dbo.collection("dictionary").insertOne(newDictionaryObject, function(err){
+            if (err) return;
+            // Object inserted successfully.
+           
+            
+            
+            res.end(JSON.stringify({code:200}));
+        });
+        
+    }catch(ex)
+    {
+        res.end(JSON.stringify({code:500,error:ex}));
+    }
+})
+
+
 app.get('/user/games/get/gameName', async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
@@ -683,7 +728,13 @@ app.get('/user/register/checkEmailDuplicates', async (req, res) =>
     }
 })
 
-
+app.get('/utils/recorder', async (req, res) => 
+{
+    var fs = require("fs");
+    fs.readFile(__dirname+'/utils/recorder/recorder.html', 'utf8', (err, text) => {
+        res.send(text);
+    });
+})
 
 app.get('/', async (req, res) => 
 {
