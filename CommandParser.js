@@ -179,7 +179,14 @@ module.exports =
 
         input = input.toLowerCase();
 
-        
+        if (input === "blue possession" || input === "blue team possession")
+        {
+            return {result:1,team_id:0};
+        }
+        else if (input === "green possession" || input === "green team possession")
+        {
+            return {result:1,team_id:1};
+        }
 
 
         if (input == "free")

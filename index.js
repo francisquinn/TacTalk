@@ -185,10 +185,8 @@ app.get('/user/games/updateGame', async (req, res) =>
             
             for (var i = 0; i < activeGame.input_list.length;i++)
             {
-                console.log("input list loop")
                 if (activeGame.current_order + 1 === activeGame.input_list[i].audio_order)
                 {
-                    console.log("input list order increment")
                     activeGame.current_order += 1;
                     for (var j = 0;j < activeGame.input_list[i].text.length; j++)
                     {
@@ -204,8 +202,6 @@ app.get('/user/games/updateGame', async (req, res) =>
             var removeIndex = -1;
             for(var i = 0;i < activeGame.last_string.length;i++)
             {
-                console.log("segment while loop");
-                console.log("the array lenght is "+activeGame.last_string.length)
                 segmentString += " "+activeGame.last_string[i];
                 console.log("current state: "+segmentString);
                 var parseResult = cp.parseCommandSegmented(segmentString);
@@ -218,24 +214,20 @@ app.get('/user/games/updateGame', async (req, res) =>
                     {
                         if (parseResult.hasOwnProperty(eventPropertyList[j]))
                         {
-                            if (!activeGame.current_event.hasOwnProperty("event_id"))
+                            if (!activeGame.current_event.hasOwnProperty(eventPropertyList[j]))
                             {
                                 activeGame.current_event = Object.assign({},defaultEvent);
                             }
                             
-                            
                             // if the current event already has this property, upload this event, and replace it with a new one
                             if (activeGame.current_event[eventPropertyList[j]] !== -1)
                             {
-                                console.log("add and update");
                                 await createGameEvent(activeGame.game_id,activeGame.current_event);
-                                
                                 activeGame.current_event = Object.assign({},defaultEvent);
                                 activeGame.current_event[eventPropertyList[j]] = parseResult[eventPropertyList[j]];
                             }
                             else // or else, add this new property to the exisiting event
                             {
-                                console.log("only add");
                                 activeGame.current_event[eventPropertyList[j]] = parseResult[eventPropertyList[j]];
                             }
                             
@@ -269,24 +261,21 @@ app.get('/user/games/updateGame', async (req, res) =>
                         activeGame
                     }
             
-            dbo.collection("active_games").updateOne(searchQuery,newActiveGameValues);
+            await dbo.collection("active_games").updateOne(searchQuery,newActiveGameValues);
             
             console.log(req.query.game_id);
             var gameSearchQuery = {_id:new MongoDB.ObjectID(req.query.game_id)};
             
             //compile stats and send the response back to user
-            var gameObject = await dbo.collection("games").findOne(gameSearchQuery, function(err)
+            var gameObject = await dbo.collection("games").findOne(gameSearchQuery);
+            if (gameObject)
             {
-                if (err)
-                    console.log(err);
                 
                 
-                console.log("C");
                 console.log(gameObject);
-                statsResult = {"hello":"hello"};
-                console.log("D");
-                res.end(JSON.stringify({code:200, gameStatus: "UPDATING",result: statsResult}));
-            });
+                var statResult = stats.getCurrentStats(gameObject);
+                res.end(JSON.stringify({code:200, gameStatus: "UPDATING",result: statResult}));
+            }
             
             
         }

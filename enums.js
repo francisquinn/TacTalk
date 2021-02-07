@@ -57,7 +57,7 @@ module.exports.event =
         statType:"pass"
     },
     {
-        keywords:["handpass shot","hand pass shot","handpast shot","hand past shot"],
+        keywords:["handpass shot","hand pass shot","handpast shot","hand past shot","and pass shot"],
         eventID:11,
         defaultOutcome:1,
         defaultTeam:1,
@@ -71,7 +71,7 @@ module.exports.event =
         statType:"shot"
     },
     {
-        keywords:["handpass","hand pass","handpast","hand past"],
+        keywords:["handpass","hand pass","handpast","hand past","and pass"],
         eventID:10,
         defaultOutcome:1,
         defaultTeam:0,
@@ -104,7 +104,7 @@ module.exports.event =
         statType:"carry"
     },
     {
-        keywords:["start game","game start"],
+        keywords:["start game","game start","game stop","gamestop"],
         eventID:21,
         defaultOutcome:1,
         defaultTeam:-1
@@ -215,12 +215,12 @@ module.exports.outcome =
     {
         keywords:["point"],
         outcomeID:6,
-        statType:"score 1"
+        statType:"point"
     },
     {
-        keywords:["goal"],
+        keywords:["goal","go","goat"],
         outcomeID:7,
-        statType:"score 3"
+        statType:"goal"
     },
     {
         keywords:["turnover"],
