@@ -19,6 +19,10 @@ module.exports =
             {
                 statType:"turnover",
                 field:["teamTurnover","oppTeamTurnover"]
+            },
+            {
+                statType:"shot fail",
+                field:["teamWides","oppTeamWides"]
             }
         ];
         var statObject = 
@@ -32,7 +36,8 @@ module.exports =
                 oppTeamGoal : 0,
                 oppTeamPoints : 0,
                 oppTeamShots : 0,
-                oppTeamTurnover : 0
+                oppTeamTurnover : 0,
+                oppTeamWides:0
             }
             
         for (var i = 0;i < json.possessions.length; i++)
@@ -43,6 +48,7 @@ module.exports =
                 
                 for (var k = 0; k < statReaction.length; k++)
                 {
+                    //calculate stats for event type
                     if (statReaction[k].statType === this.getEventTypeById(event.event_type_id))
                     {
                         if (event.team_id === 0)
@@ -55,6 +61,7 @@ module.exports =
                         }
                     }
                     
+                    //calculate stats for outcome type
                     if (statReaction[k].statType === this.getOutcomeTypeById(event.outcome_id))
                     {
                         if (event.team_id === 0)

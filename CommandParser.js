@@ -179,11 +179,11 @@ module.exports =
 
         input = input.toLowerCase();
 
-        if (input === "blue possession" || input === "blue team possession")
+        if (input.includes("blue possession") || input.includes("blue team possession"))
         {
             return {result:1,team_id:0};
         }
-        else if (input === "green possession" || input === "green team possession")
+        else if (input.includes("green possession") || input.includes("green team possession"))
         {
             return {result:1,team_id:1};
         }

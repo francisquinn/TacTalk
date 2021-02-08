@@ -34,6 +34,12 @@ app.get('/user/games/delete', async (req, res) =>
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
         const dbo = db.db("TacTalk");
         res.setHeader('Content-Type', 'application/json');
+        var badRequest = checkParams(req.query,["objectId"]);
+        if (badRequest.length !== 0)
+        {
+            res.end(JSON.stringify({code:400,error:badRequest}));
+            return;
+        }
         try
         {
             const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId) };
@@ -50,6 +56,12 @@ app.get('/user/possessions/delete', async (req, res) =>
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
     res.setHeader('Content-Type', 'application/json');
+    var badRequest = checkParams(req.query,["objectId","pid"]);
+    if (badRequest.length !== 0)
+    {
+        res.end(JSON.stringify({code:400,error:badRequest}));
+        return;
+    }
     try
     {
         const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId), "possessions.possession_id": req.query.pid };
@@ -66,6 +78,12 @@ app.get('/user/game_events/delete', async (req, res) =>
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
     res.setHeader('Content-Type', 'application/json');
+    var badRequest = checkParams(req.query,["objectId","pid","eid"]);
+    if (badRequest.length !== 0)
+    {
+        res.end(JSON.stringify({code:400,error:badRequest}));
+        return;
+    }
     try
     {
         const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId), "possessions.possession_id": req.query.pid, "possessions.events.event_id": req.query.eid };
@@ -176,9 +194,7 @@ app.get('/user/games/updateGame', async (req, res) =>
         else if (activeGame.input_list.length > 0)
         {
             //if there is item in input list
-            console.log(activeGame);
-            
-            
+            console.log("input list is not empty")
             
             //sort the input list
             activeGame.input_list.sort(inputListCompare);
@@ -200,6 +216,7 @@ app.get('/user/games/updateGame', async (req, res) =>
             
             var segmentString = "";
             var removeIndex = -1;
+            var newPossession = false;
             for(var i = 0;i < activeGame.last_string.length;i++)
             {
                 segmentString += " "+activeGame.last_string[i];
@@ -209,6 +226,20 @@ app.get('/user/games/updateGame', async (req, res) =>
                 //if the parse result extracted a value
                 if (parseResult !== null)
                 {
+                    
+                    //if the current team possession has been changed, change it in active game too
+                    if (parseResult.hasOwnProperty("team_id"))
+                    {
+                        if (activeGame.current_possession_team !== parseResult.team_id)
+                        {
+                            console.log("different team detected");
+                            activeGame.current_possession_team = parseResult.team_id;
+                            newPossession = true;
+                            
+                        }
+                    }
+                    
+                    
                     //cycle through the list of properties
                     for (var j = 0; j < eventPropertyList.length; j++)
                     {
@@ -222,14 +253,16 @@ app.get('/user/games/updateGame', async (req, res) =>
                             // if the current event already has this property, upload this event, and replace it with a new one
                             if (activeGame.current_event[eventPropertyList[j]] !== -1)
                             {
-                                await createGameEvent(activeGame.game_id,activeGame.current_event);
+                                await createGameEvent(activeGame.game_id,activeGame.current_event,activeGame.current_possession_team,newPossession);
                                 activeGame.current_event = Object.assign({},defaultEvent);
                                 activeGame.current_event[eventPropertyList[j]] = parseResult[eventPropertyList[j]];
+                                newPossession = false;
                             }
                             else // or else, add this new property to the exisiting event
                             {
                                 activeGame.current_event[eventPropertyList[j]] = parseResult[eventPropertyList[j]];
                             }
+                            
                             
                             //reset segment string because the information is extracted
                             segmentString = "";
@@ -240,6 +273,10 @@ app.get('/user/games/updateGame', async (req, res) =>
                             
                         }
                     }
+                    
+                    
+                    
+                    
                     
                 }
                 
@@ -290,27 +327,59 @@ app.get('/user/games/updateGame', async (req, res) =>
 })
 
 
-async function createGameEvent(gameID,gameEvent)
+async function createGameEvent(gameID,gameEvent,team_id,newPossession)
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
     console.log("called")
     console.log("pushing "+gameEvent.event_type_id);
+    
+    if (!gameEvent.hasOwnProperty("team_id"))
+    {
+        gameEvent.team_id = team_id;
+    }
+    
     try
     {
+        var emptyPossession =
+                {
+                    possession_id: new MongoDB.ObjectID(),
+                    teamInPossession: team_id,
+                    startTime: 2000,
+                    events:[]
+                }
+        const updatePossession =
+                {
+                    "$push": {"possessions": emptyPossession}
+                    
+                }
+        
         
         var searchQueryA = { _id: new MongoDB.ObjectID(gameID)};
         
         
         
-        
+        //first, find the game with its own id
         var result = await dbo.collection("games").findOne(searchQueryA);
         
+        if (result.possessions.length === 0 || newPossession)
+        {
+            console.log("insert new possession");
+            await dbo.collection("games").updateOne(searchQueryA, updatePossession, function(err)
+            {
+                if (err)
+                    console.log(err)
+                console.log("insert new possession complete")
+                
+            });
+        }
+        
+        result = await dbo.collection("games").findOne(searchQueryA);
+        
+        //then, find the last element in the possession array
         var possessionID = result.possessions[result.possessions.length-1].possession_id.toString();
-        console.log("the id is "+possessionID);
         
-        
-        
+        //add the game event to the last element of possession array
         var searchQueryB = { _id: new MongoDB.ObjectID(gameID),"possessions.possession_id":new MongoDB.ObjectID(possessionID) };
         
         const updateDocument = 
@@ -338,6 +407,12 @@ app.get('/cloud/game_events/create', async (req, res) =>
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
     res.setHeader('Content-Type', 'application/json');
+    var badRequest = checkParams(req.query,["object_id","package","audio_order"]);
+    if (badRequest.length !== 0)
+    {
+        res.end(JSON.stringify({code:400,error:badRequest}));
+        return;
+    }
     try
     {
         
@@ -363,7 +438,7 @@ app.get('/cloud/game_events/create', async (req, res) =>
                     submit_time:currentTime,
                     text:fullText,
                     game_id:gameID,
-                    audio_order: req.query.audioOrder
+                    audio_order: parseInt(req.query.audioOrder,10)
                 }
                 
         var updateDocument =
@@ -394,6 +469,12 @@ app.get('/cloud/dictionary/create', async (req, res) =>
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
     res.setHeader('Content-Type', 'application/json');
+    var badRequest = checkParams(req.query,["package","uniqueNumber","keyword"]);
+    if (badRequest.length !== 0)
+    {
+        res.end(JSON.stringify({code:400,error:badRequest}));
+        return;
+    }
     try
     {
         
@@ -439,6 +520,12 @@ app.get('/user/games/get/gameName', async (req, res) =>
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
     res.setHeader('Content-Type', 'application/json');
+    var badRequest = checkParams(req.query,["game_name"]);
+    if (badRequest.length !== 0)
+    {
+        res.end(JSON.stringify({code:400,error:badRequest}));
+        return;
+    }
     try
     {
         const searchQuery = { game_name: req.query.game_name};
@@ -474,7 +561,12 @@ app.get('/user/games/create', async (req, res) =>
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
     res.setHeader('Content-Type', 'application/json');
-    
+    var badRequest = checkParams(req.query,["gameName","userId","teamId","matchTime","public","matchDate","location","teamColor","oppTeamColor"]);
+    if (badRequest.length !== 0)
+    {
+        res.end(JSON.stringify({code:400,error:badRequest}));
+        return;
+    }
     try
     {
         console.log(req.userquery);
@@ -516,6 +608,7 @@ app.get('/user/games/create', async (req, res) =>
         res.end(JSON.stringify({code:500,error:ex}));
     }
 })
+
 
 app.get('/user/possessions/create', async (req, res) => 
 {
@@ -588,6 +681,12 @@ app.get('/user/game_events/update', async (req, res) =>
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
     res.setHeader('Content-Type', 'application/json');
+    var badRequest = checkParams(req.query,["objectId","pid","eid","updateObject"]);
+    if (badRequest.length !== 0)
+    {
+        res.end(JSON.stringify({code:400,error:badRequest}));
+        return;
+    }
     try
     {
         var newGameEventObject = cp.parseCommand(req.query.textInput,req.query.time,null);
@@ -618,6 +717,12 @@ app.post('/user/login', async (req, res) =>
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
     res.setHeader('Content-Type', 'application/json');
+    var badRequest = checkParams(req.query,["username","password"]);
+    if (badRequest.length !== 0)
+    {
+        res.end(JSON.stringify({code:400,error:badRequest}));
+        return;
+    }
     try
     {
         
@@ -649,6 +754,12 @@ app.post('/user/register', async (req, res) =>
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
     res.setHeader('Content-Type', 'application/json');
+    var badRequest = checkParams(req.query,["username","password","email"]);
+    if (badRequest.length !== 0)
+    {
+        res.end(JSON.stringify({code:400,error:badRequest}));
+        return;
+    }
     try
     {
         var newUserObject = 
@@ -679,6 +790,12 @@ app.get('/user/register/checkNameDuplicates', async (req, res) =>
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
     res.setHeader('Content-Type', 'application/json');
+    var badRequest = checkParams(req.query,["username"]);
+    if (badRequest.length !== 0)
+    {
+        res.end(JSON.stringify({code:400,error:badRequest}));
+        return;
+    }
     try
     {
         const searchQuery = { username: req.query.username};
@@ -707,6 +824,12 @@ app.get('/user/register/checkEmailDuplicates', async (req, res) =>
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
     res.setHeader('Content-Type', 'application/json');
+    var badRequest = checkParams(req.query,["email"]);
+    if (badRequest.length !== 0)
+    {
+        res.end(JSON.stringify({code:400,error:badRequest}));
+        return;
+    }
     try
     {
         
@@ -726,14 +849,6 @@ app.get('/user/register/checkEmailDuplicates', async (req, res) =>
     {
         res.end(JSON.stringify({code:500}));
     }
-})
-
-app.get('/utils/recorder', async (req, res) => 
-{
-    var fs = require("fs");
-    fs.readFile(__dirname+'/utils/recorder/recorder.html', 'utf8', (err, text) => {
-        res.send(text);
-    });
 })
 
 app.get('/', async (req, res) => 
