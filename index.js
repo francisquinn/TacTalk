@@ -20,6 +20,11 @@ const bodyParser = require("body-parser");
 var FormData = require('form-data');
 
 
+
+
+
+
+
 // create application/json parser
 var jsonParser = bodyParser.json()
 
@@ -221,7 +226,7 @@ app.get('/user/games/updateGame', async (req, res) =>
             {
                 segmentString += " "+activeGame.last_string[i];
                 console.log("current state: "+segmentString);
-                var parseResult = cp.parseCommandSegmented(segmentString);
+                var parseResult = cp.parseCommand(segmentString);
                 
                 //if the parse result extracted a value
                 if (parseResult !== null)
