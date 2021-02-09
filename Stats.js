@@ -58,9 +58,14 @@ module.exports =
         
 
         
-    },
+    }
     
-    getEventTypeById: function(eventID)
+    
+    
+
+}
+
+function getEventTypeById(eventID)
     {
         const enums = require('./enums');
         for (var i = 0; i < enums.event.length; i++)
@@ -71,6 +76,3 @@ module.exports =
             }
         }
     }
-    
-
-}
