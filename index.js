@@ -19,6 +19,7 @@ const Games = require("./Games");
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 var FormData = require('form-data');
 const bodyParser = require('body-parser');
+const enums = require("./enums");
 const { validate, ValidationError, Joi } = require('express-validation');
 
 app.use(bodyParser.json());
@@ -360,7 +361,7 @@ app.get('/user/games/updateGame', async (req, res) =>
             {
                 segmentString += " "+activeGame.last_string[i];
                 console.log("current state: "+segmentString);
-                var parseResult = cp.parseCommand(segmentString);
+                var parseResult = cp.parseCommand(segmentString,activeGame);
                 
                 //if the parse result extracted a value
                 if (parseResult !== null)
@@ -743,6 +744,7 @@ app.get('/user/games/create', async (req, res) =>
                     location:req.query.location,
                     team_color:req.query.teamColor,
                     opp_team_color:req.query.oppTeamColor,
+                    game_type:req.query.gameType,
                     possessions:[]
                 };
         
@@ -753,9 +755,14 @@ app.get('/user/games/create', async (req, res) =>
             var newActiveGameObject =
                     {
                         game_id: newGameObject._id,
+                        user_id: new MongoDB.ObjectID(req.query.userId),
                         last_string:[],
                         input_list:[],
-                        current_order:0
+                        current_order:0,
+                        current_event:{},
+                        team_color:req.teamColor,
+                        opp_team_color:req.oppTeamColor,
+                        current_possession_team:-1
                     }
             dbo.collection("active_games").insertOne(newActiveGameObject)
             
@@ -1156,12 +1163,73 @@ app.get('/user/active_games/move_from_active_to_finished', async (req, res) =>
 
 //----------------------------------------------------------------------------------------------------------------
 
+app.get('/recorder', async (req, res) => 
+{
+    var fs = require("fs");
+    fs.readFile(__dirname+'/recorder/recorder.html', 'utf8', (err, text) => {
+        res.send(text);
+    });
+})
+
 app.get('/', async (req, res) => 
 {
     var fs = require("fs");
     fs.readFile(__dirname+'/view/index.html', 'utf8', (err, text) => {
         res.send(text);
     });
+})
+
+
+app.get('/dictionary', async (req, res) => 
+{
+    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
+    const dbo = db.db("TacTalk");
+    res.setHeader('Content-Type', 'application/json');
+    try
+    {
+                var keywords = [];
+                var keywords = keywords.concat(enums.event);
+                var keywords = keywords.concat(enums.outcome);
+                var keywords = keywords.concat(enums.position);
+                
+                var cursor = dbo.collection('dictionary').find();
+
+                for (var i = 0;i < keywords.length;i++)
+                {
+                    keywords[i].dictionary = [];
+                }
+
+                
+                await cursor.each(function(err, item) {
+                    
+                    if(item == null) {
+                        db.close(); 
+                        res.end(JSON.stringify({code:200, object: keywords}));
+                        return;
+                    }
+                    
+                    for (var i = 0;i<keywords.length;i++)
+                    {
+                        console.log(item);
+                        console.log(keywords[i]);
+                        if (keywords[i].keywords[0] === item.keyword)
+                        {
+                            keywords[i].dictionary.push(item);
+                        }
+                    }
+                    
+                    
+                    
+                });
+                
+                
+                
+    }catch(ex)
+    {
+        res.end(JSON.stringify({code:500, error: ex.toString()}));
+    }   
+                
+            
 })
 
 app.listen(port, () => {

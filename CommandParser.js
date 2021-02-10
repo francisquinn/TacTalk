@@ -1,13 +1,14 @@
 module.exports =
 {
-    parseCommand: function(input)
+    parseCommand: function(input,game)
     {
         var ObjectID = require('mongodb').ObjectID;
         const wtn = require('words-to-numbers');
         const enums = require('./enums');
         const playerRegex = /player(?:$|\W)+[^(\s)]+/;
         
-        
+        var teamColor = game.team_color;
+        var oppTeamColor = game.opp_team_color;
  
 
         var hasEvent = false;
@@ -16,11 +17,11 @@ module.exports =
 
         input = input.toLowerCase();
 
-        if (compareLang(input,"blue possession") || compareLang(input,"blue team possession"))
+        if (compareLang(input,teamColor+" possession") || compareLang(input,teamColor+" team possession"))
         {
             return {result:1,team_id:0};
         }
-        else if (compareLang(input,"green possession") || compareLang(input,"green team possession"))
+        else if (compareLang(input,oppTeamColor+" possession") || compareLang(input,oppTeamColor+" team possession"))
         {
             return {result:1,team_id:1};
         }
@@ -146,9 +147,9 @@ module.exports =
 }
 
 function compareLang(input, compare)
-    {
-        //node modules for natural language processing
-        const natural = require('natural');
+{
+    //node modules for natural language processing
+    const natural = require('natural');
         const SWaligner = require('graphic-smith-waterman');
         const defaultAligner = SWaligner();
         
@@ -158,8 +159,8 @@ function compareLang(input, compare)
         if ( (input.includes(compare) || smithWatermanDistance >= 17 || jaroWinklerDistance >= 0.9) )
         {
             console.log(input+"|||"+compare+"|Jaro:"+jaroWinklerDistance+"|Smith:"+smithWatermanDistance.score+"|inlcusion:"+input.includes(compare));
-        }
+        }    
 
 
-        return (input.includes(compare) || smithWatermanDistance >= 17 || jaroWinklerDistance >= 0.9) 
-    }
+    return (input.includes(compare) || smithWatermanDistance >= 17 || jaroWinklerDistance >= 0.9) 
+}    
