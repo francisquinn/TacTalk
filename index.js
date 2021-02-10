@@ -290,7 +290,7 @@ app.get('/user/games/get/id', validate(getIdValidation, {}, {} ), async (req, re
     }
 })
 
-app.get('/user/games/updateGame', async (req, res) => 
+app.post('/user/games/updateGame', async (req, res) => 
 {
     //3-20
     //first is goal second is points
@@ -436,7 +436,7 @@ async function createGameEvent(gameID,gameEvent)
     }
 }
 
-app.get('/cloud/game_events/create', async (req, res) => 
+app.post('/cloud/game_events/create', async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
@@ -611,7 +611,7 @@ app.get('/user/users/get_secure', validate(getIdValidation, {}, {} ), async (req
     }
 })
 
-app.get('/user/games/create', async (req, res) => 
+app.post('/user/games/create', async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
@@ -658,7 +658,7 @@ app.get('/user/games/create', async (req, res) =>
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 //create players - WORKS
-app.get('/user/players/create_player', validate(createPlayerValidation, {}, {} ), async (req, res) => 
+app.post('/user/players/create_player', validate(createPlayerValidation, {}, {} ), async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
@@ -696,7 +696,7 @@ app.get('/user/players/create_player', validate(createPlayerValidation, {}, {} )
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 
-app.get('/user/possessions/create', async (req, res) => 
+app.post('/user/possessions/create', async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
@@ -731,7 +731,7 @@ app.get('/user/possessions/create', async (req, res) =>
 
 
 
-app.get('/user/game_events/create', async (req, res) => 
+app.post('/user/game_events/create', async (req, res) => 
 {
     
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
@@ -761,7 +761,7 @@ app.get('/user/game_events/create', async (req, res) =>
     }
 })
 
-app.get('/user/game_events/update', async (req, res) => 
+app.post('/user/game_events/update', async (req, res) => 
 {
     
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
@@ -793,7 +793,7 @@ app.get('/user/game_events/update', async (req, res) =>
 
 //--------------------------------------------------------------------------------------------------------------------------------------------
 //Updating player details based off player id - more work needed
-app.get('/user/players/update_player', async (req, res) => 
+app.post('/user/players/update_player', async (req, res) => 
 {
     
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
@@ -868,7 +868,7 @@ app.get('/user/login', validate(loginValidation, {}, {} ), async (req, res) =>
     }
 })
 
-app.get('/user/register', validate(registerValidation, {}, {} ), async (req, res) => 
+app.post('/user/register', validate(registerValidation, {}, {} ), async (req, res) => 
 {
     
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
