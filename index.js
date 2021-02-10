@@ -96,8 +96,8 @@ const getIdValidation = {
     _id: Joi.string()
       .required()
       .messages({'string.base':  `Details input incorrectly`,
-                 'string.empty': `This feild cannot be empty`,
-                 'any.required': `This feild is required`}),
+                 'string.empty': `Needs id to continue`,
+                 'any.required': `The id field is required`}),
       
   }),
   
@@ -479,7 +479,7 @@ app.get('/cloud/game_events/create', async (req, res) =>
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 //getting game details by game id
-app.get('/user/games/get/game_by_id', async (req, res) => 
+app.get('/user/games/get/game_by_id', validate(getIdValidation, {}, {} ), async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
@@ -527,7 +527,7 @@ app.get('/user/games/get/user_game_details', validate(getUserMatchDetailsByIdVal
 //----------------------------------------------------------------------------------------------------------------------------------
 //getting user by id - WORKS
 //currently dispays all details
-app.get('/user/users/get/user_details_by_id', async (req, res) => 
+app.get('/user/users/get/user_details_by_id', validate(getIdValidation, {}, {} ), async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
@@ -572,7 +572,7 @@ app.get('/user/users/get/search_similar_players_by_name', validate(searchPlayerV
 
 //----------------------------------------------------------------------------------------------------------------------------------
 //(read )getting player info based off id- WORKS
-app.get('/user/players/get/player_details_by_id', validate(getPlayerByIdValidation, {}, {} ), async (req, res) => 
+app.get('/user/players/get/player_details_by_id', validate(getIdValidation, {}, {} ), async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
@@ -594,7 +594,7 @@ app.get('/user/players/get/player_details_by_id', validate(getPlayerByIdValidati
 //--------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-app.get('/user/users/get_secure', async (req, res) => 
+app.get('/user/users/get_secure', validate(getIdValidation, {}, {} ), async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
