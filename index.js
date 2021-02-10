@@ -188,6 +188,7 @@ app.get('/user/games/delete', async (req, res) =>
         {
             res.end(JSON.stringify({code:500}));
         }
+        db.close(); 
 })
 
 app.get('/user/possessions/delete', async (req, res) => 
@@ -200,9 +201,11 @@ app.get('/user/possessions/delete', async (req, res) =>
         const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId), "possessions.possession_id": req.query.pid };
         dbo.collection("games").deleteOne(searchQuery);
         res.end(JSON.stringify({code:200}));
+        db.close(); 
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
+        db.close(); 
     }
 })
 
@@ -216,9 +219,11 @@ app.get('/user/game_events/delete', async (req, res) =>
         const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId), "possessions.possession_id": req.query.pid, "possessions.events.event_id": req.query.eid };
         dbo.collection("games").deleteOne(searchQuery);
         res.end(JSON.stringify({code:200}));
+        db.close(); 
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
+        db.close(); 
     }
 })
 //---------------------------------------------------------------------------------------------------------------------------------------
@@ -233,9 +238,11 @@ app.get('/user/users/delete_user_by_id', async (req, res) =>
         const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId)};
         dbo.collection("users").deleteOne(searchQuery);
         res.end(JSON.stringify({code:200}));
+        db.close(); 
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
+        db.close(); 
     }
 })
 //------------------------------------------------------------------------------------------------------------------------------------------
@@ -252,9 +259,11 @@ app.get('/user/players/delete_player_by_id', async (req, res) =>
         const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId)};
         dbo.collection("players").deleteOne(searchQuery);
         res.end(JSON.stringify({code:200}));
+        db.close(); 
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
+        db.close(); 
     }
 })
 //------------------------------------------------------------------------------------------------------------------------------------------
@@ -271,10 +280,12 @@ app.get('/user/games/get/id', async (req, res) =>
         
         var result = await dbo.collection("games").findOne(searchQuery);
         res.end(JSON.stringify({code:200, result: result}));
+        db.close(); 
         
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
+        db.close(); 
     }
 })
 
@@ -452,6 +463,7 @@ app.get('/user/games/updateGame', async (req, res) =>
                 console.log(gameObject);
                 var statResult = stats.getCurrentStats(gameObject);
                 res.end(JSON.stringify({code:200, gameStatus: "UPDATING",result: statResult}));
+                db.close(); 
             }
             
             
@@ -491,6 +503,7 @@ async function createGameEvent(gameID,gameEvent)
         {
             if (err) return;
             console.log("success")
+            db.close(); 
         });
     }catch(ex)
     {
@@ -530,6 +543,7 @@ app.get('/cloud/game_events/create', async (req, res) =>
             
             
             res.end(JSON.stringify({code:200,_id:newLogObject._id}));
+            db.close(); 
         });
         
     }catch(ex)
@@ -581,6 +595,7 @@ app.get('/cloud/dictionary/create', async (req, res) =>
             
             
             res.end(JSON.stringify({code:200}));
+            db.close(); 
         });
         
     }catch(ex)
@@ -603,7 +618,7 @@ app.get('/user/games/get/game_by_id', async (req, res) =>
         
         var result = await dbo.collection("games").findOne(searchQuery);
         res.end(JSON.stringify({code:200, result: result}));
-        
+        db.close(); 
     }catch(ex)
     {
         
@@ -629,7 +644,7 @@ app.get('/user/games/get/user_game_details', async (req, res) =>
 
 
         res.end(JSON.stringify({code:200, result: result}));
-        
+        db.close(); 
     }catch(ex)
     {
         res.end(JSON.stringify({code:500, error:ex.toString()}));
@@ -652,7 +667,7 @@ app.get('/user/users/get/user_details_by_id', async (req, res) =>
         
         var result = await dbo.collection("users").findOne(searchQuery);
         res.end(JSON.stringify({code:200, result: result}));
-        
+        db.close(); 
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
@@ -675,7 +690,7 @@ app.get('/user/users/get/search_similar_players_by_name', validate(searchPlayerV
         
         var result = await dbo.collection("players").findOne(searchQuery);
         res.end(JSON.stringify({code:200, result: result}));
-        
+        db.close(); 
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
@@ -698,7 +713,7 @@ app.get('/user/players/get/player_details_by_id', async (req, res) =>
         var result = await dbo.collection("players").findOne(searchQuery);
 
         res.end(JSON.stringify({code:200, result: result}));
-        
+        db.close(); 
     }catch(ex)
     {
         res.end(JSON.stringify({code:500, error:ex.toString()}));
@@ -717,7 +732,7 @@ app.get('/user/users/get_secure', async (req, res) =>
         const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId)};
         var result = await dbo.collection("games").findOne(searchQuery);
         res.end(JSON.stringify({code:200, result: result}));
-        
+        db.close(); 
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
@@ -767,6 +782,7 @@ app.get('/user/games/create', async (req, res) =>
             dbo.collection("active_games").insertOne(newActiveGameObject)
             
             res.end(JSON.stringify({code:200,_id:newGameObject._id}));
+            db.close(); 
         });
         
     }catch(ex)
@@ -799,6 +815,7 @@ app.get('/user/players/create_player', validate(createPlayerValidation, {}, {} )
 
             
             res.end(JSON.stringify({code:200,_id:newPlayerObject._id}));
+            db.close(); 
         });
         
     }catch(ex)
@@ -840,6 +857,7 @@ app.get('/user/possessions/create', async (req, res) =>
             if (err) return;
             
             res.end(JSON.stringify({code:200, possession_id:newPossessionEventObject.possessionID}));
+            db.close(); 
         });
     }catch(ex)
     {
@@ -873,6 +891,7 @@ app.get('/user/game_events/create', async (req, res) =>
         {
             if (err) return;
             res.end(JSON.stringify({event:newGameEventObject},{code:200}));
+            db.close(); 
         });
     }catch(ex)
     {
@@ -903,7 +922,9 @@ app.get('/user/game_events/update', async (req, res) =>
             
             res.write(JSON.stringify(newGameEventObject));
             res.end(JSON.stringify({code:200}));
+            db.close(); 
         });
+        
     }catch(ex)
     {
         res.end(JSON.stringify({code:500,error:ex.toString()}));
@@ -947,7 +968,9 @@ app.get('/user/players/update_player', async (req, res) =>
             
  
             res.end(JSON.stringify({code:200}));
+            db.close(); 
         });
+        
     }catch(ex)
     {
         res.end(JSON.stringify({code:500,error:ex.toString()}));
@@ -981,6 +1004,7 @@ app.get('/user/login', validate(loginValidation, {}, {} ), async (req, res) =>
         {
             res.end(JSON.stringify({code:200, userID: 0}));
         }
+        db.close(); 
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
@@ -1015,6 +1039,7 @@ app.get('/user/register', validate(registerValidation, {}, {} ), async (req, res
     {
         res.end(JSON.stringify({code:500,error:ex.toString()}));
     }
+    db.close(); 
 })
 
 app.get('/user/register/checkNameDuplicates', async (req, res) => 
@@ -1039,6 +1064,7 @@ app.get('/user/register/checkNameDuplicates', async (req, res) =>
         {
             res.end(JSON.stringify({code:200, result: 0}));
         }
+        db.close(); 
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
@@ -1073,6 +1099,7 @@ app.get('/user/teams/check_team_name_duplicates', async (req, res) =>
     {
         res.end(JSON.stringify({code:500}));
     }
+    db.close(); 
 })
 
 //------------------------------------------------------------------------------------------------------------------------------------
@@ -1101,6 +1128,7 @@ app.get('/user/teams/check_game_name_duplicates', async (req, res) =>
         {
             res.end(JSON.stringify({code:200, result: 0}));
         }
+        db.close(); 
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
@@ -1129,7 +1157,9 @@ app.get('/user/register/checkEmailDuplicates', async (req, res) =>
         else
         {
             res.end(JSON.stringify({code:200, result: 0}));
+            
         }
+        db.close(); 
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
@@ -1155,6 +1185,7 @@ app.get('/user/active_games/move_from_active_to_finished', async (req, res) =>
         
         
         res.end(JSON.stringify({code:200, object: newActiveGameObject}));
+        db.close(); 
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
@@ -1163,7 +1194,7 @@ app.get('/user/active_games/move_from_active_to_finished', async (req, res) =>
 
 //----------------------------------------------------------------------------------------------------------------
 
-app.get('/recorder', async (req, res) => 
+app.get('/recorderdb', async (req, res) => 
 {
     var fs = require("fs");
     fs.readFile(__dirname+'/recorder/recorder.html', 'utf8', (err, text) => {
