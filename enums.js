@@ -78,7 +78,7 @@ module.exports.event =
         statType:"pass"
     },
     {
-        keywords:["advanced mark kick past","advance mark kick pass","advanced mark kick past","advanced mark kick past", "advanced mark capace", "advance mark capace"],
+        keywords:["advanced mark kick pass","advance mark kick past","advanced mark kick past","advanced mark kick past", "advanced mark capace", "advance mark capace"],
         eventID:13,
         defaultOutcome:1,
         defaultTeam:0
