@@ -19,7 +19,6 @@ const Games = require("./Games");
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 var FormData = require('form-data');
 const bodyParser = require('body-parser');
-const enums = require("./enums");
 const { validate, ValidationError, Joi } = require('express-validation');
 
 app.use(bodyParser.json());
@@ -34,7 +33,7 @@ app.use(bodyParser.json());
 //---------------------------------------------------------------------------------------------------------------------------
 //validation for creating a player
 const createPlayerValidation = {
-  query: Joi.object({
+  body: Joi.object({
     player_name: Joi.string()
       .regex(/[a-zA-Z]/)
       .max(20)
@@ -71,34 +70,19 @@ const createPlayerValidation = {
 
 //---------------------------------------------------------------------------------------------------------------------------
 //validation for searching for a player
-//const searchPlayerValidation = {
-//  query: Joi.object({
-//    player_name: Joi.string()
-//      .regex(/[a-zA-Z]/)
-//      .max(20)
-//      .min(2)
-//      .required()
-//      .messages({'string.base': `Name should be a type of 'text'`,
-//                 'string.empty': `Name cannot be an empty field`,
-//                 'string.min': `Name should have a minimum length of {#limit} characters`,
-//                 'string.max': `Name should have a maximum length of {#limit} characters`,
-//                 'string.pattern.base': `Name can only contain text`,
-//                 'any.required': `"Name" is a required field`}),
-//      
-//  }),
-//  
-//}
-//---------------------------------------------------------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------------------------------------------------------
-//validation for reading player
 const searchPlayerValidation = {
-  query: Joi.object({
-    _id: Joi.string()
+  body: Joi.object({
+    player_name: Joi.string()
+      .regex(/[a-zA-Z]/)
+      .max(50)
+      .min(2)
       .required()
-      .messages({'string.base': `Details input incorrectly`,
-                 'string.empty': ` This feild cannot be empty`,
-                 'any.required': `This feild is required`}),
+      .messages({'string.base': `Name should be a type of 'text'`,
+                 'string.empty': `Name cannot be an empty field`,
+                 'string.min': `Name should have a minimum length of {#limit} characters`,
+                 'string.max': `Name should have a maximum length of {#limit} characters`,
+                 'string.pattern.base': `Name can only contain text`,
+                 'any.required': `"Name" is a required field`}),
       
   }),
   
@@ -106,20 +90,48 @@ const searchPlayerValidation = {
 //---------------------------------------------------------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------------------------------------------------------
+//validation for calls getting details by id
+const getIdValidation = {
+  body: Joi.object({
+    _id: Joi.string()
+      .required()
+      .messages({'string.base':  `Details input incorrectly`,
+                 'string.empty': `This feild cannot be empty`,
+                 'any.required': `This feild is required`}),
+      
+  }),
+  
+}
+
+//---------------------------------------------------------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------------------------------------------------------
+//validation for getting user match details based off their id
+const getUserMatchDetailsByIdValidation = {
+  body: Joi.object({
+    user_id: Joi.string()
+      .required()
+      .messages({'string.base':  `Details input incorrectly`,
+                 'string.empty': `The id is required`,
+                 'any.required': `This field is required`}),
+      
+  }),
+  
+}
+
+//---------------------------------------------------------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------------------------------------------------------
 //valduation for login 
 const loginValidation = {
-  query: Joi.object({
-    username: Joi.string()
-      .regex(/[a-zA-Z]/)
-      .max(50)
-      .min(2)
+  body: Joi.object({
+    email: Joi.string()
+      .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
       .required()
-      .messages({'string.base': `Name should be text`,
-                 'string.empty': `Name cannot be an empty field`,
-                 'string.min': `Name should have a minimum length of {#limit} characters`,
-                 'string.max': `Name should have a maximum length of {#limit} characters`,
-                 'string.pattern.base': `Name can only contain text`,
-                 'any.required': 'Name is a required field TEST'}),
+      .messages({'string.base': `Email is required`,
+                 'string.empty': `You need to input an email`,
+                 'string.email': `Email must end in .com or .net and contain an @`,
+                 'any.required': `Email is a required field`}),
     password: Joi.string()
     //minimum 1 upper and lower case letter, 8 characters, 1 special character and 1 number
       .regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-><\/:;~]).{8,}$/)
@@ -139,7 +151,7 @@ const loginValidation = {
 //---------------------------------------------------------------------------------------------------------------------------
 //valduation for register
 const registerValidation = {
-  query: Joi.object({
+  body: Joi.object({
     username: Joi.string()
       .regex(/[a-zA-Z]/)
       .max(50)
@@ -150,7 +162,7 @@ const registerValidation = {
                  'string.min': `Name should have a minimum length of {#limit} characters`,
                  'string.max': `Name should have a maximum length of {#limit} characters`,
                  'string.pattern.base': `Name can only contain text`,
-                 'any.required': `Name is a required field TEST`}),
+                 'any.required': `Name is a required field`}),
     password: Joi.string()
     //minimum 1 upper and lower case letter, 8 characters, 1 special character and 1 number
       .regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-><\/:;~]).{8,}$/)
@@ -174,7 +186,7 @@ const registerValidation = {
 //---------------------------------------------------------------------------------------------------------------------------
 
 
-app.get('/user/games/delete', async (req, res) => 
+app.get('/user/games/delete', validate(getIdValidation, {}, {} ), async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
         const dbo = db.db("TacTalk");
@@ -188,7 +200,6 @@ app.get('/user/games/delete', async (req, res) =>
         {
             res.end(JSON.stringify({code:500}));
         }
-        db.close(); 
 })
 
 app.get('/user/possessions/delete', async (req, res) => 
@@ -201,11 +212,9 @@ app.get('/user/possessions/delete', async (req, res) =>
         const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId), "possessions.possession_id": req.query.pid };
         dbo.collection("games").deleteOne(searchQuery);
         res.end(JSON.stringify({code:200}));
-        db.close(); 
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
-        db.close(); 
     }
 })
 
@@ -219,16 +228,14 @@ app.get('/user/game_events/delete', async (req, res) =>
         const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId), "possessions.possession_id": req.query.pid, "possessions.events.event_id": req.query.eid };
         dbo.collection("games").deleteOne(searchQuery);
         res.end(JSON.stringify({code:200}));
-        db.close(); 
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
-        db.close(); 
     }
 })
 //---------------------------------------------------------------------------------------------------------------------------------------
 //Delete user by id -WORKS
-app.get('/user/users/delete_user_by_id', async (req, res) => 
+app.get('/user/users/delete_user_by_id', validate(getIdValidation, {}, {} ), async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
@@ -238,18 +245,16 @@ app.get('/user/users/delete_user_by_id', async (req, res) =>
         const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId)};
         dbo.collection("users").deleteOne(searchQuery);
         res.end(JSON.stringify({code:200}));
-        db.close(); 
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
-        db.close(); 
     }
 })
 //------------------------------------------------------------------------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------------------------------------------------------------------
 //Delete player by id
-app.get('/user/players/delete_player_by_id', async (req, res) => 
+app.get('/user/players/delete_player_by_id', validate(getIdValidation, {}, {} ), async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
@@ -259,16 +264,14 @@ app.get('/user/players/delete_player_by_id', async (req, res) =>
         const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId)};
         dbo.collection("players").deleteOne(searchQuery);
         res.end(JSON.stringify({code:200}));
-        db.close(); 
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
-        db.close(); 
     }
 })
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-app.get('/user/games/get/id', async (req, res) => 
+app.get('/user/games/get/id', validate(getIdValidation, {}, {} ), async (req, res) => 
 {
     
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
@@ -280,12 +283,10 @@ app.get('/user/games/get/id', async (req, res) =>
         
         var result = await dbo.collection("games").findOne(searchQuery);
         res.end(JSON.stringify({code:200, result: result}));
-        db.close(); 
         
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
-        db.close(); 
     }
 })
 
@@ -297,7 +298,7 @@ app.get('/user/games/updateGame', async (req, res) =>
     const dbo = db.db("TacTalk");
     res.setHeader('Content-Type', 'application/json');
     
-    var badRequest = checkParams(req.query,["user_id","game_id"]);
+    var badRequest = checkParams(req.query,["objectId" , "updateObject"]);
     if (badRequest.length !== 0)
     {
         res.end(JSON.stringify({code:400,error:badRequest}));
@@ -328,144 +329,69 @@ app.get('/user/games/updateGame', async (req, res) =>
             }));
             return;
         }
-        const searchQuery = { game_id: new MongoDB.ObjectID(req.query.game_id)};
+        const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId)};
         
         var activeGame = await dbo.collection("active_games").findOne(searchQuery);
-        
-        
         
         if (!activeGame)
         {
             res.end(JSON.stringify({code:200, gameStatus:"NO_ACTIVE_GAME"}));
         }
-        else if(!activeGame.user_id.equals (new MongoDB.ObjectID(req.query.user_id)))
-        {
-            res.end(JSON.stringify({code:200, gameStatus:"NOT_AUTHORIZED"}));
-        }
         else if (activeGame.input_list.length > 0)
         {
             //if there is item in input list
-            console.log("input list is not empty")
             
             //sort the input list
             activeGame.input_list.sort(inputListCompare);
             
             for (var i = 0; i < activeGame.input_list.length;i++)
             {
-                if (activeGame.current_order + 1 === activeGame.input_list[i].audio_order)
+                if (activeGame.current_order + 1 === activeGame.input_list[i].order)
                 {
                     activeGame.current_order += 1;
-                    for (var j = 0;j < activeGame.input_list[i].text.length; j++)
-                    {
-                        activeGame.last_string.push(activeGame.input_list[i].text[j]);
-                    }
-                    
-                    
+                    activeGame.last_string.push(activeGame.input_list[i].text);
                 }
-            }
-            
-            
-            var segmentString = "";
-            var removeIndex = -1;
-            var newPossession = false;
-            for(var i = 0;i < activeGame.last_string.length;i++)
-            {
-                segmentString += " "+activeGame.last_string[i];
-                console.log("current state: "+segmentString);
-                var parseResult = cp.parseCommand(segmentString,activeGame);
-                
-                //if the parse result extracted a value
-                if (parseResult !== null)
+                else
                 {
-                    
-                    //if the current team possession has been changed, change it in active game too
-                    if (parseResult.hasOwnProperty("team_id"))
+                    break;
+                }
+            }
+            
+            var i = 0;
+            var segmentString = "";
+            while(i < activeGame.input_list.length)
+            {
+                segmentString += activeGame.input_list[i];
+                
+                var parseResult = cp.parseCommandSegmented(segmentString);
+                
+                if (parseResult.result === 1)
+                {
+                    if (parseResult.hasOwnProperty("event_id"))
                     {
-                        if (activeGame.current_possession_team !== parseResult.team_id)
+                        if (activeGame.current_event.event_id !== -1)
                         {
-                            console.log("different team detected");
-                            activeGame.current_possession_team = parseResult.team_id;
-                            newPossession = true;
                             
                         }
-                    }
-                    
-                    
-                    //cycle through the list of properties
-                    for (var j = 0; j < eventPropertyList.length; j++)
-                    {
-                        if (parseResult.hasOwnProperty(eventPropertyList[j]))
+                        else
                         {
-                            if (!activeGame.current_event.hasOwnProperty(eventPropertyList[j]))
-                            {
-                                activeGame.current_event = Object.assign({},defaultEvent);
-                            }
-                            
-                            // if the current event already has this property, upload this event, and replace it with a new one
-                            if (activeGame.current_event[eventPropertyList[j]] !== -1)
-                            {
-                                await createGameEvent(activeGame.game_id,activeGame.current_event,activeGame.current_possession_team,newPossession);
-                                activeGame.current_event = Object.assign({},defaultEvent);
-                                activeGame.current_event[eventPropertyList[j]] = parseResult[eventPropertyList[j]];
-                                newPossession = false;
-                            }
-                            else // or else, add this new property to the exisiting event
-                            {
-                                activeGame.current_event[eventPropertyList[j]] = parseResult[eventPropertyList[j]];
-                            }
-                            
-                            
-                            //reset segment string because the information is extracted
-                            segmentString = "";
-                            
-                            //remembers the index which has already been parsed
-                            removeIndex = i;
-                            
-                            
+                            activeGame.current_event.event_id = parseResult.event_id;
                         }
                     }
-                    
-                    
-                    
-                    
                     
                 }
                 
-            }
-            
-            //remove the used strings that has already been parsed
-            if (removeIndex !== -1)
-            {
-                activeGame.last_string = activeGame.last_string.slice(removeIndex);
-            }
-            
-            
-            
-            //update the active_game document in the database to match with the current one
-            
-            var newActiveGameValues = 
-                    {
-                        $set:
-                        activeGame
-                    }
-            
-            await dbo.collection("active_games").updateOne(searchQuery,newActiveGameValues);
-            
-            console.log(req.query.game_id +"me");
-            var gameSearchQuery = {_id:new MongoDB.ObjectID(req.query.game_id)};
-            
-            //compile stats and send the response back to user
-            var gameObject = await dbo.collection("games").findOne(gameSearchQuery);
-            if (gameObject)
-            {
                 
                 
-                console.log(gameObject);
-                var statResult = stats.getCurrentStats(gameObject);
-                res.end(JSON.stringify({code:200, gameStatus: "UPDATING",result: statResult}));
-                db.close(); 
+                i++;
             }
             
+            
+            
+            
+            var gameObject = await dbo.collection("games").findOne(searchQuery);
+            var statsResult = stats.getCurrentStats(gameObject.possessions);
+            res.end(JSON.stringify({code:200, gameStatus: "UPDATING",result: statsResult}));
             
         }
         
@@ -474,7 +400,7 @@ app.get('/user/games/updateGame', async (req, res) =>
         
     }catch(ex)
     {
-        res.end(JSON.stringify({code:500, error:ex.toString()}));
+        res.end(JSON.stringify({code:500}));
     }
 })
 
@@ -503,7 +429,6 @@ async function createGameEvent(gameID,gameEvent)
         {
             if (err) return;
             console.log("success")
-            db.close(); 
         });
     }catch(ex)
     {
@@ -543,59 +468,6 @@ app.get('/cloud/game_events/create', async (req, res) =>
             
             
             res.end(JSON.stringify({code:200,_id:newLogObject._id}));
-            db.close(); 
-        });
-        
-    }catch(ex)
-    {
-        res.end(JSON.stringify({code:500,error:ex}));
-    }
-})
-
-
-app.get('/cloud/dictionary/create', async (req, res) => 
-{
-    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
-    const dbo = db.db("TacTalk");
-    res.setHeader('Content-Type', 'application/json');
-    var badRequest = checkParams(req.query,["package","uniqueNumber","keyword"]);
-    if (badRequest.length !== 0)
-    {
-        res.end(JSON.stringify({code:400,error:badRequest}));
-        return;
-    }
-    try
-    {
-        
-        
-        var jsonObj = JSON.parse(req.query.package);
-        
-        var fullText = [];
-        
-        for (var i = 0;i < jsonObj.length; i++)
-        {
-            fullText.push(jsonObj[i].text);
-        }
-                
-        var keyword = req.query.keyword;
-        
-        var uniqueNumber = req.query.uniqueNumber;
-        
-        var newDictionaryObject = 
-                {
-                    keyword: keyword,
-                    text: fullText,
-                    unique_number: uniqueNumber
-                }
-        
-        await dbo.collection("dictionary").insertOne(newDictionaryObject, function(err){
-            if (err) return;
-            // Object inserted successfully.
-           
-            
-            
-            res.end(JSON.stringify({code:200}));
-            db.close(); 
         });
         
     }catch(ex)
@@ -618,7 +490,7 @@ app.get('/user/games/get/game_by_id', async (req, res) =>
         
         var result = await dbo.collection("games").findOne(searchQuery);
         res.end(JSON.stringify({code:200, result: result}));
-        db.close(); 
+        
     }catch(ex)
     {
         
@@ -630,7 +502,7 @@ app.get('/user/games/get/game_by_id', async (req, res) =>
 //----------------------------------------------------------------------------------------------------------------------------------
 //getting game details based off userid - WORKS
 //currently dispays all details
-app.get('/user/games/get/user_game_details', async (req, res) => 
+app.get('/user/games/get/user_game_details', validate(getUserMatchDetailsByIdValidation, {}, {} ), async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
@@ -644,7 +516,7 @@ app.get('/user/games/get/user_game_details', async (req, res) =>
 
 
         res.end(JSON.stringify({code:200, result: result}));
-        db.close(); 
+        
     }catch(ex)
     {
         res.end(JSON.stringify({code:500, error:ex.toString()}));
@@ -667,7 +539,7 @@ app.get('/user/users/get/user_details_by_id', async (req, res) =>
         
         var result = await dbo.collection("users").findOne(searchQuery);
         res.end(JSON.stringify({code:200, result: result}));
-        db.close(); 
+        
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
@@ -690,7 +562,7 @@ app.get('/user/users/get/search_similar_players_by_name', validate(searchPlayerV
         
         var result = await dbo.collection("players").findOne(searchQuery);
         res.end(JSON.stringify({code:200, result: result}));
-        db.close(); 
+        
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
@@ -699,8 +571,8 @@ app.get('/user/users/get/search_similar_players_by_name', validate(searchPlayerV
 //--------------------------------------------------------------------------------------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------------------------------------------------------------
-//getting player info based off id- WORKS
-app.get('/user/players/get/player_details_by_id', async (req, res) => 
+//(read )getting player info based off id- WORKS
+app.get('/user/players/get/player_details_by_id', validate(getPlayerByIdValidation, {}, {} ), async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
@@ -713,7 +585,7 @@ app.get('/user/players/get/player_details_by_id', async (req, res) =>
         var result = await dbo.collection("players").findOne(searchQuery);
 
         res.end(JSON.stringify({code:200, result: result}));
-        db.close(); 
+        
     }catch(ex)
     {
         res.end(JSON.stringify({code:500, error:ex.toString()}));
@@ -732,7 +604,7 @@ app.get('/user/users/get_secure', async (req, res) =>
         const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId)};
         var result = await dbo.collection("games").findOne(searchQuery);
         res.end(JSON.stringify({code:200, result: result}));
-        db.close(); 
+        
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
@@ -759,7 +631,6 @@ app.get('/user/games/create', async (req, res) =>
                     location:req.query.location,
                     team_color:req.query.teamColor,
                     opp_team_color:req.query.oppTeamColor,
-                    game_type:req.query.gameType,
                     possessions:[]
                 };
         
@@ -770,19 +641,13 @@ app.get('/user/games/create', async (req, res) =>
             var newActiveGameObject =
                     {
                         game_id: newGameObject._id,
-                        user_id: new MongoDB.ObjectID(req.query.userId),
                         last_string:[],
                         input_list:[],
-                        current_order:0,
-                        current_event:{},
-                        team_color:req.teamColor,
-                        opp_team_color:req.oppTeamColor,
-                        current_possession_team:-1
+                        current_order:0
                     }
             dbo.collection("active_games").insertOne(newActiveGameObject)
             
             res.end(JSON.stringify({code:200,_id:newGameObject._id}));
-            db.close(); 
         });
         
     }catch(ex)
@@ -815,7 +680,6 @@ app.get('/user/players/create_player', validate(createPlayerValidation, {}, {} )
 
             
             res.end(JSON.stringify({code:200,_id:newPlayerObject._id}));
-            db.close(); 
         });
         
     }catch(ex)
@@ -857,7 +721,6 @@ app.get('/user/possessions/create', async (req, res) =>
             if (err) return;
             
             res.end(JSON.stringify({code:200, possession_id:newPossessionEventObject.possessionID}));
-            db.close(); 
         });
     }catch(ex)
     {
@@ -891,7 +754,6 @@ app.get('/user/game_events/create', async (req, res) =>
         {
             if (err) return;
             res.end(JSON.stringify({event:newGameEventObject},{code:200}));
-            db.close(); 
         });
     }catch(ex)
     {
@@ -922,9 +784,7 @@ app.get('/user/game_events/update', async (req, res) =>
             
             res.write(JSON.stringify(newGameEventObject));
             res.end(JSON.stringify({code:200}));
-            db.close(); 
         });
-        
     }catch(ex)
     {
         res.end(JSON.stringify({code:500,error:ex.toString()}));
@@ -968,9 +828,7 @@ app.get('/user/players/update_player', async (req, res) =>
             
  
             res.end(JSON.stringify({code:200}));
-            db.close(); 
         });
-        
     }catch(ex)
     {
         res.end(JSON.stringify({code:500,error:ex.toString()}));
@@ -990,7 +848,7 @@ app.get('/user/login', validate(loginValidation, {}, {} ), async (req, res) =>
         
         var result = await dbo.collection("users").findOne(
                 {
-                    username: req.query.username,
+                    email: req.query.email,
                     password: req.query.password
                 });
         
@@ -1004,7 +862,6 @@ app.get('/user/login', validate(loginValidation, {}, {} ), async (req, res) =>
         {
             res.end(JSON.stringify({code:200, userID: 0}));
         }
-        db.close(); 
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
@@ -1039,7 +896,6 @@ app.get('/user/register', validate(registerValidation, {}, {} ), async (req, res
     {
         res.end(JSON.stringify({code:500,error:ex.toString()}));
     }
-    db.close(); 
 })
 
 app.get('/user/register/checkNameDuplicates', async (req, res) => 
@@ -1064,7 +920,6 @@ app.get('/user/register/checkNameDuplicates', async (req, res) =>
         {
             res.end(JSON.stringify({code:200, result: 0}));
         }
-        db.close(); 
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
@@ -1099,7 +954,6 @@ app.get('/user/teams/check_team_name_duplicates', async (req, res) =>
     {
         res.end(JSON.stringify({code:500}));
     }
-    db.close(); 
 })
 
 //------------------------------------------------------------------------------------------------------------------------------------
@@ -1128,7 +982,6 @@ app.get('/user/teams/check_game_name_duplicates', async (req, res) =>
         {
             res.end(JSON.stringify({code:200, result: 0}));
         }
-        db.close(); 
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
@@ -1157,9 +1010,7 @@ app.get('/user/register/checkEmailDuplicates', async (req, res) =>
         else
         {
             res.end(JSON.stringify({code:200, result: 0}));
-            
         }
-        db.close(); 
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
@@ -1185,7 +1036,6 @@ app.get('/user/active_games/move_from_active_to_finished', async (req, res) =>
         
         
         res.end(JSON.stringify({code:200, object: newActiveGameObject}));
-        db.close(); 
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
@@ -1194,73 +1044,12 @@ app.get('/user/active_games/move_from_active_to_finished', async (req, res) =>
 
 //----------------------------------------------------------------------------------------------------------------
 
-app.get('/recorderdb', async (req, res) => 
-{
-    var fs = require("fs");
-    fs.readFile(__dirname+'/recorder/recorder.html', 'utf8', (err, text) => {
-        res.send(text);
-    });
-})
-
 app.get('/', async (req, res) => 
 {
     var fs = require("fs");
     fs.readFile(__dirname+'/view/index.html', 'utf8', (err, text) => {
         res.send(text);
     });
-})
-
-
-app.get('/dictionary', async (req, res) => 
-{
-    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
-    const dbo = db.db("TacTalk");
-    res.setHeader('Content-Type', 'application/json');
-    try
-    {
-                var keywords = [];
-                var keywords = keywords.concat(enums.event);
-                var keywords = keywords.concat(enums.outcome);
-                var keywords = keywords.concat(enums.position);
-                
-                var cursor = dbo.collection('dictionary').find();
-
-                for (var i = 0;i < keywords.length;i++)
-                {
-                    keywords[i].dictionary = [];
-                }
-
-                
-                await cursor.each(function(err, item) {
-                    
-                    if(item == null) {
-                        db.close(); 
-                        res.end(JSON.stringify({code:200, object: keywords}));
-                        return;
-                    }
-                    
-                    for (var i = 0;i<keywords.length;i++)
-                    {
-                        console.log(item);
-                        console.log(keywords[i]);
-                        if (keywords[i].keywords[0] === item.keyword)
-                        {
-                            keywords[i].dictionary.push(item);
-                        }
-                    }
-                    
-                    
-                    
-                });
-                
-                
-                
-    }catch(ex)
-    {
-        res.end(JSON.stringify({code:500, error: ex.toString()}));
-    }   
-                
-            
 })
 
 app.listen(port, () => {
