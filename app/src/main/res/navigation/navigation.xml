@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/mainMenuFragment"
+        android:name="com.example.tactalk.MainMenuFragment"
+        android:label="fragment_main_menu"
+        tools:layout="@layout/fragment_main_menu" >
+        <action
+            android:id="@+id/MainMenuToManageTeam"
+            app:destination="@id/manageTeamFragment" />
+        <action
+            android:id="@+id/MainMenuToRecording"
+            app:destination="@id/recordingPageFragment" />
+        <action
+            android:id="@+id/MainMenuToSetupMatch"
+            app:destination="@id/setUpMatchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/manageTeamFragment"
+        android:name="com.example.tactalk.ManageTeamFragment"
+        android:label="fragment_manage_team"
+        tools:layout="@layout/fragment_manage_team" />
+    <fragment
+        android:id="@+id/recordingPageFragment"
+        android:name="com.example.tactalk.RecordingPageFragment"
+        android:label="RecordingPageFragment" >
+        <action
+            android:id="@+id/RecordToEnd"
+            app:destination="@id/endGameFragment" />
+        <action
+            android:id="@+id/RecordToStat"
+            app:destination="@id/statsFragment"
+            app:enterAnim="@anim/md_styled_slide_up_normal"
+            app:exitAnim="@anim/md_styled_slide_down_normal"
+            app:popUpTo="@id/recordingPageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/statsFragment"
+        android:name="com.example.tactalk.StatsFragment"
+        android:label="fragment_stats"
+        tools:layout="@layout/fragment_stats" >
+        <action
+            android:id="@+id/StatToSecondHalf"
+            app:destination="@id/recordingPageFragment"
+            app:enterAnim="@anim/md_styled_slide_up_normal"
+            app:exitAnim="@anim/md_styled_slide_down_normal" />
+    </fragment>
+    <fragment
+        android:id="@+id/setUpMatchFragment"
+        android:name="com.example.tactalk.SetUpMatchFragment"
+        android:label="fragment_set_up_match"
+        tools:layout="@layout/fragment_set_up_match" >
+        <action
+            android:id="@+id/SetupToMain"
+            app:destination="@id/mainMenuFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/endGameFragment"
+        android:name="com.example.tactalk.EndGameFragment"
+        android:label="EndGameFragment" >
+        <action
+            android:id="@+id/EndToMain"
+            app:destination="@id/mainMenuFragment" />
+        <action
+            android:id="@+id/EndToStats"
+            app:destination="@id/statsFragment"
+            app:enterAnim="@anim/md_styled_slide_up_normal"
+            app:exitAnim="@anim/md_styled_slide_down_normal" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.tactalk.HomeFragment"
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/HomeToMain"
+            app:destination="@id/mainMenuFragment"
+            app:enterAnim="@anim/md_styled_zoom_out"
+            app:exitAnim="@anim/md_styled_zoom_out"
+            app:popUpTo="@id/mainMenuFragment" />
+        <action
+            android:id="@+id/HomeToLogin"
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/md_styled_slide_up_normal"
+            app:exitAnim="@anim/md_styled_slide_down_normal"
+            app:popUpTo="@id/homeFragment" />
+        <action
+            android:id="@+id/HomeToReg"
+            app:destination="@id/registerFragment2"
+            app:enterAnim="@anim/md_styled_slide_up_normal"
+            app:exitAnim="@anim/md_styled_slide_down_normal" />
+    </fragment>
+    <activity
+        android:id="@+id/loginFragment"
+        android:name="com.example.tactalk.activity.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
+    <activity
+        android:id="@+id/registerFragment2"
+        android:name="com.example.tactalk.activity.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" />
+</navigation>
