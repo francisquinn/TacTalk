@@ -855,7 +855,7 @@ app.post('/user/game_events/create', async (req, res) =>
     db.close();
 })
 
-app.post('/user/game_events/update', async (req, res) => 
+app.get('/user/game_events/update', async (req, res) => 
 {
     
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
@@ -888,7 +888,7 @@ app.post('/user/game_events/update', async (req, res) =>
 
 //--------------------------------------------------------------------------------------------------------------------------------------------
 //Updating player details based off player id - more work needed
-app.post('/user/players/update_player', async (req, res) => 
+app.get('/user/players/update_player', async (req, res) => 
 {
     
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
