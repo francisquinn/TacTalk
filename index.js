@@ -21,6 +21,7 @@ var FormData = require('form-data');
 const bodyParser = require('body-parser');
 const { validate, ValidationError, Joi } = require('express-validation');
 const enums = require("./enums");
+const cd = require("./CompileDictionary");
 app.use(bodyParser.json());
 //var sampleQuery = {player_name : "jerry",
 //                            player_age: "30",
@@ -345,7 +346,6 @@ app.get('/user/games/updateGame', async (req, res) =>
         else if (activeGame.input_list.length > 0)
         {
             //if there is item in input list
-            console.log("input list is not empty")
             
             //sort the input list
             activeGame.input_list.sort(inputListCompare);
@@ -463,7 +463,7 @@ app.get('/user/games/updateGame', async (req, res) =>
                 console.log(gameObject);
                 var statResult = stats.getCurrentStats(gameObject);
                 res.end(JSON.stringify({code:200, gameStatus: "UPDATING",result: statResult}));
-                db.close(); 
+       
             }
             
             
@@ -476,7 +476,7 @@ app.get('/user/games/updateGame', async (req, res) =>
     {
         res.end(JSON.stringify({code:500, error:ex.toString()}));
     }
-    db.close();
+    
 })
 
 
@@ -694,15 +694,14 @@ app.get('/user/users/get_secure', validate(getIdValidation, {}, {} ), async (req
     db.close();
 })
 
-app.post('/user/games/create', async (req, res) => 
+app.get('/user/games/create', async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
     res.setHeader('Content-Type', 'application/json');
-    
+    console.log("run");
     try
     {
-        console.log(req.userquery);
         var newGameObject = 
                 {
                     game_name:req.query.gameName,
@@ -718,9 +717,11 @@ app.post('/user/games/create', async (req, res) =>
                 };
         
         await dbo.collection("games").insertOne(newGameObject, function(err){
-            if (err) return;
+            if (err)
+                console.log(err.toString());
+                return;
             // Object inserted successfully.
-           
+           console.log("stage 1");
             var newActiveGameObject =
                     {
                         game_id: newGameObject._id,
@@ -729,15 +730,15 @@ app.post('/user/games/create', async (req, res) =>
                         current_order:0
                     }
             dbo.collection("active_games").insertOne(newActiveGameObject)
-            
+            console.log("done");
             res.end(JSON.stringify({code:200,_id:newGameObject._id}));
+            
         });
         
     }catch(ex)
     { 
         res.end(JSON.stringify({code:500,error:ex}));
     }
-    db.close();
 })
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -750,7 +751,6 @@ app.post('/user/players/create_player', validate(createPlayerValidation, {}, {} 
     
     try
     {
-        console.log(req.userquery);
         var newPlayerObject = 
                 {
                     player_name:req.query.player_name,
@@ -771,10 +771,6 @@ app.post('/user/players/create_player', validate(createPlayerValidation, {}, {} 
         res.end(JSON.stringify({code:500,error:ex}));
 
     }
-    db.close();
-    
-
-
 })
 
 
@@ -951,7 +947,7 @@ app.get('/user/login', validate(loginValidation, {}, {} ), async (req, res) =>
     db.close();
 })
 
-app.post('/user/register', validate(registerValidation, {}, {} ), async (req, res) => 
+app.post('/user/register', async (req, res) => 
 {
     
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
@@ -972,14 +968,16 @@ app.post('/user/register', validate(registerValidation, {}, {} ), async (req, re
            
         
             res.end(JSON.stringify({code:200,_id:newUserObject._id}));
+            db.close();
         });
         
         
     }catch(ex)
     {
         res.end(JSON.stringify({code:500,error:ex.toString()}));
+        db.close();
     }
-    db.close();
+    
 })
 
 app.get('/user/register/checkNameDuplicates', async (req, res) => 
@@ -1182,6 +1180,7 @@ app.get('/recorder', async (req, res) =>
     });
 })
 
+
 app.get('/dictionary', async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
@@ -1207,16 +1206,18 @@ app.get('/dictionary', async (req, res) =>
                     if(item == null) {
                         db.close(); 
                         res.end(JSON.stringify({code:200, object: keywords}));
-                        return;
                     }
                     
                     for (var i = 0;i<keywords.length;i++)
                     {
                         console.log(item);
                         console.log(keywords[i]);
-                        if (keywords[i].keywords[0] === item.keyword)
+                        if (item != null)
                         {
-                            keywords[i].dictionary.push(item);
+                            if (keywords[i].keywords[0] === item.keyword)
+                            {
+                                keywords[i].dictionary.push(item);
+                            }
                         }
                     }
                     
@@ -1224,12 +1225,17 @@ app.get('/dictionary', async (req, res) =>
                     
                 });
                 
+                var result = cd.compileDictionary(keywords);
+                
+                res.end(result);
+                
                 
                 
     }catch(ex)
     {
         res.end(JSON.stringify({code:500, error: ex.toString()}));
+        db.close();
     }   
                 
-    db.close();
+    
 })

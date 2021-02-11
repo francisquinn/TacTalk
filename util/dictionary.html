@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <script>
+            
+            function getData()
+            {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                       // Typical action to be performed when the document is ready:
+                       var result = xhttp.responseText;
+                       compileDictionary(JSON.parse(result));
+                    }
+                };
+                xhttp.open("GET", "localhost:8080/dictionary", true);
+                xhttp.send();
+            }
+            
+            function compileDictionary(kw)
+            {
+                
+                xhttp.open("GET", "filename", true);
+                xhttp.send();
+                var table = dcoument.getElementById("result");       
+                var tableSize = 100;
+
+                for (var i = 0;i < kw.length; i++)
+                {
+                    var row = document.createElement("tr");
+                    
+                    var elem1 = document.createElement("td");
+                        
+                    elem1.innerHTML = kw[i].keywords[0];
+                    row.append(elem1);
+                    
+                    for (var j = 0;j<kw[i].dictionary.length;j++)
+                    {
+                                
+                        var result = compareLange(kw[i].keywords[0],kw[i].dictionary[j]);
+                        var elem2 = document.createElement("td");
+                        
+                        if (result.result)
+                        {
+                            elem2.innerHTML = kw[i].dictionary[j]+result.jw+result.sw;
+                            
+                        }
+                        else
+                        {
+                            elem2.innerHTML = kw[i].dictionary[j]+result.jw+result.sw;
+                            elem2.setAttribute("color","red");
+                        }
+                        row.append(elem2);
+                    }
+                    
+
+                    for (var k = 0;j<100-kw[i].dictionary.length;k++)
+                    {
+                        row.append(document.createElement("td"));
+                    }
+                    
+                    
+                    table.append(document.createElement(row));
+                    
+
+                }
+            }
+            
+        </script>
+        <div>
+            <p>JaroWinkler value</p>
+            <input id="jwinput" type="number" step="0.01">
+            <br>
+            <p>SmithWaterMan value</p>
+            <input id="swminput" type="number" step="0.01">
+            <br>
+            <button onclick="getData()">Compile</button>
+            <br>
+            <p>Result</p>
+            <div id="result">
+                
+            </div>
+            
+        </div>
+    </body>
+</html>
