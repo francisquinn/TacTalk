@@ -22,7 +22,9 @@ const bodyParser = require('body-parser');
 const { validate, ValidationError, Joi } = require('express-validation');
 const enums = require("./enums");
 const cd = require("./CompileDictionary");
+
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:false}));
 //var sampleQuery = {player_name : "jerry",
 //                            player_age: "30",
 //                            player_number: "5"};
@@ -197,11 +199,13 @@ app.get('/user/games/delete', validate(getIdValidation, {}, {} ), async (req, re
             const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId) };
             dbo.collection("games").deleteOne(searchQuery);
             res.end(JSON.stringify({code:200}));
+             db.close();
         }catch(ex)
         {
             res.end(JSON.stringify({code:500}));
+             db.close();
         }
-        db.close();
+       
 })
 
 app.get('/user/possessions/delete', async (req, res) => 
@@ -214,11 +218,13 @@ app.get('/user/possessions/delete', async (req, res) =>
         const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId), "possessions.possession_id": req.query.pid };
         dbo.collection("games").deleteOne(searchQuery);
         res.end(JSON.stringify({code:200}));
+        db.close();
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
+        db.close();
     }
-    db.close();
+    
 })
 
 app.get('/user/game_events/delete', async (req, res) => 
@@ -231,11 +237,13 @@ app.get('/user/game_events/delete', async (req, res) =>
         const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId), "possessions.possession_id": req.query.pid, "possessions.events.event_id": req.query.eid };
         dbo.collection("games").deleteOne(searchQuery);
         res.end(JSON.stringify({code:200}));
+        db.close();
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
+        db.close();
     }
-    db.close();
+    
 })
 //---------------------------------------------------------------------------------------------------------------------------------------
 //Delete user by id -WORKS
@@ -249,11 +257,13 @@ app.get('/user/users/delete_user_by_id', validate(getIdValidation, {}, {} ), asy
         const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId)};
         dbo.collection("users").deleteOne(searchQuery);
         res.end(JSON.stringify({code:200}));
+        db.close();
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
+        db.close();
     }
-    db.close();
+    
 })
 //------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -269,11 +279,13 @@ app.get('/user/players/delete_player_by_id', validate(getIdValidation, {}, {} ),
         const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId)};
         dbo.collection("players").deleteOne(searchQuery);
         res.end(JSON.stringify({code:200}));
+        db.close();
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
+        db.close();
     }
-    db.close();
+    
 })
 //------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -289,12 +301,14 @@ app.get('/user/games/get/id', validate(getIdValidation, {}, {} ), async (req, re
         
         var result = await dbo.collection("games").findOne(searchQuery);
         res.end(JSON.stringify({code:200, result: result}));
+        db.close();
         
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
+        db.close();
     }
-    db.close();
+   
 })
 
 app.get('/user/games/updateGame', async (req, res) => 
@@ -475,6 +489,7 @@ app.get('/user/games/updateGame', async (req, res) =>
     }catch(ex)
     {
         res.end(JSON.stringify({code:500, error:ex.toString()}));
+        db.close();
     }
     
 })
@@ -504,12 +519,14 @@ async function createGameEvent(gameID,gameEvent)
         {
             if (err) return;
             console.log("success")
+            db.close();
         });
     }catch(ex)
     {
         console.log(ex)
+        db.close();
     }
-    db.close();
+    
 }
 
 app.post('/cloud/game_events/create', async (req, res) => 
@@ -544,13 +561,15 @@ app.post('/cloud/game_events/create', async (req, res) =>
             
             
             res.end(JSON.stringify({code:200,_id:newLogObject._id}));
+            db.close();
         });
         
     }catch(ex)
     {
         res.end(JSON.stringify({code:500,error:ex}));
+        db.close();
     }
-    db.close();
+    
 })
 
 
@@ -567,13 +586,15 @@ app.get('/user/games/get/game_by_id', validate(getIdValidation, {}, {} ), async 
         
         var result = await dbo.collection("games").findOne(searchQuery);
         res.end(JSON.stringify({code:200, result: result}));
+        db.close();
         
     }catch(ex)
     {
         
         res.end(JSON.stringify({code:500 , error:ex.toString()}));
+        db.close();
     }
-    db.close();
+    
 })
 //--------------------------------------------------------------------------------------------------------------------------------------
 
@@ -594,12 +615,14 @@ app.get('/user/games/get/user_game_details', validate(getUserMatchDetailsByIdVal
 
 
         res.end(JSON.stringify({code:200, result: result}));
+        db.close();
         
     }catch(ex)
     {
         res.end(JSON.stringify({code:500, error:ex.toString()}));
+        db.close();
     }
-    db.close();
+    
 })
 //--------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -618,12 +641,14 @@ app.get('/user/users/get/user_details_by_id', validate(getIdValidation, {}, {} )
         
         var result = await dbo.collection("users").findOne(searchQuery);
         res.end(JSON.stringify({code:200, result: result}));
+        db.close();
         
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
+        db.close();
     }
-    db.close();
+    
 })
 //--------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -642,12 +667,14 @@ app.get('/user/users/get/search_similar_players_by_name', validate(searchPlayerV
         
         var result = await dbo.collection("players").findOne(searchQuery);
         res.end(JSON.stringify({code:200, result: result}));
+        db.close();
         
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
+        db.close();
     }
-    db.close();
+    
 })
 //--------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -666,12 +693,14 @@ app.get('/user/players/get/player_details_by_id', validate(getIdValidation, {}, 
         var result = await dbo.collection("players").findOne(searchQuery);
 
         res.end(JSON.stringify({code:200, result: result}));
+        db.close();
         
     }catch(ex)
     {
         res.end(JSON.stringify({code:500, error:ex.toString()}));
+        db.close();
     }
-    db.close();
+    
 })
 //--------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -686,12 +715,14 @@ app.get('/user/users/get_secure', validate(getIdValidation, {}, {} ), async (req
         const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId)};
         var result = await dbo.collection("games").findOne(searchQuery);
         res.end(JSON.stringify({code:200, result: result}));
+        db.close();
         
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
+        db.close();
     }
-    db.close();
+    
 })
 
 app.get('/user/games/create', async (req, res) => 
@@ -704,15 +735,15 @@ app.get('/user/games/create', async (req, res) =>
     {
         var newGameObject = 
                 {
-                    game_name:req.query.gameName,
-                    user_id:req.query.userId,
-                    team_id:req.query.teamId,
-                    start_time:req.query.matchTime,
-                    public:req.query.public,
-                    date:req.query.matchDate.toString(),
-                    location:req.query.location,
-                    team_color:req.query.teamColor,
-                    opp_team_color:req.query.oppTeamColor,
+                    game_name:req.body.gameName,
+                    user_id:req.body.userId,
+                    team_id:req.body.teamId,
+                    start_time:req.body.matchTime,
+                    public:req.body.public,
+                    date:req.body.matchDate.toString(),
+                    location:req.body.location,
+                    team_color:req.body.teamColor,
+                    opp_team_color:req.body.oppTeamColor,
                     possessions:[]
                 };
         
@@ -732,17 +763,21 @@ app.get('/user/games/create', async (req, res) =>
             dbo.collection("active_games").insertOne(newActiveGameObject)
             console.log("done");
             res.end(JSON.stringify({code:200,_id:newGameObject._id}));
+
             
+            db.close();
         });
         
     }catch(ex)
     { 
         res.end(JSON.stringify({code:500,error:ex}));
+        db.close();
     }
 })
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 //create players - WORKS
+//
 app.post('/user/players/create_player', validate(createPlayerValidation, {}, {} ), async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
@@ -753,9 +788,9 @@ app.post('/user/players/create_player', validate(createPlayerValidation, {}, {} 
     {
         var newPlayerObject = 
                 {
-                    player_name:req.query.player_name,
-                    player_age:req.query.player_age,
-                    player_number:req.query.player_number,
+                    player_name:req.body.player_name,
+                    player_age:req.body.player_age,
+                    player_number:req.body.player_number
                 };
         
         await dbo.collection("players").insertOne(newPlayerObject, function(err){
@@ -764,53 +799,20 @@ app.post('/user/players/create_player', validate(createPlayerValidation, {}, {} 
 
             
             res.end(JSON.stringify({code:200,_id:newPlayerObject._id}));
+            db.close();
         });
         
     }catch(ex)
     { 
         res.end(JSON.stringify({code:500,error:ex}));
-
+        db.close();
     }
+
 })
 
 
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------
-
-app.post('/user/possessions/create', async (req, res) => 
-{
-    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
-    const dbo = db.db("TacTalk");
-    res.setHeader('Content-Type', 'application/json');
-    try
-    {
-        
-        var newPossessionEventObject = 
-                {
-                    possession_id: new ObjectID(),
-                    start_time: req.query.startTime,
-                    team_in_possession: req.query.possessionTeam,
-                    events: []
-                };
-        const searchQuery = { _id: new MongoDB.ObjectID(req.query.object_id) };
-        const updateDocument = 
-        {
-          $push: { possessions: newPossessionEventObject }
-        };
-        await dbo.collection("games").updateOne(searchQuery, updateDocument, function(err)
-        {
-            if (err) return;
-            
-            res.end(JSON.stringify({code:200, possession_id:newPossessionEventObject.possessionID}));
-        });
-    }catch(ex)
-    {
-        res.end(JSON.stringify({code:500}));
-    }
-    db.close();
-})
-
-
 
 
 app.post('/user/game_events/create', async (req, res) => 
@@ -822,8 +824,8 @@ app.post('/user/game_events/create', async (req, res) =>
     try
     {
         
-        var newGameEventObject = cp.parseCommand(req.query.textInput,req.query.time,null);
-        const searchQuery = { _id: new MongoDB.ObjectID(req.query.object_id),"possessions.possession_id":new MongoDB.ObjectID(req.query.pid) };
+        var newGameEventObject = cp.parseCommand(req.body.textInput,req.body.time,null);
+        const searchQuery = { _id: new MongoDB.ObjectID(req.body.object_id),"possessions.possession_id":new MongoDB.ObjectID(req.body.pid) };
         
         const updateDocument = 
         {
@@ -836,15 +838,17 @@ app.post('/user/game_events/create', async (req, res) =>
         {
             if (err) return;
             res.end(JSON.stringify({event:newGameEventObject},{code:200}));
+            db.close();
         });
     }catch(ex)
     {
         res.end(JSON.stringify({code:500,error:ex.toString()}));
+        db.close();
     }
-    db.close();
+    
 })
 
-app.post('/user/game_events/update', async (req, res) => 
+app.get('/user/game_events/update', async (req, res) => 
 {
     
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
@@ -867,17 +871,19 @@ app.post('/user/game_events/update', async (req, res) =>
             
             res.write(JSON.stringify(newGameEventObject));
             res.end(JSON.stringify({code:200}));
+            db.close();
         });
     }catch(ex)
     {
         res.end(JSON.stringify({code:500,error:ex.toString()}));
+        db.close();
     }
-    db.close();
+    
 })
 
 //--------------------------------------------------------------------------------------------------------------------------------------------
 //Updating player details based off player id - more work needed
-app.post('/user/players/update_player', async (req, res) => 
+app.get('/user/players/update_player', async (req, res) => 
 {
     
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
@@ -905,17 +911,19 @@ app.post('/user/players/update_player', async (req, res) =>
             
  
             res.end(JSON.stringify({code:200}));
+            db.close();
         });
     }catch(ex)
     {
         res.end(JSON.stringify({code:500,error:ex.toString()}));
+        db.close();
     }
-    db.close();
+    
 })
 
 //------------------------------------------------------------------------------------------------------------------------------------------------
 
-app.get('/user/login', validate(loginValidation, {}, {} ), async (req, res) => 
+app.post('/user/login', validate(loginValidation, {}, {} ), async (req, res) => 
 {
     
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
@@ -926,59 +934,63 @@ app.get('/user/login', validate(loginValidation, {}, {} ), async (req, res) =>
         
         var result = await dbo.collection("users").findOne(
                 {
-                    email: req.query.email,
-                    password: req.query.password
+                    email: req.body.email,
+                    password: req.body.password
                 });
         
         
         
         if (result)
         {
-            res.end(JSON.stringify({code:200, userID: result._id}));
+            res.end(JSON.stringify({code:200, user_id: result._id}));
+            db.close();
         }
         else
         {
-            res.end(JSON.stringify({code:200, userID: 0}));
+            res.end(JSON.stringify({code:200, user_id: 0}));
+            db.close();
         }
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
+        db.close();
     }
-    db.close();
+    
 })
 
-app.post('/user/register', async (req, res) => 
+app.post('/user/register', validate(registerValidation, {}, {} ), async (req, res) =>
 {
+
     
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
     res.setHeader('Content-Type', 'application/json');
     try
     {
-        var newUserObject = 
+        var newUserObject =
         {
-            username: req.query.username,
-            password: req.query.password,
-            email: req.query.email
-        }
+            username: req.body.username,
+            password: req.body.password,
+            email: req.body.email
+        };
         
         await dbo.collection("users").insertOne(newUserObject, function(err){
-            if (err) return;
+//            if (err) 
+                
             // Object inserted successfully.
            
         
             res.end(JSON.stringify({code:200,_id:newUserObject._id}));
             db.close();
         });
-        
+       
         
     }catch(ex)
     {
         res.end(JSON.stringify({code:500,error:ex.toString()}));
         db.close();
     }
-    
-})
+});
 
 app.get('/user/register/checkNameDuplicates', async (req, res) => 
 {
@@ -997,16 +1009,19 @@ app.get('/user/register/checkNameDuplicates', async (req, res) =>
         if (result)
         {
             res.end(JSON.stringify({code:200, result: 1}));
+            db.close();
         }
         else
         {
             res.end(JSON.stringify({code:200, result: 0}));
+            db.close();
         }
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
+        db.close();
     }
-    db.close();
+    
 })
 
 //---------------------------------------------------------------------------------------------------------------------------------------
@@ -1028,16 +1043,19 @@ app.get('/user/teams/check_team_name_duplicates', async (req, res) =>
         if (result)
         {
             res.end(JSON.stringify({code:200, result: 1}));
+            db.close();
         }
         else
         {
             res.end(JSON.stringify({code:200, result: 0}));
+            db.close();
         }
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
+        db.close();
     }
-    db.close();
+    
 })
 
 //------------------------------------------------------------------------------------------------------------------------------------
@@ -1061,16 +1079,19 @@ app.get('/user/teams/check_game_name_duplicates', async (req, res) =>
         if (result)
         {
             res.end(JSON.stringify({code:200, result: 1}));
+            db.close();
         }
         else
         {
             res.end(JSON.stringify({code:200, result: 0}));
+            db.close();
         }
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
+        db.close();
     }
-    db.close();
+    
 })
 
 //------------------------------------------------------------------------------------------------------------------------------------
@@ -1091,16 +1112,19 @@ app.get('/user/register/checkEmailDuplicates', async (req, res) =>
         if (result)
         {
             res.end(JSON.stringify({code:200, result: 1}));
+            db.close();
         }
         else
         {
             res.end(JSON.stringify({code:200, result: 0}));
+            db.close();
         }
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
+        db.close();
     }
-    db.close();
+    
 })
 
 //------------------------------------------------------------------------------------------------------------------
@@ -1122,11 +1146,13 @@ app.get('/user/active_games/move_from_active_to_finished', async (req, res) =>
         
         
         res.end(JSON.stringify({code:200, object: newActiveGameObject}));
+        db.close();s
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
+        db.close();
     }
-    db.close();
+    
 })
 
 //----------------------------------------------------------------------------------------------------------------
@@ -1224,12 +1250,10 @@ app.get('/dictionary', async (req, res) =>
                     
                     
                 });
-                
                 var result = cd.compileDictionary(keywords);
                 
                 res.end(result);
-                
-                
+               
                 
     }catch(ex)
     {
