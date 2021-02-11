@@ -304,13 +304,6 @@ app.get('/user/games/updateGame', async (req, res) =>
     const dbo = db.db("TacTalk");
     res.setHeader('Content-Type', 'application/json');
     
-    var badRequest = checkParams(req.query,["user_id","game_id"]);
-    if (badRequest.length !== 0)
-    {
-        res.end(JSON.stringify({code:400,error:badRequest}));
-        return;
-    }
-    
     try
     {
         if (req.query.hasOwnProperty("dummyData"))
@@ -894,13 +887,6 @@ app.get('/user/players/update_player', async (req, res) =>
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
     res.setHeader('Content-Type', 'application/json');
-    
-    var badRequest = checkParams(req.query,["objectId" , "updateObject"]);
-    if (badRequest.length !== 0)
-    {
-        res.end(JSON.stringify({code:400,error:badRequest}));
-        return;
-    }
     
     try
     {
