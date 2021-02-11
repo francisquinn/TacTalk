@@ -20,7 +20,7 @@ const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 var FormData = require('form-data');
 const bodyParser = require('body-parser');
 const { validate, ValidationError, Joi } = require('express-validation');
-
+const enums = require("./enums");
 app.use(bodyParser.json());
 //var sampleQuery = {player_name : "jerry",
 //                            player_age: "30",
