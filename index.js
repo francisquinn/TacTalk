@@ -200,6 +200,7 @@ app.get('/user/games/delete', validate(getIdValidation, {}, {} ), async (req, re
         {
             res.end(JSON.stringify({code:500}));
         }
+        db.close();
 })
 
 app.get('/user/possessions/delete', async (req, res) => 
@@ -216,6 +217,7 @@ app.get('/user/possessions/delete', async (req, res) =>
     {
         res.end(JSON.stringify({code:500}));
     }
+    db.close();
 })
 
 app.get('/user/game_events/delete', async (req, res) => 
@@ -232,6 +234,7 @@ app.get('/user/game_events/delete', async (req, res) =>
     {
         res.end(JSON.stringify({code:500}));
     }
+    db.close();
 })
 //---------------------------------------------------------------------------------------------------------------------------------------
 //Delete user by id -WORKS
@@ -249,6 +252,7 @@ app.get('/user/users/delete_user_by_id', validate(getIdValidation, {}, {} ), asy
     {
         res.end(JSON.stringify({code:500}));
     }
+    db.close();
 })
 //------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -268,6 +272,7 @@ app.get('/user/players/delete_player_by_id', validate(getIdValidation, {}, {} ),
     {
         res.end(JSON.stringify({code:500}));
     }
+    db.close();
 })
 //------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -288,9 +293,10 @@ app.get('/user/games/get/id', validate(getIdValidation, {}, {} ), async (req, re
     {
         res.end(JSON.stringify({code:500}));
     }
+    db.close();
 })
 
-app.post('/user/games/updateGame', async (req, res) => 
+app.get('/user/games/updateGame', async (req, res) => 
 {
     //3-20
     //first is goal second is points
@@ -298,7 +304,7 @@ app.post('/user/games/updateGame', async (req, res) =>
     const dbo = db.db("TacTalk");
     res.setHeader('Content-Type', 'application/json');
     
-    var badRequest = checkParams(req.query,["objectId" , "updateObject"]);
+    var badRequest = checkParams(req.query,["user_id","game_id"]);
     if (badRequest.length !== 0)
     {
         res.end(JSON.stringify({code:400,error:badRequest}));
@@ -329,69 +335,144 @@ app.post('/user/games/updateGame', async (req, res) =>
             }));
             return;
         }
-        const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId)};
+        const searchQuery = { game_id: new MongoDB.ObjectID(req.query.game_id)};
         
         var activeGame = await dbo.collection("active_games").findOne(searchQuery);
+        
+        
         
         if (!activeGame)
         {
             res.end(JSON.stringify({code:200, gameStatus:"NO_ACTIVE_GAME"}));
         }
+        else if(!activeGame.user_id.equals (new MongoDB.ObjectID(req.query.user_id)))
+        {
+            res.end(JSON.stringify({code:200, gameStatus:"NOT_AUTHORIZED"}));
+        }
         else if (activeGame.input_list.length > 0)
         {
             //if there is item in input list
+            console.log("input list is not empty")
             
             //sort the input list
             activeGame.input_list.sort(inputListCompare);
             
             for (var i = 0; i < activeGame.input_list.length;i++)
             {
-                if (activeGame.current_order + 1 === activeGame.input_list[i].order)
+                if (activeGame.current_order + 1 === activeGame.input_list[i].audio_order)
                 {
                     activeGame.current_order += 1;
-                    activeGame.last_string.push(activeGame.input_list[i].text);
-                }
-                else
-                {
-                    break;
+                    for (var j = 0;j < activeGame.input_list[i].text.length; j++)
+                    {
+                        activeGame.last_string.push(activeGame.input_list[i].text[j]);
+                    }
+                    
+                    
                 }
             }
             
-            var i = 0;
+            
             var segmentString = "";
-            while(i < activeGame.input_list.length)
+            var removeIndex = -1;
+            var newPossession = false;
+            for(var i = 0;i < activeGame.last_string.length;i++)
             {
-                segmentString += activeGame.input_list[i];
+                segmentString += " "+activeGame.last_string[i];
+                console.log("current state: "+segmentString);
+                var parseResult = cp.parseCommand(segmentString,activeGame);
                 
-                var parseResult = cp.parseCommandSegmented(segmentString);
-                
-                if (parseResult.result === 1)
+                //if the parse result extracted a value
+                if (parseResult !== null)
                 {
-                    if (parseResult.hasOwnProperty("event_id"))
+                    
+                    //if the current team possession has been changed, change it in active game too
+                    if (parseResult.hasOwnProperty("team_id"))
                     {
-                        if (activeGame.current_event.event_id !== -1)
+                        if (activeGame.current_possession_team !== parseResult.team_id)
                         {
+                            console.log("different team detected");
+                            activeGame.current_possession_team = parseResult.team_id;
+                            newPossession = true;
                             
-                        }
-                        else
-                        {
-                            activeGame.current_event.event_id = parseResult.event_id;
                         }
                     }
                     
+                    
+                    //cycle through the list of properties
+                    for (var j = 0; j < eventPropertyList.length; j++)
+                    {
+                        if (parseResult.hasOwnProperty(eventPropertyList[j]))
+                        {
+                            if (!activeGame.current_event.hasOwnProperty(eventPropertyList[j]))
+                            {
+                                activeGame.current_event = Object.assign({},defaultEvent);
+                            }
+                            
+                            // if the current event already has this property, upload this event, and replace it with a new one
+                            if (activeGame.current_event[eventPropertyList[j]] !== -1)
+                            {
+                                await createGameEvent(activeGame.game_id,activeGame.current_event,activeGame.current_possession_team,newPossession);
+                                activeGame.current_event = Object.assign({},defaultEvent);
+                                activeGame.current_event[eventPropertyList[j]] = parseResult[eventPropertyList[j]];
+                                newPossession = false;
+                            }
+                            else // or else, add this new property to the exisiting event
+                            {
+                                activeGame.current_event[eventPropertyList[j]] = parseResult[eventPropertyList[j]];
+                            }
+                            
+                            
+                            //reset segment string because the information is extracted
+                            segmentString = "";
+                            
+                            //remembers the index which has already been parsed
+                            removeIndex = i;
+                            
+                            
+                        }
+                    }
+                    
+                    
+                    
+                    
+                    
                 }
                 
-                
-                
-                i++;
+            }
+            
+            //remove the used strings that has already been parsed
+            if (removeIndex !== -1)
+            {
+                activeGame.last_string = activeGame.last_string.slice(removeIndex);
             }
             
             
             
+            //update the active_game document in the database to match with the current one
             
-            var gameObject = await dbo.collection("games").findOne(searchQuery);
-            var statsResult = stats.getCurrentStats(gameObject.possessions);
-            res.end(JSON.stringify({code:200, gameStatus: "UPDATING",result: statsResult}));
+            var newActiveGameValues = 
+                    {
+                        $set:
+                        activeGame
+                    }
+            
+            await dbo.collection("active_games").updateOne(searchQuery,newActiveGameValues);
+            
+            console.log(req.query.game_id +"me");
+            var gameSearchQuery = {_id:new MongoDB.ObjectID(req.query.game_id)};
+            
+            //compile stats and send the response back to user
+            var gameObject = await dbo.collection("games").findOne(gameSearchQuery);
+            if (gameObject)
+            {
+                
+                
+                console.log(gameObject);
+                var statResult = stats.getCurrentStats(gameObject);
+                res.end(JSON.stringify({code:200, gameStatus: "UPDATING",result: statResult}));
+                db.close(); 
+            }
+            
             
         }
         
@@ -400,8 +481,9 @@ app.post('/user/games/updateGame', async (req, res) =>
         
     }catch(ex)
     {
-        res.end(JSON.stringify({code:500}));
+        res.end(JSON.stringify({code:500, error:ex.toString()}));
     }
+    db.close();
 })
 
 
@@ -434,6 +516,7 @@ async function createGameEvent(gameID,gameEvent)
     {
         console.log(ex)
     }
+    db.close();
 }
 
 app.post('/cloud/game_events/create', async (req, res) => 
@@ -474,6 +557,7 @@ app.post('/cloud/game_events/create', async (req, res) =>
     {
         res.end(JSON.stringify({code:500,error:ex}));
     }
+    db.close();
 })
 
 
@@ -496,6 +580,7 @@ app.get('/user/games/get/game_by_id', validate(getIdValidation, {}, {} ), async 
         
         res.end(JSON.stringify({code:500 , error:ex.toString()}));
     }
+    db.close();
 })
 //--------------------------------------------------------------------------------------------------------------------------------------
 
@@ -521,6 +606,7 @@ app.get('/user/games/get/user_game_details', validate(getUserMatchDetailsByIdVal
     {
         res.end(JSON.stringify({code:500, error:ex.toString()}));
     }
+    db.close();
 })
 //--------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -544,6 +630,7 @@ app.get('/user/users/get/user_details_by_id', validate(getIdValidation, {}, {} )
     {
         res.end(JSON.stringify({code:500}));
     }
+    db.close();
 })
 //--------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -567,6 +654,7 @@ app.get('/user/users/get/search_similar_players_by_name', validate(searchPlayerV
     {
         res.end(JSON.stringify({code:500}));
     }
+    db.close();
 })
 //--------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -590,6 +678,7 @@ app.get('/user/players/get/player_details_by_id', validate(getIdValidation, {}, 
     {
         res.end(JSON.stringify({code:500, error:ex.toString()}));
     }
+    db.close();
 })
 //--------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -609,6 +698,7 @@ app.get('/user/users/get_secure', validate(getIdValidation, {}, {} ), async (req
     {
         res.end(JSON.stringify({code:500}));
     }
+    db.close();
 })
 
 app.post('/user/games/create', async (req, res) => 
@@ -654,6 +744,7 @@ app.post('/user/games/create', async (req, res) =>
     { 
         res.end(JSON.stringify({code:500,error:ex}));
     }
+    db.close();
 })
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -687,6 +778,7 @@ app.post('/user/players/create_player', validate(createPlayerValidation, {}, {} 
         res.end(JSON.stringify({code:500,error:ex}));
 
     }
+    db.close();
     
 
 
@@ -726,6 +818,7 @@ app.post('/user/possessions/create', async (req, res) =>
     {
         res.end(JSON.stringify({code:500}));
     }
+    db.close();
 })
 
 
@@ -759,6 +852,7 @@ app.post('/user/game_events/create', async (req, res) =>
     {
         res.end(JSON.stringify({code:500,error:ex.toString()}));
     }
+    db.close();
 })
 
 app.post('/user/game_events/update', async (req, res) => 
@@ -789,6 +883,7 @@ app.post('/user/game_events/update', async (req, res) =>
     {
         res.end(JSON.stringify({code:500,error:ex.toString()}));
     }
+    db.close();
 })
 
 //--------------------------------------------------------------------------------------------------------------------------------------------
@@ -833,6 +928,7 @@ app.post('/user/players/update_player', async (req, res) =>
     {
         res.end(JSON.stringify({code:500,error:ex.toString()}));
     }
+    db.close();
 })
 
 //------------------------------------------------------------------------------------------------------------------------------------------------
@@ -866,6 +962,7 @@ app.get('/user/login', validate(loginValidation, {}, {} ), async (req, res) =>
     {
         res.end(JSON.stringify({code:500}));
     }
+    db.close();
 })
 
 app.post('/user/register', validate(registerValidation, {}, {} ), async (req, res) => 
@@ -896,6 +993,7 @@ app.post('/user/register', validate(registerValidation, {}, {} ), async (req, re
     {
         res.end(JSON.stringify({code:500,error:ex.toString()}));
     }
+    db.close();
 })
 
 app.get('/user/register/checkNameDuplicates', async (req, res) => 
@@ -924,6 +1022,7 @@ app.get('/user/register/checkNameDuplicates', async (req, res) =>
     {
         res.end(JSON.stringify({code:500}));
     }
+    db.close();
 })
 
 //---------------------------------------------------------------------------------------------------------------------------------------
@@ -954,6 +1053,7 @@ app.get('/user/teams/check_team_name_duplicates', async (req, res) =>
     {
         res.end(JSON.stringify({code:500}));
     }
+    db.close();
 })
 
 //------------------------------------------------------------------------------------------------------------------------------------
@@ -986,6 +1086,7 @@ app.get('/user/teams/check_game_name_duplicates', async (req, res) =>
     {
         res.end(JSON.stringify({code:500}));
     }
+    db.close();
 })
 
 //------------------------------------------------------------------------------------------------------------------------------------
@@ -1015,6 +1116,7 @@ app.get('/user/register/checkEmailDuplicates', async (req, res) =>
     {
         res.end(JSON.stringify({code:500}));
     }
+    db.close();
 })
 
 //------------------------------------------------------------------------------------------------------------------
@@ -1040,6 +1142,7 @@ app.get('/user/active_games/move_from_active_to_finished', async (req, res) =>
     {
         res.end(JSON.stringify({code:500}));
     }
+    db.close();
 })
 
 //----------------------------------------------------------------------------------------------------------------
@@ -1073,28 +1176,6 @@ function inputListCompare(inputA,inputB)
     }
 }
 
-function checkParams(query,paramList)
-{
-    var errorMsg = "";
-    for (var i = 0;i < paramList.length;i++)
-    {
-        if (!query.hasOwnProperty(paramList[i]))
-        {
-            if (errorMsg.length === 0)
-            {
-                errorMsg = "ERROR_BAD_REQUEST: The following parameters are missing from the query: "+paramList[i];
-            }
-            else
-            {
-                errorMsg = errorMsg + ", " + paramList[i];
-            }
-        }
-    }
-    
-    return errorMsg;
-    
-}
-
 //----------------------------------------------------------------------------------------------------------------------------
 //Error message for validation
         app.use(function(err, req, res, next) {
@@ -1106,3 +1187,63 @@ function checkParams(query,paramList)
         })
         
 //----------------------------------------------------------------------------------------------------------------------
+
+app.get('/recorder', async (req, res) => 
+{
+    var fs = require("fs");
+    fs.readFile(__dirname+'/recorder/recorder.html', 'utf8', (err, text) => {
+        res.send(text);
+    });
+})
+
+app.get('/dictionary', async (req, res) => 
+{
+    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
+    const dbo = db.db("TacTalk");
+    res.setHeader('Content-Type', 'application/json');
+    try
+    {
+                var keywords = [];
+                var keywords = keywords.concat(enums.event);
+                var keywords = keywords.concat(enums.outcome);
+                var keywords = keywords.concat(enums.position);
+                
+                var cursor = dbo.collection('dictionary').find();
+
+                for (var i = 0;i < keywords.length;i++)
+                {
+                    keywords[i].dictionary = [];
+                }
+
+                
+                await cursor.each(function(err, item) {
+                    
+                    if(item == null) {
+                        db.close(); 
+                        res.end(JSON.stringify({code:200, object: keywords}));
+                        return;
+                    }
+                    
+                    for (var i = 0;i<keywords.length;i++)
+                    {
+                        console.log(item);
+                        console.log(keywords[i]);
+                        if (keywords[i].keywords[0] === item.keyword)
+                        {
+                            keywords[i].dictionary.push(item);
+                        }
+                    }
+                    
+                    
+                    
+                });
+                
+                
+                
+    }catch(ex)
+    {
+        res.end(JSON.stringify({code:500, error: ex.toString()}));
+    }   
+                
+    db.close();
+})
