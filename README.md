@@ -2,14 +2,6 @@
 
 # Welcome to the TacTalk Github repository
 
-## Table of Context
-
-- [Project Overview](#project-overview) 
-- [Team Rojak](#team-rojak)
-- [Setting Up TacTalk](#setting-up-tactalk)
-- [TacTalk Mobile Application](#tactalk-mobile-application)
-- [TacTalk Server](#tactalk-server)
-
 ## Project Overview
 Tactical analysis is typically collected manually during Gaelic football matches by painstakingly gathering data by viewing the recording after the match or sometimes by using pen and paper to write down in-game statistics. This process is often very time consuming and expensive due to the physical and software technologies available on the market.
 
