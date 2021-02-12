@@ -11,6 +11,9 @@ Tactical analysis is typically collected manually during Gaelic football matches
 The mobile application is located in the [main](https://github.com/francisquinn/TacTalk/tree/main) branch.
 TacTalk is built using Kotlin in Android. In order to run the application it is required to use Android Studio. 
 
+## T-CA1 mobile_app branch 
+The [mobile_app](https://github.com/francisquinn/TacTalk/tree/mobile_app) branch is used to push features before they are tested and pushed into the main branch. In this repository we have some features within this branch that need to fixed and tested before push them to the main branch. 
+
 ## TacTalk Server
 The TacTalk server source code is located on the [server](https://github.com/francisquinn/TacTalk/tree/server) branch 
 The link to the server endpoint: [TacTalk Server Link](https://tactalk-rojak.herokuapp.com/)
