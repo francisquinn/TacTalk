@@ -1214,46 +1214,36 @@ app.get('/dictionary', async (req, res) =>
     res.setHeader('Content-Type', 'application/json');
     try
     {
-                var keywords = [];
-                var keywords = keywords.concat(enums.event);
-                var keywords = keywords.concat(enums.outcome);
-                var keywords = keywords.concat(enums.position);
-                
-                var cursor = dbo.collection('dictionary').find();
+        var keyword = req.query.keyword;
+        
+        var searchQuery = {keyword:keyword};
 
-                for (var i = 0;i < keywords.length;i++)
+        var arr = [];
+        await dbo.collection("dictionary").find(searchQuery).toArray(function(e,result){
+            arr = arr.concat(result);
+            
+            for (var i = 0;i<arr.length;i++)
+            {
+                if (arr[i].text.length !== 0)
                 {
-                    keywords[i].dictionary = [];
-                }
-
-                
-                await cursor.each(function(err, item) {
-                    
-                    if(item == null) {
-                        db.close(); 
-                        res.end(JSON.stringify({code:200, object: keywords}));
-                    }
-                    
-                    for (var i = 0;i<keywords.length;i++)
+                    var sText = arr[i].text[0];
+                    for (var j = 1; j < arr[i].text.length;j++)
                     {
-                        console.log(item);
-                        console.log(keywords[i]);
-                        if (item != null)
-                        {
-                            if (keywords[i].keywords[0] === item.keyword)
-                            {
-                                keywords[i].dictionary.push(item);
-                            }
-                        }
+                        sText+= " "+arr[i].text[j];
                     }
-                    
-                    
-                    
-                });
-                var result = cd.compileDictionary(keywords);
-                
-                res.end(result);
-               
+                    var parseResult = cp.compareLangX(sText,keyword);
+                    arr[i].parseResult = parseResult;
+            
+                }
+            }
+            res.end(JSON.stringify({code:200,result:arr}));
+            db.close();
+        });
+        
+        
+
+        
+
                 
     }catch(ex)
     {

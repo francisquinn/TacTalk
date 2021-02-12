@@ -12,68 +12,319 @@ and open the template in the editor.
     </head>
     <body>
         <script>
+var keywords = 
+[
+    {
+        keywords:["kickout","kick out"],
+        eventID:1,
+        defaultOutcome:1,
+        defaultTeam:0,
+        statType:"kickout"
+    },
+    {
+        keywords:["sideline","side line"],
+        eventID:2,
+        defaultOutcome:1,
+        defaultTeam:1,
+        statType:"shot"
+    },
+    {
+        keywords:["sideline shot","side line shot"],
+        eventID:3,
+        defaultOutcome:1,
+        defaultTeam:1,
+        statType:"shot"
+    },
+    {
+        keywords:["free shot"],
+        eventID:5,
+        defaultTeam:1,
+        statType:"shot"
+    },
+    {
+        keywords:["free"],
+        eventID:4,
+        defaultOutcome:1,
+        defaultTeam:1
+    },
+    {
+        keywords:["45 shot","forty-five shot","forty five shot","fortify shot"],
+        eventID:7,
+        defaultOutcome:1,
+        defaultTeam:0,
+        defaultPosition:12,
+        statType:"shot"
+    },
+    {
+        keywords:["45","forty-five","forty five","fortify"],
+        eventID:6,
+        defaultOutcome:1,
+        defaultTeam:0,
+        defaultPosition:12,
+        statType:"shot"
+    },
+    {
+        keywords:["kickpass","kick pass","kick past","kickpast", "capace"],
+        eventID:8,
+        defaultOutcome:1,
+        defaultTeam:0,
+        statType:"pass"
+    },
+    {
+        keywords:["handpass shot","hand pass shot","handpast shot","hand past shot"],
+        eventID:11,
+        defaultOutcome:1,
+        defaultTeam:1,
+        statType:"shot"
+    },
+    {
+        keywords:["shot"],
+        eventID:9,
+        defaultOutcome:1,
+        defaultTeam:1,
+        statType:"shot"
+    },
+    {
+        keywords:["handpass","hand pass","handpast","hand past"],
+        eventID:10,
+        defaultOutcome:1,
+        defaultTeam:0,
+        statType:"pass"
+    },
+    {
+        keywords:["advanced mark kick pass","advance mark kick past","advanced mark kick past","advanced mark kick past", "advanced mark capace", "advance mark capace"],
+        eventID:13,
+        defaultOutcome:1,
+        defaultTeam:0
+    },
+    {
+        keywords:["mark kick pass","mark kick past", "mark capace"],
+        eventID:12,
+        defaultOutcome:1,
+        defaultTeam:0
+    },
+    {
+        keywords:["advanced mark shot","advance mark shot"],
+        eventID:14,
+        defaultOutcome:1,
+        defaultTeam:1,
+        statType:"shot"
+    },
+    {
+        keywords:["carry ball"],
+        eventID:15,
+        defaultOutcome:1,
+        defaultTeam:0,
+        statType:"carry"
+    },
+    {
+        keywords:["start game"],
+        eventID:21,
+        defaultOutcome:1,
+        defaultTeam:-1
+    },
+    {
+        keywords:["throw in"],
+        eventID:22,
+        defaultOutcome:1,
+        defaultTeam:-1
+    },
+    {
+        keywords:["pause game"],
+        eventID:23,
+        defaultOutcome:1,
+        defaultTeam:-1
+    },
+    {
+        keywords:["stop game"],
+        eventID:24,
+        defaultOutcome:1,
+        defaultTeam:-1
+    },
+    {
+        keywords:["short left"],
+        positionID:1
+    },
+    {
+        keywords:["short centre","short center"],
+        positionID:2
+    },
+    {
+        keywords:["short right"],
+        positionID:3
+    },
+    {
+        keywords:["mid left","mid-left"],
+        positionID:4
+    },
+    {
+        keywords:["mid centre","mid center","mid-center"],
+        positionID:5
+    },
+    {
+        keywords:["mid right","mid-right"],
+        positionID:6
+    },
+    {
+        keywords:["long left"],
+        positionID:7
+    },
+    {
+        keywords:["long centre","long center"],
+        positionID:8
+    },
+    {
+        keywords:["long right"],
+        positionID:9
+    },
+    {
+        keywords:["attack sixty-five","attack sixty five","attack 65"],
+        positionID:10
+    },
+    {
+        keywords:["attack forty-five","attack forty five","attack 45", "tap 45", "tap forty five", "tap forty-five"],
+        positionID:11
+    },
+    {
+        keywords:["attack twenty","attack 20", "tap twenty", "tap 20"],
+        positionID:12
+    },
+    {
+        keywords:["pass successful","past successful"],
+        outcomeID:1,
+        statType:"pass"
+    },
+    {
+        keywords:["ball wide"],
+        outcomeID:2,
+        statType:"shot fail"
+    },
+    {
+        keywords:["ball out side line","ball out sideline"],
+        outcomeID:3,
+        statType:"shot fail"
+    },
+    {
+        keywords:["ball out forty five","ball out forty-five","ball out 45"],
+        outcomeID:4,
+        statType:"shot fail"
+    },
+    {
+        keywords:["free"],
+        outcomeID:5
+    },
+    {
+        keywords:["free off ball","free of ball"],
+        outcomeID:9
+    },
+    {
+        keywords:["point"],
+        outcomeID:6,
+        statType:"score 1"
+    },
+    {
+        keywords:["goal"],
+        outcomeID:7,
+        statType:"score 3"
+    },
+    {
+        keywords:["turnover"],
+        outcomeID:8,
+        statType:"turnover"
+    },
+    {
+        keywords:["mark"],
+        outcomeID:10
+    },
+    {
+        keywords:["advance mark","advanced mark"],
+        outcomeID:11
+    },
+    {
+        keywords:["won throw in"],
+        outcomeID:12,
+        statType:"take initiative"
+    },
+    {
+        keywords:["throw in awarded","throw in award"],
+        outcomeID:13
+    }
+    
+    
+]
+
+            function startCompile()
+            {
+                for (var i = 0; i < keywords.length;i++)
+                {
+                    getData(keywords[i].keywords[0]);
+                }
+            }
             
-            function getData()
+            function getData(keyword)
             {
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
                        // Typical action to be performed when the document is ready:
-                       var result = xhttp.responseText;
-                       compileDictionary(JSON.parse(result));
+                       var result = JSON.parse(xhttp.responseText).result;
+                       var row = document.createElement("tr");
+                       row.id = keyword;
+                       document.getElementById("table").append(row);
+                       compileDictionary(JSON.parse(result,keyword));
                     }
                 };
-                xhttp.open("GET", "localhost:8080/dictionary", true);
+                xhttp.open("GET", "localhost:8080/dictionary/?keyword="+keyword, true);
                 xhttp.send();
             }
             
-            function compileDictionary(kw)
+            function compileDictionary(kw,keyword)
             {
                 
-                xhttp.open("GET", "filename", true);
-                xhttp.send();
-                var table = dcoument.getElementById("result");       
+                var row = dcoument.getElementById(keyword);       
                 var tableSize = 100;
 
-                for (var i = 0;i < kw.length; i++)
+                var first = document.createElement("td");
+                first.innerHTML = keyword;
+                row.append(first);
+                
+                for (var i = 0; i < kw.length; i++)
                 {
-                    var row = document.createElement("tr");
-                    
-                    var elem1 = document.createElement("td");
-                        
-                    elem1.innerHTML = kw[i].keywords[0];
-                    row.append(elem1);
-                    
-                    for (var j = 0;j<kw[i].dictionary.length;j++)
+                    var td = document.createElement("td");
+                    var aText = "";
+                    var nullText = false;
+                    if (kw[i].text.length !== 0)
                     {
-                                
-                        var result = compareLange(kw[i].keywords[0],kw[i].dictionary[j]);
-                        var elem2 = document.createElement("td");
-                        
-                        if (result.result)
+                        aText = kw[i].text[0];
+                        for (var j = 1; j < kw[i].text.length;j++)
                         {
-                            elem2.innerHTML = kw[i].dictionary[j]+result.jw+result.sw;
-                            
+                            aText += " "+kw[i].text[j];
                         }
-                        else
-                        {
-                            elem2.innerHTML = kw[i].dictionary[j]+result.jw+result.sw;
-                            elem2.setAttribute("color","red");
-                        }
-                        row.append(elem2);
+                    }
+                    else
+                    {
+                        aText = "<null>(0),(0)";
+                        nullText = true;
                     }
                     
-
-                    for (var k = 0;j<100-kw[i].dictionary.length;k++)
+                    if (!nullText)
                     {
-                        row.append(document.createElement("td"));
+                        aText += "("+kw[i].parseResult.jw+"),("+kw[i].parseResult.sw+")";
+                        if (!kw[i].parseResult.result)
+                        {
+                            td.setAttribute("color","red");
+                        }
+                        td.innerHTML = aText;
+                        row.append(td);
                     }
-                    
-                    
-                    table.append(document.createElement(row));
-                    
-
+                    else
+                    {
+                        td.setAttribute("color","red");
+                        td.innerHTML = aText;
+                        row.append(td);
+                    }
                 }
+                document.getElementById("table").append(row);
             }
             
         </script>
@@ -84,7 +335,7 @@ and open the template in the editor.
             <p>SmithWaterMan value</p>
             <input id="swminput" type="number" step="0.01">
             <br>
-            <button onclick="getData()">Compile</button>
+            <button onclick="startCompile()">Compile</button>
             <br>
             <p>Result</p>
             <div id="result">

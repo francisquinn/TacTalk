@@ -140,6 +140,22 @@ module.exports =
         return null;
 
     }
+    ,
+    compareLangX: function(input, compare)
+    {
+        //node modules for natural language processing
+        const natural = require('natural');
+        const SWaligner = require('graphic-smith-waterman');
+        const defaultAligner = SWaligner();
+
+        const smithWatermanDistance = defaultAligner.align(input, compare);
+        console.log(input+" + "+compare);
+        const jaroWinklerDistance = natural.JaroWinklerDistance(input,compare);
+
+            
+
+        return {result:(input.includes(compare) || smithWatermanDistance >= 17 || jaroWinklerDistance >= 0.9),jw:jaroWinklerDistance,sw:smithWatermanDistance.score}; 
+    }   
     
     
     
