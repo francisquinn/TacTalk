@@ -8,7 +8,7 @@ Tactical analysis is typically collected manually during Gaelic football matches
 **TacTalk** is a mobile and web application that is looking to solve this problem by using voice recognition technology to automatically collect and store **real-time** match statistics during a Gaelic football match. The match statistical data can then be further analyzed directly after the match, saving teams both **time** and **money**.
 
 ## Setting Up TacTalk
-The TacTalk Android mobile application is located in the [main](https://github.com/francisquinn/TacTalk/tree/main) branch
+The mobile application is located in the [main](https://github.com/francisquinn/TacTalk/tree/main) branch.
 TacTalk is built using Kotlin in Android. In order to run the application it is required to use Android Studio. 
 
 ## TacTalk Server
