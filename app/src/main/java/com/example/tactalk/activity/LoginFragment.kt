@@ -46,7 +46,7 @@ class LoginFragment : AppCompatActivity() {
             R.id.btn_login -> {
                 // go to login page
                 loginUser(edt_email.text.toString(), edt_password.text.toString())
-                startActivity(Intent(this, MainActivity::class.java))
+                //startActivity(Intent(this, MainActivity::class.java))
             }
             R.id.goRegister -> {
                 // go to login page

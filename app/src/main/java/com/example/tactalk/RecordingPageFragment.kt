@@ -88,6 +88,7 @@ class RecordingPageFragment : AppCompatActivity() {
             cloudUploader(filePath, fileName, storageRef)
             Toast.makeText(this, "Recording stopped!", Toast.LENGTH_SHORT).show()
             startActivity(Intent(this, StatsFragment::class.java))
+            finish()
         }
 
         pauseButton.setOnClickListener {
@@ -124,4 +125,6 @@ class RecordingPageFragment : AppCompatActivity() {
 
         }
     }
+
+    override fun onBackPressed() {}
 }

@@ -3,6 +3,7 @@ package com.example.tactalk.activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_login.view.*
 import kotlinx.android.synthetic.main.fragment_register.*
 import kotlinx.android.synthetic.main.fragment_register.view.*
+import retrofit2.HttpException
 
 
 class RegisterFragment : AppCompatActivity() {
@@ -34,7 +36,6 @@ class RegisterFragment : AppCompatActivity() {
     }
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_register)
@@ -45,13 +46,18 @@ class RegisterFragment : AppCompatActivity() {
     }
 
 
-
     fun onClick(view: View) {
         when (view.id) {
             R.id.btn_register -> {
-                registerUser(edt_name.text.toString(), edt_email.text.toString(), edt_password.text.toString())
-                startActivity(Intent(this, MainActivity::class.java))
-                finish()
+
+                registerUser(
+                    edt_name.text.toString(),
+                    edt_email.text.toString(),
+                    edt_password.text.toString()
+                )
+
+                //startActivity(Intent(this, MainActivity::class.java))
+                //finish()
             }
             R.id.goLogin -> {
                 startActivity(Intent(this, LoginFragment::class.java))
@@ -61,30 +67,50 @@ class RegisterFragment : AppCompatActivity() {
     }
 
 
-
     private fun registerUser(name: String, email: String, password: String) {
 
         if (TextUtils.isEmpty(name)) {
-            Toast.makeText(this@RegisterFragment, "Name can not be null or Empty", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this@RegisterFragment,
+                "Name can not be null or Empty",
+                Toast.LENGTH_SHORT
+            ).show()
             return;
         }
 
         if (TextUtils.isEmpty(email)) {
-            Toast.makeText(this@RegisterFragment, "Email can not be null or Empty", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this@RegisterFragment,
+                "Email can not be null or Empty",
+                Toast.LENGTH_SHORT
+            ).show()
             return;
         }
 
         if (TextUtils.isEmpty(password)) {
-            Toast.makeText(this@RegisterFragment, "Password can not be null or Empty", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this@RegisterFragment,
+                "Password can not be null or Empty",
+                Toast.LENGTH_SHORT
+            ).show()
             return;
         }
 
-        compositeDisposable.addAll(tacTalkAPI.registerUser(name, email, password)
+
+            compositeDisposable.addAll(tacTalkAPI.registerUser(name, email, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { result ->
-                    Toast.makeText(this@RegisterFragment, "" + result, Toast.LENGTH_SHORT).show()
-                })
+                .subscribe (
+                    { result -> Toast.makeText(this@RegisterFragment, "" + result, Toast.LENGTH_SHORT).show() },
+                    { error -> displayError(error) }
+                )
+            )
+
+
+    }
+
+    fun displayError(error: Throwable) {
+        Log.i("MYAPP", error.message, error)
     }
 
 }

@@ -12,33 +12,50 @@
         android:id="@+id/imageView2"
         android:layout_width="160dp"
         android:layout_height="160dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="24dp"
         android:contentDescription="@string/logo_img"
-        android:src="@drawable/logo"
-        app:layout_constraintBottom_toTopOf="@+id/edt_name"
+        android:src="@drawable/white_logo"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/white_logo" />
 
+
+    <TextView
+        android:id="@+id/Appname"
+        android:layout_width="160dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/project_name"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <EditText
         android:id="@+id/edt_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="64dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/et_custom"
         android:hint="@string/modifiedEditText"
-        android:inputType="textPersonName"
+        android:inputType="textEmailAddress"
         android:maxLines="1"
         android:padding="15dp"
         android:selectAllOnFocus="true"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/Appname" />
 
     <EditText
         android:id="@+id/edt_password"
@@ -85,6 +102,7 @@
         android:layout_marginBottom="8dp"
         android:focusable="true"
         android:onClick="onClick"
+        android:textColor="@color/white"
         android:text="@string/new_user"
         android:textAlignment="center"
         android:textSize="16sp"

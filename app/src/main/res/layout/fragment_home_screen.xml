@@ -43,7 +43,6 @@
         android:layout_height="wrap_content"
         android:background="#2AC87B"
         android:fontFamily="@font/roboto_regular"
-
         android:text="SIGN IN"
         android:textColor="@android:color/white"
         android:textSize="16sp"
@@ -62,7 +61,6 @@
         android:layout_marginTop="16dp"
         android:background="#2AC87B"
         android:fontFamily="@font/roboto_regular"
-
         android:text="SIGN UP"
         android:textColor="@android:color/white"
         android:textSize="16sp"

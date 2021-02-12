@@ -23,9 +23,9 @@ class MainMenuFragment : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_main_menu)
 
-        val stopButton : Button = findViewById(R.id.Record)
+        val recordButton : Button = findViewById(R.id.Record)
 
-        stopButton.setOnClickListener{
+        recordButton.setOnClickListener{
             if (ContextCompat.checkSelfPermission(
                     this,
                     Manifest.permission.RECORD_AUDIO
@@ -42,30 +42,9 @@ class MainMenuFragment : AppCompatActivity(){
                 ActivityCompat.requestPermissions(this, permissions, 0)
             } else {
                 startActivity(Intent(this, RecordingPageFragment::class.java))
+                finish()
             }
             //Toast.makeText(this, "pressed record!", Toast.LENGTH_SHORT).show()
         }
     }
-
-    /*override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_main_menu, container, false)
-
-        view.ManageTeam_button.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.MainMenuToManageTeam)
-        }
-        view.SetUpMatchButton.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.MainMenuToSetupMatch)
-        }
-        view.Record.setOnClickListener {
-            Toast.makeText(view.context, "Recording started!", Toast.LENGTH_LONG).show()
-            Navigation.findNavController(view).navigate(R.id.MainMenuToRecording)
-        }
-        return view
-    }*/
-
 }
