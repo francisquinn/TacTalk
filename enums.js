@@ -50,7 +50,7 @@ module.exports.event =
         statType:"shot"
     },
     {
-        keywords:["kickpass","kick pass","kick past","kickpast", "capace"],
+        keywords:["kickpass","kick pass","kick past","kickpast", "capace", "keepass"],
         eventID:8,
         defaultOutcome:1,
         defaultTeam:0,
@@ -64,7 +64,7 @@ module.exports.event =
         statType:"shot"
     },
     {
-        keywords:["shot"],
+        keywords:["shot","shocked","shop"],
         eventID:9,
         defaultOutcome:1,
         defaultTeam:1,
@@ -97,7 +97,7 @@ module.exports.event =
         statType:"shot"
     },
     {
-        keywords:["carry ball"],
+        keywords:["carry ball","curry bowl","caribou","carrie ball"],
         eventID:15,
         defaultOutcome:1,
         defaultTeam:0,

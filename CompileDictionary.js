@@ -1,39 +1,108 @@
+const MongoClient = require('mongodb').MongoClient;
+const ObjectID = require("mongodb").ObjectID;
+const MongoDB = require('mongodb');
+const uri = "mongodb+srv://RojakAdmin:RojakIsASalad@rojakcluster.ho1ff.mongodb.net/sample_analytics?retryWrites=true&w=majority";
 module.exports =
 {
     
-    
-    compileDictionary: function(kw)
+    dictionary:async function(req,res)
     {
-        var table = "<table>";       
-        var tableSize = 100;
         
-        for (var i = 0;i < kw.length; i++)
-        {
-            for (var j = 0;j<kw[i].dictionary.length;j++)
-            {
-                table += "<tr><td>"+kw[i].keywords[0]+"</td>";
-                var result = compareLange(kw[i].keywords[0],kw[i].dictionary[j]);
-                if (result.result)
-                {
-                    table += "<td style='color:green;'>"+kw[i].dictionary[j]+result.jw+result.sw+"</td>";
-                }
-                else
-                {
-                    table += "<td style='color:red;'>"+kw[i].dictionary[j]+result.jw+result.sw+"</td>";
-                }
-                table += "</tr>";
-            }
-            
-            for (var k = 0;j<100-kw[i].dictionary.length;k++)
-            {
-                table += "<td></td>";
-            }
-            
-        }
         
-        table += "</table>";
-        return table;
+            const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
+            const dbo = db.db("TacTalk");
+            res.setHeader('Content-Type', 'application/json');
+            try
+            {
+                var keyword = req.query.keyword;
+
+                var searchQuery = {keyword:keyword};
+
+                var arr = [];
+                await dbo.collection("dictionary").find(searchQuery).toArray(function(e,result){
+                    arr = arr.concat(result);
+
+                    for (var i = 0;i<arr.length;i++)
+                    {
+                        if (arr[i].text.length !== 0)
+                        {
+                            var sText = arr[i].text[0];
+                            for (var j = 1; j < arr[i].text.length;j++)
+                            {
+                                sText+= " "+arr[i].text[j];
+                            }
+                            var parseResult = cp.compareLangX(sText,keyword);
+                            arr[i].parseResult = parseResult;
+
+                        }
+                    }
+                    res.end(JSON.stringify({code:200,result:arr}));
+                    db.close();
+                });
+
+            }catch(ex)
+            {
+                res.end(JSON.stringify({code:500, error: ex.toString()}));
+                db.close();
+            }   
+
+
+        
+    },
+    createDictionary :async function(req,res)
+    {
+        
+        
+            const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
+            const dbo = db.db("TacTalk");
+            res.setHeader('Content-Type', 'application/json');
+            var badRequest = checkParams(req.query,["package","uniqueNumber","keyword"]);
+            if (badRequest.length !== 0)
+            {
+                res.end(JSON.stringify({code:400,error:badRequest}));
+                return;
+            }
+            try
+            {
+
+
+                var jsonObj = JSON.parse(req.query.package);
+
+                var fullText = [];
+
+                for (var i = 0;i < jsonObj.length; i++)
+                {
+                    fullText.push(jsonObj[i].text);
+                }
+
+                var keyword = req.query.keyword;
+
+                var uniqueNumber = req.query.uniqueNumber;
+
+                var newDictionaryObject = 
+                        {
+                            keyword: keyword,
+                            text: fullText,
+                            unique_number: uniqueNumber
+                        }
+
+                await dbo.collection("dictionary").insertOne(newDictionaryObject, function(err){
+                    if (err) return;
+                    // Object inserted successfully.
+
+
+
+                    res.end(JSON.stringify({code:200}));
+                });
+
+            }catch(ex)
+            {
+                res.end(JSON.stringify({code:500,error:ex}));
+            }
+        
     }
+    
+    
     
 }
 
