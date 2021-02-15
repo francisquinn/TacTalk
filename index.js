@@ -139,7 +139,7 @@ const loginValidation = {
       .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
       .required()
       .messages({'string.base': `Email is required`,
-                 'string.empty': `You need to input an email`,
+                 'string.empty': `Email is required`,
                  'string.email': `Email must end in .com or .net and contain an @`,
                  'any.required': `Email is a required field`}),
     password: Joi.string()
@@ -148,7 +148,7 @@ const loginValidation = {
       .min(8)
       .required()
       .messages({'string.base': `Password was not input in the correct format.`,
-                 'string.pattern.base': `Incorrect Password format, needs at least: 1 upper and lower case letter, 8 characters, 1 special character and 1 number `,
+                 'string.pattern.base': `Password format incorrect, needs at least: 1 upper and lower case letter, 8 characters, 1 special character and 1 number `,
                  'string.min': `Password should have a minimum length of {#limit} characters`,
                  'string.empty' : `Password is a required field`,
                  'any.required': `Password is a required field`})      
@@ -179,7 +179,7 @@ const registerValidation = {
       .min(8)
       .required()
       .messages({'string.base': `Password was not input in the correct format.`,
-                 'string.pattern.base': `Incorrect Password format, needs at least: 1 upper and lower case letter, 8 characters, 1 special character and 1 number `,
+                 'string.pattern.base': `Password format incorrect, needs at least: 1 upper and lower case letter, 8 characters, 1 special character and 1 number `,
                  'string.min': `Password should have a minimum length of {#limit} characters`,
                  'string.empty' : `Password is a required field`,
                  'any.required': `Password is a required field`}), 
@@ -187,7 +187,7 @@ const registerValidation = {
       .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
       .required()
       .messages({'string.base': `Email is required`,
-                 'string.empty': `You need to input an email`,
+                 'string.empty': `Email is required`,
                  'string.email': `Email must end in .com or .net and contain an @`,
                  'any.required': `Email is a required field`}),
   }),
