@@ -105,7 +105,7 @@ const getIdValidation = {
   body: Joi.object({
     _id: Joi.string()
       .required()
-      .messages({'string.base':  `Details input incorrectly`,
+      .messages({'string.base':  `Incorrect Id was used`,
                  'string.empty': `Needs id to continue`,
                  'any.required': `The id field is required`}),
       
@@ -739,7 +739,7 @@ app.post('/user/login', validate(loginValidation, {}, {} ), async (req, res) =>
     }
     
 })
-
+//keyByField: true
 app.post('/user/register', validate(registerValidation, {}, {} ), async (req, res) =>
 {
 
@@ -955,7 +955,7 @@ app.listen(port, () => {
 //Error message for validation
         app.use(function(err, req, res, next) {
           if (err instanceof ValidationError) {
-            return res.status(err.statusCode).json(err)
+            return res.status(err.statusCode).json(err.details)
           }
 
           return res.status(500).json(err)
