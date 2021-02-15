@@ -56,12 +56,6 @@ module.exports =
             const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
             const dbo = db.db("TacTalk");
             res.setHeader('Content-Type', 'application/json');
-            var badRequest = checkParams(req.query,["package","uniqueNumber","keyword"]);
-            if (badRequest.length !== 0)
-            {
-                res.end(JSON.stringify({code:400,error:badRequest}));
-                return;
-            }
             try
             {
 
