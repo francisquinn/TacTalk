@@ -26,6 +26,7 @@ const cors = require("cors");
 var CompileDictionary = require('./CompileDictionary');
 var UpdateGame = require('./UpdateGame');
 var CloudFunction = require('./CloudFunction');
+var passwordHash = require('password-hash');
 
 
 app.use(bodyParser.json());
@@ -507,7 +508,7 @@ app.get('/user/users/get_secure', validate(getIdValidation, {}, {} ), async (req
     
 })
 
-app.get('/user/games/create', async (req, res) => 
+app.post('/user/games/create', async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
@@ -520,12 +521,15 @@ app.get('/user/games/create', async (req, res) =>
                     game_name:req.body.gameName,
                     user_id:req.body.userId,
                     team_id:req.body.teamId,
-                    start_time:req.body.matchTime,
+                    start_time:req.body.startTime,
                     public:req.body.public,
-                    date:req.body.matchDate.toString(),
+                    game_type : req.body.gameType,
+                    date:req.body.startDate,
                     location:req.body.location,
                     team_color:req.body.teamColor,
-                    opp_team_color:req.body.oppTeamColor,
+                    team_name:req.body.teamName,
+                    opp_team_color:req.body.oppColor,
+                    opp_team_name:req.body.opposition,
                     possessions:[]
                 };
         
@@ -713,10 +717,15 @@ app.post('/user/login',  async (req, res) =>
     res.setHeader('Content-Type', 'application/json');
     try
     {
+        
         var searchQuery = {
                             email: req.body.email,
                             password: req.body.password            
                           }
+                          
+                          
+                          
+                          
         var result = await dbo.collection("users").findOne(searchQuery)
         
         if (result)
@@ -726,7 +735,7 @@ app.post('/user/login',  async (req, res) =>
         }
         else
         {
-            res.end(JSON.stringify({code:200, user_id: 0}));
+            res.end(JSON.stringify({code:400, message : "Invalid email or password"}));
             db.close();
         }
     }catch(ex)
@@ -746,10 +755,11 @@ app.post('/user/register', validate(registerValidation, {}, {} ), async (req, re
     res.setHeader('Content-Type', 'application/json');
     try
     {
+        var hashedPassword = passwordHash.generate(req.body.password)
         var newUserObject =
         {
             username: req.body.username,
-            password: req.body.password,
+            password: hashedPassword,
             email: req.body.email
         };
         

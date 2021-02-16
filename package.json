@@ -20,6 +20,7 @@
         "graphic-smith-waterman": "^2.0.2",
         "mongodb": "^3.6.3",
         "natural": "^3.0.1",
+        "password-hash": "^1.2.2",
         "string-similarity": "^4.0.3",
         "words-to-numbers": "^1.5.1",
         "xmlhttprequest": "^1.8.0"
