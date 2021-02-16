@@ -719,19 +719,12 @@ app.post('/user/login',  async (req, res) =>
     {
 
         var searchQuery = {
-                            email: req.body.email
-                           
+                            email: req.body.email                           
                           }
            
 
         var result = await dbo.collection("users").findOne(searchQuery);
-        
-        
-       
-        
-         console.log(result.password);
-        
-        
+
         if (result && passwordHash.verify(req.body.password, result.password))
         {
             
@@ -745,9 +738,10 @@ app.post('/user/login',  async (req, res) =>
             res.end(JSON.stringify({code:400, message : "Invalid email or password"}));
             db.close();
         }
+        
     }catch(ex)
     {
-        res.end(JSON.stringify({code:500,error: ex.toString()}));
+        res.end(JSON.stringify({code:400, message : "Invalid email or password" }));
         db.close();
     }
     
