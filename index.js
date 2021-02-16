@@ -704,8 +704,8 @@ app.get('/user/players/update_player', async (req, res) =>
 })
 
 //------------------------------------------------------------------------------------------------------------------------------------------------
-
-app.post('/user/login', validate(loginValidation, {}, {} ), async (req, res) => 
+//validate(loginValidation, {}, {} ),
+app.post('/user/login',  async (req, res) => 
 {
     
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
@@ -713,14 +713,11 @@ app.post('/user/login', validate(loginValidation, {}, {} ), async (req, res) =>
     res.setHeader('Content-Type', 'application/json');
     try
     {
-        
-        var result = await dbo.collection("users").findOne(
-                {
-                    email: req.body.email,
-                    password: req.body.password
-                });
-        
-        
+        var searchQuery = {
+                            email: req.body.email,
+                            password: req.body.password            
+                          }
+        var result = await dbo.collection("users").findOne(searchQuery)
         
         if (result)
         {
