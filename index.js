@@ -717,21 +717,28 @@ app.post('/user/login',  async (req, res) =>
     res.setHeader('Content-Type', 'application/json');
     try
     {
-        
+
         var searchQuery = {
-                            email: req.body.email,
-                            password: req.body.password            
+                            email: req.body.email
+                           
                           }
-                          
-                          
-                          
-                          
-        var result = await dbo.collection("users").findOne(searchQuery)
+           
+
+        var result = await dbo.collection("users").findOne(searchQuery);
         
-        if (result)
+        
+       
+        
+         console.log(result.password);
+        
+        
+        if (result && passwordHash.verify(req.body.password, result.password))
         {
-            res.end(JSON.stringify({code:200, user_id: result._id}));
-            db.close();
+            
+                res.end(JSON.stringify({code:200, user_id: result._id}));
+                db.close();
+            
+        
         }
         else
         {
@@ -740,7 +747,7 @@ app.post('/user/login',  async (req, res) =>
         }
     }catch(ex)
     {
-        res.end(JSON.stringify({code:500}));
+        res.end(JSON.stringify({code:500,error: ex.toString()}));
         db.close();
     }
     
