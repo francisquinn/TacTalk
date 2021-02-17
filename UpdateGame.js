@@ -20,15 +20,16 @@ module.exports =
                     var statsObj = 
                     {
                         teamGoal : 1,
-                        teamPoints : 2,
-                        teamShots : 3,
-                        teamKickouts : 4,
-                        teamTurnover : 5,
-                        teamWides : 6,
-                        oppTeamGoal : 7,
-                        oppTeamPoints : 8,
-                        oppTeamShots : 9,
-                        oppTeamTurnover : 10
+                        teamPoints : 18,
+                        teamShots : 28,
+                        teamKickouts : 23,
+                        teamTurnover : 16,
+                        teamWides : 4,
+                        oppTeamGoal : 0,
+                        oppTeamPoints : 15,
+                        oppTeamShots : 14,
+                        oppTeamTurnover : 16,
+                        
                     }
 
                     res.end(JSON.stringify({

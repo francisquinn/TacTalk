@@ -59,13 +59,15 @@ module.exports =
             try
             {
 
-
+                
                 var jsonObj = JSON.parse(req.query.package);
+                console.log(jsonObj);
 
                 var fullText = [];
 
                 for (var i = 0;i < jsonObj.length; i++)
                 {
+                    console.log(jsonObj[i].text);
                     fullText.push(jsonObj[i].text);
                 }
 
@@ -91,7 +93,8 @@ module.exports =
 
             }catch(ex)
             {
-                res.end(JSON.stringify({code:500,error:ex}));
+                console.log("eror");
+                res.end(JSON.stringify({code:500,error:ex.toString()}));
             }
         
     }
