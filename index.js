@@ -26,6 +26,7 @@ const cors = require("cors");
 var CompileDictionary = require('./CompileDictionary');
 var UpdateGame = require('./UpdateGame');
 var CloudFunction = require('./CloudFunction');
+var passwordHash = require('password-hash');
 
 
 app.use(bodyParser.json());
@@ -139,7 +140,7 @@ const loginValidation = {
       .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
       .required()
       .messages({'string.base': `Email is required`,
-                 'string.empty': `You need to input an email`,
+                 'string.empty': `Email is required`,
                  'string.email': `Email must end in .com or .net and contain an @`,
                  'any.required': `Email is a required field`}),
     password: Joi.string()
@@ -148,7 +149,7 @@ const loginValidation = {
       .min(8)
       .required()
       .messages({'string.base': `Password was not input in the correct format.`,
-                 'string.pattern.base': `Incorrect Password format, needs at least: 1 upper and lower case letter, 8 characters, 1 special character and 1 number `,
+                 'string.pattern.base': `Password format incorrect, needs at least: 1 upper and lower case letter, 8 characters, 1 special character and 1 number `,
                  'string.min': `Password should have a minimum length of {#limit} characters`,
                  'string.empty' : `Password is a required field`,
                  'any.required': `Password is a required field`})      
@@ -179,7 +180,7 @@ const registerValidation = {
       .min(8)
       .required()
       .messages({'string.base': `Password was not input in the correct format.`,
-                 'string.pattern.base': `Incorrect Password format, needs at least: 1 upper and lower case letter, 8 characters, 1 special character and 1 number `,
+                 'string.pattern.base': `Password format incorrect, needs at least: 1 upper and lower case letter, 8 characters, 1 special character and 1 number `,
                  'string.min': `Password should have a minimum length of {#limit} characters`,
                  'string.empty' : `Password is a required field`,
                  'any.required': `Password is a required field`}), 
@@ -187,7 +188,7 @@ const registerValidation = {
       .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
       .required()
       .messages({'string.base': `Email is required`,
-                 'string.empty': `You need to input an email`,
+                 'string.empty': `Email is required`,
                  'string.email': `Email must end in .com or .net and contain an @`,
                  'any.required': `Email is a required field`}),
   }),
@@ -507,7 +508,7 @@ app.get('/user/users/get_secure', validate(getIdValidation, {}, {} ), async (req
     
 })
 
-app.get('/user/games/create', async (req, res) => 
+app.post('/user/games/create', async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
@@ -520,12 +521,15 @@ app.get('/user/games/create', async (req, res) =>
                     game_name:req.body.gameName,
                     user_id:req.body.userId,
                     team_id:req.body.teamId,
-                    start_time:req.body.matchTime,
+                    start_time:req.body.startTime,
                     public:req.body.public,
-                    date:req.body.matchDate.toString(),
+                    game_type : req.body.gameType,
+                    date:req.body.startDate,
                     location:req.body.location,
                     team_color:req.body.teamColor,
-                    opp_team_color:req.body.oppTeamColor,
+                    team_name:req.body.teamName,
+                    opp_team_color:req.body.oppColor,
+                    opp_team_name:req.body.opposition,
                     possessions:[]
                 };
         
@@ -704,8 +708,8 @@ app.get('/user/players/update_player', async (req, res) =>
 })
 
 //------------------------------------------------------------------------------------------------------------------------------------------------
-
-app.post('/user/login', validate(loginValidation, {}, {} ), async (req, res) => 
+//validate(loginValidation, {}, {} ),
+app.post('/user/login',  async (req, res) => 
 {
     
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
@@ -713,28 +717,31 @@ app.post('/user/login', validate(loginValidation, {}, {} ), async (req, res) =>
     res.setHeader('Content-Type', 'application/json');
     try
     {
-        
-        var result = await dbo.collection("users").findOne(
-                {
-                    email: req.body.email,
-                    password: req.body.password
-                });
-        
-        
-        
-        if (result)
+
+        var searchQuery = {
+                            email: req.body.email                           
+                          }
+           
+
+        var result = await dbo.collection("users").findOne(searchQuery);
+
+        if (result && passwordHash.verify(req.body.password, result.password))
         {
-            res.end(JSON.stringify({code:200, user_id: result._id}));
-            db.close();
+            
+                res.end(JSON.stringify({code:200, user_id: result._id}));
+                db.close();
+            
+        
         }
         else
         {
-            res.end(JSON.stringify({code:200, user_id: 0}));
+            res.end(JSON.stringify({code:400, message : "Invalid email or password"}));
             db.close();
         }
+        
     }catch(ex)
     {
-        res.end(JSON.stringify({code:500}));
+        res.end(JSON.stringify({code:400, message : "Invalid email or password" }));
         db.close();
     }
     
@@ -749,10 +756,11 @@ app.post('/user/register', validate(registerValidation, {}, {} ), async (req, re
     res.setHeader('Content-Type', 'application/json');
     try
     {
+        var hashedPassword = passwordHash.generate(req.body.password)
         var newUserObject =
         {
             username: req.body.username,
-            password: req.body.password,
+            password: hashedPassword,
             email: req.body.email
         };
         
