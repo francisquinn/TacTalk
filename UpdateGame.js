@@ -2,6 +2,21 @@ const MongoClient = require('mongodb').MongoClient;
 const ObjectID = require("mongodb").ObjectID;
 const MongoDB = require('mongodb');
 const uri = "mongodb+srv://RojakAdmin:RojakIsASalad@rojakcluster.ho1ff.mongodb.net/sample_analytics?retryWrites=true&w=majority";
+const eventPropertyList = ["event_type_id","event_position_id","player_id","team_id","outcome_id","outcome_team_id","outcome_player_id"];
+
+const defaultEvent =
+        {
+                    event_id: new ObjectID(),
+                    time:0,
+                    event_type_id:-1,
+                    event_position_id:-1,
+                    player_id:-1,
+                    team_id:-1,
+                    outcome_id:-1,
+                    outcome_team_id:-1,
+                    outcome_player_id:-1
+        };
+
 module.exports = 
 {
     updateGame: async function(req,res)
