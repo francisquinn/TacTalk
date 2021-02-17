@@ -8,47 +8,67 @@ module.exports =
     {
 
         
-            const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
-            const dbo = db.db("TacTalk");
-            res.setHeader('Content-Type', 'application/json');
+        const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
+        const dbo = db.db("TacTalk");
+        res.setHeader('Content-Type', 'application/json');
+        var badRequest = checkParams(req.query,["object_id","package","audio_order"]);
+        if (badRequest.length !== 0)
+        {
+            res.end(JSON.stringify({code:400,error:badRequest}));
+            return;
+        }
+        try
+        {
 
-            try
+            var gameID = new MongoDB.ObjectID(req.query.object_id);
+
+            var searchQuery = { game_id:gameID }
+
+            var jsonObj = JSON.parse(req.query.package);
+
+            var fullText = [];
+
+            for (var i = 0;i < jsonObj.length; i++)
             {
-                var jsonObj = JSON.parse(req.query.package);
-
-                var fullText = [];
-
-                for (var i = 0;i < jsonObj.length; i++)
-                {
-                    fullText.push(jsonObj[i].text);
-                }
-
-                var currentTime = new Date();
-                var newLogObject = 
-                        {
-                            submit_time:currentTime,
-                            text:fullText,
-                            game_id:req.query.object_id
-
-                        };
-                await dbo.collection("log").insertOne(newLogObject, function(err){
-                    if (err) return;
-                    // Object inserted successfully.
-
-
-
-                    res.end(JSON.stringify({code:200,_id:newLogObject._id}));
-                    db.close();
-                });
-
-            }catch(ex)
-            {
-                res.end(JSON.stringify({code:500,error:ex}));
-                db.close();
+                fullText.push(jsonObj[i].text);
             }
 
+
+
+
+            var currentTime = new Date();
+            var newLogObject = 
+                    {
+                        submit_time:currentTime,
+                        text:fullText,
+                        game_id:gameID,
+                        audio_order: parseInt(req.query.audioOrder,10)
+                    }
+
+            var updateDocument =
+                {
+                    $push:
+                    {
+                        "input_list":newLogObject
+                    }
+                };
+
+            await dbo.collection("active_games").updateOne(searchQuery, updateDocument, function(err){
+                if (err) return;
+                // Object inserted successfully.
+
+
+
+                res.end(JSON.stringify({code:200,_id:newLogObject._id}));
+            });
+
+        }catch(ex)
+        {
+            res.end(JSON.stringify({code:500,error:ex}));
+        }
+
         
-    },
+    }
     
 
 }
