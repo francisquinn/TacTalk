@@ -18,13 +18,18 @@ module.exports =
 
             var searchQuery = { game_id:gameID }
 
-            var jsonObj = JSON.parse(req.query.package);
 
+            var jsonObj = JSON.parse(req.query.package.replace(/u'/g, '\"'));
+            
+            console.log(jsonObj);
+            
             var fullText = [];
 
             for (var i = 0;i < jsonObj.length; i++)
             {
                 fullText.push(jsonObj[i].text);
+                console.log(jsonObj[i]);
+                console.log(jsonObj[i].text);
             }
 
 
@@ -58,7 +63,7 @@ module.exports =
 
         }catch(ex)
         {
-            res.end(JSON.stringify({code:500,error:ex}));
+            res.end(JSON.stringify({code:500,error:ex.toString()}));
         }
 
         
