@@ -26,14 +26,14 @@
         android:id="@+id/Appname"
         android:layout_width="160dp"
         android:layout_height="40dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="32dp"
+        android:fontFamily="sans-serif-medium"
         android:text="@string/project_name"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
@@ -109,5 +109,12 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout_editor_absoluteX="32dp" />
+
+    <View
+        android:id="@+id/content_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="-103dp"
+        tools:layout_editor_absoluteY="62dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

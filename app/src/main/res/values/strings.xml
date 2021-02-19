@@ -16,9 +16,8 @@
     <string name="StatsButton">Stats</string>
     <string name="BackButton">Back</string>
     <string name="FirstHalf">1st Half</string>
-    <string name="TeamA">Team A 0 - 00</string>
-    <string name="TeamB">Team B 0 - 00</string>
-    <string name="TeamAwinning">Team A 2 - 26</string>
+    <string name="TeamA">DUBLIN 0 – 00</string>
+    <string name="TeamB">KERRY 0 – 00</string>
     <string name="EndHalf">End Half</string>
 
     <!-- Strings related to login -->
@@ -31,6 +30,7 @@
     <string name="login_failed">"Login failed"</string>
     <string name="login_email_hint">Email</string>
     <string name="login_password_hint">Password</string>
+    <string name="password_require">Password must contain: At least 8 characters, 1 uppercase letter, 1 number and 1 special character (!,$,@ etc.)</string>
     <string name="project_name">TacTalk</string>
     <string name="manage_team">Manage Team</string>
     <string name="set_up_matchs">Set up match</string>
@@ -38,7 +38,8 @@
     <string name="register_name">Name</string>
     <string name="mobile_number">Mobile Number</string>
     <string name="register_button">Register</string>
-    <string name="have_account">Already have an account?</string>
+    <string name="create_account">CREATE AN ACCOUNT</string>
+    <string name="have_account">Already have an account? Sign In</string>
     <string name="new_user">New user? Register Now</string>
     <string name="team_player">Player</string>
     <string name="team_number">Number</string>
@@ -53,5 +54,8 @@
     <string name="ManageTeam">MANAGE TEAM</string>
     <string name="Record">Record</string>
     <string name="Match_Over">MATCH OVER</string>
+
+    <string name="working">Working</string>
+    <string name="stopped">Stopped</string>
 
 </resources>

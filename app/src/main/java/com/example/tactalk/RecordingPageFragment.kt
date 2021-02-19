@@ -4,9 +4,12 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
+import android.widget.Chronometer
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import com.github.squti.androidwaverecorder.WaveRecorder
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -25,6 +28,7 @@ class RecordingPageFragment : AppCompatActivity() {
     lateinit var storage: FirebaseStorage
     private lateinit var audioRecordView: AudioRecordView
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         // Google Cloud Storage Bucket
@@ -33,11 +37,16 @@ class RecordingPageFragment : AppCompatActivity() {
         // Points to the root reference
         val storageRef = storage.reference
 
-        val timer = Timer()
-        var num = 0
+        // 15 second audio upload timer
+        val recordingTimer = Timer()
 
+        // file order number
+        var num = 1
+
+        // test file name with hardcoded game_id
         var fileName = "/60084b37e8c56c0978f5b004_$num.wav"
 
+        // cache path & set up recorder
         var filePath: String = externalCacheDir?.absolutePath + fileName
         var waveRecorder = WaveRecorder(filePath)
         waveRecorder.waveConfig.sampleRate = 32000
@@ -45,15 +54,20 @@ class RecordingPageFragment : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_recording_page)
 
+        // Match timer
+        val clock: Chronometer = findViewById(R.id.match_time)
+        clock.typeface = ResourcesCompat.getFont(this, R.font.orbitron_medium);
+        clock.start()
+
         val stopButton: Button = findViewById(R.id.endHalf)
         val pauseButton: Button = findViewById(R.id.pause)
         audioRecordView = findViewById(R.id.audioRecordView)
 
+        // wave animation
         val waveTimer = Timer()
-        waveTimer?.schedule(object : TimerTask() {
+        waveTimer.schedule(object : TimerTask() {
             override fun run() {
                 waveRecorder.onAmplitudeListener = {
-                    //Log.d("Recorder", "Amplitude : $it")
                     audioRecordView.update(it);
                 }
             }
@@ -61,7 +75,7 @@ class RecordingPageFragment : AppCompatActivity() {
 
         // Stop the recorder at 15 seconds, upload the file from cache,
         // then start the recorder again
-        timer.scheduleAtFixedRate(timerTask {
+        recordingTimer.scheduleAtFixedRate(timerTask {
             Log.d("Recorder", "Recording stopped")
             waveRecorder.stopRecording()
             println("StopRecording")
@@ -76,27 +90,40 @@ class RecordingPageFragment : AppCompatActivity() {
         }, 15000, 15000)
 
         // start recorded once the activity is created
-        timer.scheduleAtFixedRate(timerTask {
+        recordingTimer.scheduleAtFixedRate(timerTask {
             waveRecorder.startRecording()
             Log.d("Recorder", "Recording started")
         }, 1, 15000)
 
         stopButton.setOnClickListener {
-            timer.cancel()
-            timer.purge()
+            recordingTimer.cancel()
+            recordingTimer.purge()
             waveRecorder.stopRecording()
+            clock.stop()
             cloudUploader(filePath, fileName, storageRef)
             Toast.makeText(this, "Recording stopped!", Toast.LENGTH_SHORT).show()
             startActivity(Intent(this, StatsFragment::class.java))
             finish()
         }
 
+        var buttonState = true
         pauseButton.setOnClickListener {
-            Toast.makeText(this, "Paused button pressed", Toast.LENGTH_SHORT).show()
+            if (buttonState){
+                pauseButton.setText(R.string.Start)
+                buttonState= !buttonState
+                waveRecorder.stopRecording()
+                Log.d("Recorder", "Recording paused")
+            } else {
+                pauseButton.setText(R.string.Pause)
+                buttonState= !buttonState
+                waveRecorder.startRecording()
+                Log.d("Recorder", "Recording Started after pause")
+            }
         }
 
     }
 
+    // function to upload audio file to the cloud
     private fun cloudUploader(filePath:String, fileName:String, storageRef: StorageReference){
         // Retrieve the file from the filePath
         val file = Uri.fromFile(File(filePath))
@@ -126,5 +153,6 @@ class RecordingPageFragment : AppCompatActivity() {
         }
     }
 
+    // disable back button
     override fun onBackPressed() {}
 }

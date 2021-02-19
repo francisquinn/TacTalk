@@ -16,7 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TacTalk">
-        <activity android:name=".MainMenuFragment">
+        <activity android:name=".activity.LoginFragment">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,10 +24,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.RegisterFragment" />
-        <activity android:name=".activity.LoginFragment" />
+        <!--<activity android:name=".activity.LoginFragment" />-->
         <activity android:name=".RecordingPageFragment" />
-        <!--<activity android:name=".MainMenuFragment" />-->
+        <activity android:name=".MainMenuFragment" />
         <activity android:name=".HomeFragment" />
         <activity android:name=".StatsFragment" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 </manifest>

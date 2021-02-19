@@ -47,4 +47,6 @@ class MainMenuFragment : AppCompatActivity(){
             //Toast.makeText(this, "pressed record!", Toast.LENGTH_SHORT).show()
         }
     }
+
+    override fun onBackPressed() {}
 }
