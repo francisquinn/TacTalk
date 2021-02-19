@@ -1,8 +1,10 @@
 <img src="https://user-images.githubusercontent.com/47331914/107634443-6bbb5a00-6c61-11eb-9848-96de9bc3ea0f.PNG" width=500>
 # Welcome to the TacTalk Github repository
+
 ## Project Overview
 Tactical analysis is typically collected manually during Gaelic football matches by painstakingly gathering data by viewing the recording after the match or sometimes by using pen and paper to write down in-game statistics. This process is often very time consuming and expensive due to the physical and software technologies available on the market.
 **TacTalk** is a mobile and web application that is looking to solve this problem by using voice recognition technology to automatically collect and store **real-time** match statistics during a Gaelic football match. The match statistical data can then be further analyzed directly after the match, saving teams both **time** and **money**.
+
 ## Setting Up TacTalk
 The mobile application is located in the [main](https://github.com/francisquinn/TacTalk/tree/main) branch.
 TacTalk is built using Kotlin in Android. In order to run the application it is required to use Android Studio. 
