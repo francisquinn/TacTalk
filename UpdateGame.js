@@ -16,7 +16,15 @@ const defaultEvent =
                     outcome_team_id:-1,
                     outcome_player_id:-1
         };
+        
+        
+const defaultPossession = 
+        {
+            
+        };        
 
+const stats = require("./Stats");
+const cp = require('./CommandParser');
 module.exports = 
 {
     updateGame: async function(req,res)
@@ -220,4 +228,50 @@ function inputListCompare(inputA,inputB)
     {
         return 0;
     }
+}
+
+async function createGameEvent(gameID,gameEvent)
+{
+    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
+    const dbo = db.db("TacTalk");
+    try
+    {
+        
+        const searchQuery = { _id: new MongoDB.ObjectID(gameID) };
+        console.log(gameID);
+        
+        
+        var gameObj = await dbo.collection("games").findOne(searchQuery);
+        
+        if (gameObj.possessions.length === 0)
+        {
+            gameObj.possessions.push(
+                    {
+                        time:0,
+                        events:[gameEvent]
+                    });
+        }
+        else
+        {
+            gameObj.possessions[gameObj.possessions.length-1].events.push(gameEvent);
+        }
+        
+        const updateDocument = 
+        {
+            "$set": gameObj 
+        }
+        
+        
+        await dbo.collection("games").updateOne(searchQuery, updateDocument, function(err)
+        {
+            if (err) return;
+            console.log("success")
+            db.close();
+        });
+    }catch(ex)
+    {
+        console.log(ex)
+        db.close();
+    }
+    
 }

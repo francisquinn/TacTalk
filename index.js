@@ -319,39 +319,6 @@ app.get('/user/games/get/id', validate(getIdValidation, {}, {} ), async (req, re
    
 })
 
-async function createGameEvent(gameID,gameEvent)
-{
-    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
-    const dbo = db.db("TacTalk");
-    console.log("called")
-    try
-    {
-        
-        const searchQuery = { _id: new MongoDB.ObjectID(gameID) };
-        
-        const updateDocument = 
-        {
-            "$push":
-            {
-                "possessions": 
-                {
-                    $last:"$possessions"
-                }
-            }
-        }
-        await dbo.collection("games").updateOne(searchQuery, updateDocument, function(err)
-        {
-            if (err) return;
-            console.log("success")
-            db.close();
-        });
-    }catch(ex)
-    {
-        console.log(ex)
-        db.close();
-    }
-    
-}
 
 
 
