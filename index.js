@@ -28,6 +28,8 @@ var UpdateGame = require('./UpdateGame');
 var CloudFunction = require('./CloudFunction');
 var passwordHash = require('password-hash');
 
+const EventToText = require("./EventToText");
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
@@ -1064,4 +1066,5 @@ app.get('/user/games/updateGame', UpdateGame.updateGame );
 app.get('/dictionary', CompileDictionary.dictionary);
 app.get('/cloud/dictionary/create', CompileDictionary.createDictionary);
 app.get('/cloud/game_events/create', CloudFunction.createInput);
+app.get('/dev/games/event_to_text',EventToText.eventToText);
 
