@@ -27,7 +27,7 @@ var CompileDictionary = require('./CompileDictionary');
 var UpdateGame = require('./UpdateGame');
 var CloudFunction = require('./CloudFunction');
 var passwordHash = require('password-hash');
-
+const Util = require("./Util");
 const EventToText = require("./EventToText");
 
 
@@ -1067,4 +1067,5 @@ app.get('/dictionary', CompileDictionary.dictionary);
 app.get('/cloud/dictionary/create', CompileDictionary.createDictionary);
 app.get('/cloud/game_events/create', CloudFunction.createInput);
 app.get('/dev/games/event_to_text',EventToText.eventToText);
+app.get('/dev/util/clear_game',Util.resetGame);
 
