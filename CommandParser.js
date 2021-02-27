@@ -17,11 +17,11 @@ module.exports =
 
         input = input.toLowerCase();
 
-        if (compareLang(input,teamColor+" possession") || compareLang(input,teamColor+" team possession"))
+        if (compareLang(input,teamColor+" possession") || compareLang(input,teamColor+" team possession") || compareLang(input, teamColor+" ball"))
         {
             return {result:1,team_id:0};
         }
-        else if (compareLang(input,oppTeamColor+" possession") || compareLang(input,oppTeamColor+" team possession"))
+        else if (compareLang(input,oppTeamColor+" possession") || compareLang(input,oppTeamColor+" team possession") || compareLang(input, oppTeamColor+" ball"))
         {
             return {result:1,team_id:1};
         }
