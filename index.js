@@ -202,17 +202,6 @@ const registerValidation = {
 //valduation for creating match
 const createMatchValidation = {
   body: Joi.object({
-    game_name: Joi.string()
-      .regex(/[a-zA-Z0-9]/)
-      .max(50)
-      .min(5)
-      .required()
-      .messages({'string.base': `Name should be text`,
-                 'string.empty': `Name cannot be an empty field`,
-                 'string.min': `Name should have a minimum length of {#limit} characters`,
-                 'string.max': `Name should have a maximum length of {#limit} characters`,
-                 'string.pattern.base': `Name can only contain text and numbers`,
-                 'any.required': `Name is a required field`}),
     start_time: Joi.string()
     //only allows time in 24 our format - e.g. 13:25
     //means if a 0 or 1 is entered it can be followed by any number [01]\d or is a 2 is entered then can only be followed by a 0,1,2,3
@@ -290,10 +279,7 @@ const createMatchValidation = {
 //    possessions: Joi.string()             
   }),
 }
-
 //---------------------------------------------------------------------------------------------------------------------------
-
-
 app.get('/user/games/delete', validate(getIdValidation, {}, {} ), async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
@@ -309,8 +295,7 @@ app.get('/user/games/delete', validate(getIdValidation, {}, {} ), async (req, re
         {
             res.end(JSON.stringify({code:500}));
              db.close();
-        }
-       
+        } 
 })
 
 app.get('/user/possessions/delete', async (req, res) => 
@@ -368,7 +353,6 @@ app.get('/user/users/delete_user_by_id', validate(getIdValidation, {}, {} ), asy
         res.end(JSON.stringify({code:500}));
         db.close();
     }
-    
 })
 //------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -390,7 +374,6 @@ app.get('/user/players/delete_player_by_id', validate(getIdValidation, {}, {} ),
         res.end(JSON.stringify({code:500}));
         db.close();
     }
-    
 })
 //------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -412,14 +395,8 @@ app.get('/user/games/get/id', validate(getIdValidation, {}, {} ), async (req, re
     {
         res.end(JSON.stringify({code:500}));
         db.close();
-    }
-   
+    } 
 })
-
-
-
-
-
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 //getting game details by game id
 app.get('/user/games/get/game_by_id', validate(getIdValidation, {}, {} ), async (req, res) => 
@@ -441,7 +418,6 @@ app.get('/user/games/get/game_by_id', validate(getIdValidation, {}, {} ), async 
         res.end(JSON.stringify({code:500 , error:ex.toString()}));
         db.close();
     }
-    
 })
 //--------------------------------------------------------------------------------------------------------------------------------------
 
@@ -468,8 +444,7 @@ app.get('/user/games/get/user_game_details', validate(getUserMatchDetailsByIdVal
     {
         res.end(JSON.stringify({code:500, error:ex.toString()}));
         db.close();
-    }
-    
+    } 
 })
 //--------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -495,7 +470,6 @@ app.get('/user/users/get/user_details_by_id', validate(getIdValidation, {}, {} )
         res.end(JSON.stringify({code:500}));
         db.close();
     }
-    
 })
 //--------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -520,8 +494,7 @@ app.get('/user/users/get/search_similar_players_by_name', validate(searchPlayerV
     {
         res.end(JSON.stringify({code:500}));
         db.close();
-    }
-    
+    }  
 })
 //--------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -547,10 +520,8 @@ app.get('/user/players/get/player_details_by_id', validate(getIdValidation, {}, 
         res.end(JSON.stringify({code:500, error:ex.toString()}));
         db.close();
     }
-    
 })
 //--------------------------------------------------------------------------------------------------------------------------------------------------------
-
 
 app.get('/user/users/get_secure', validate(getIdValidation, {}, {} ), async (req, res) => 
 {
@@ -577,36 +548,25 @@ app.post('/user/games/create', validate(createMatchValidation, {}, {} ), async (
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
     res.setHeader('Content-Type', 'application/json');
-//    console.log("run");
     try
     {
         var newGameObject = 
                 {
-                    game_name:req.body.game_name,
                     user_id:new MongoDB.ObjectID(req.body.user_id),
                     team_id:new MongoDB.ObjectID(req.body.team_id),
-                    start_time:req.body.start_time,
+                    startTime:req.body.startTime,
                     public:req.body.public,
-                    game_type : req.body.game_type,
+                    gameType : req.body.gameType,
                     date:req.body.date,
                     location:req.body.location,
-                    team_colour:req.body.team_colour,
-                    team_name:req.body.team_name,
-                    opp_team_colour:req.body.opp_team_colour,
-                    opp_team_name:req.body.opp_team_name,
+                    teamColor:req.body.teamColor,
+                    teamName:req.body.teamName,
+                    oppTeamColor:req.body.oppTeamColor,
+                    oppTeamName:req.body.oppTeamName,
                     possessions:[]
                 };
         
         await dbo.collection("games").insertOne(newGameObject, function(err){
-//            if (err)
-//                console.log(err.toString());
-//                return;
-//            // Object inserted successfully.
-//           console.log("stage 1");
-//            res.end(JSON.stringify({code:200, game_name:req.body.game_name}));
-//            db.close();
-            
-
         });
         var newActiveGameObject =
                     {
@@ -618,15 +578,13 @@ app.post('/user/games/create', validate(createMatchValidation, {}, {} ), async (
                         current_event:{},
                         active: 1,
                         current_possession: -1,
-                        team_colour: req.body.team_colour,
-                        opp_team_colour: req.body.opp_team_colour
-                        
+                        teamColor: req.body.teamColor,
+                        oppTeamColor: req.body.oppTeamColor
                     }
             await dbo.collection("active_games").insertOne(newActiveGameObject, function(err){
             console.log("done");
             res.end(JSON.stringify({code:200,_id:newGameObject._id}));
-
-            
+ 
             db.close();                
             });
     }catch(ex)
@@ -638,13 +596,11 @@ app.post('/user/games/create', validate(createMatchValidation, {}, {} ), async (
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 //create players - WORKS
-//
 app.post('/user/players/create_player', validate(createPlayerValidation, {}, {} ), async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
     res.setHeader('Content-Type', 'application/json');
-    
     try
     {
         var newPlayerObject = 
@@ -655,10 +611,7 @@ app.post('/user/players/create_player', validate(createPlayerValidation, {}, {} 
                 };
         
         await dbo.collection("players").insertOne(newPlayerObject, function(err){
-            //if (err) return;
-            // Object inserted successfully.
 
-            
             res.end(JSON.stringify({code:200,_id:newPlayerObject._id}));
             db.close();
         });
@@ -668,13 +621,8 @@ app.post('/user/players/create_player', validate(createPlayerValidation, {}, {} 
         res.end(JSON.stringify({code:500,error:ex}));
         db.close();
     }
-
 })
-
-
-
 //---------------------------------------------------------------------------------------------------------------------------------------------------
-
 
 app.post('/user/game_events/create', async (req, res) => 
 {
@@ -683,8 +631,7 @@ app.post('/user/game_events/create', async (req, res) =>
     const dbo = db.db("TacTalk");
     res.setHeader('Content-Type', 'application/json');
     try
-    {
-        
+    {   
         var newGameEventObject = cp.parseCommand(req.body.textInput,req.body.time,null);
         const searchQuery = { _id: new MongoDB.ObjectID(req.body.object_id),"possessions.possession_id":new MongoDB.ObjectID(req.body.pid) };
         
@@ -706,7 +653,6 @@ app.post('/user/game_events/create', async (req, res) =>
         res.end(JSON.stringify({code:500,error:ex.toString()}));
         db.close();
     }
-    
 })
 
 app.get('/user/game_events/update', async (req, res) => 
@@ -738,19 +684,16 @@ app.get('/user/game_events/update', async (req, res) =>
     {
         res.end(JSON.stringify({code:500,error:ex.toString()}));
         db.close();
-    }
-    
+    } 
 })
 
 //--------------------------------------------------------------------------------------------------------------------------------------------
 //Updating player details based off player id - more work needed
 app.get('/user/players/update_player', async (req, res) => 
 {
-    
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
-    res.setHeader('Content-Type', 'application/json');
-    
+    res.setHeader('Content-Type', 'application/json');    
     try
     {
      
@@ -778,35 +721,28 @@ app.get('/user/players/update_player', async (req, res) =>
     {
         res.end(JSON.stringify({code:500,error:ex.toString()}));
         db.close();
-    }
-    
+    } 
 })
 
 //------------------------------------------------------------------------------------------------------------------------------------------------
-//validate(loginValidation, {}, {} ),
+//login
 app.post('/user/login',  async (req, res) => 
 {
-    
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
     res.setHeader('Content-Type', 'application/json');
     try
     {
-
         var searchQuery = {
                             email: req.body.email                           
-                          }
-           
-
+                          }          
         var result = await dbo.collection("users").findOne(searchQuery);
 
         if (result && passwordHash.verify(req.body.password, result.password))
         {
             
                 res.end(JSON.stringify({code:200, user_id: result._id}));
-                db.close();
-            
-        
+                db.close();       
         }
         else
         {
@@ -821,7 +757,9 @@ app.post('/user/login',  async (req, res) =>
     }
     
 })
-//keyByField: true
+//------------------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------------
+//Register
 app.post('/user/register', validate(registerValidation, {}, {} ), async (req, res) =>
 {
 
@@ -840,11 +778,6 @@ app.post('/user/register', validate(registerValidation, {}, {} ), async (req, re
         };
         
         await dbo.collection("users").insertOne(newUserObject, function(err){
-//            if (err) 
-                
-            // Object inserted successfully.
-           
-        
             res.end(JSON.stringify({code:200,_id:newUserObject._id}));
             db.close();
         });
@@ -856,10 +789,9 @@ app.post('/user/register', validate(registerValidation, {}, {} ), async (req, re
         db.close();
     }
 });
-
+//-----------------------------------------------------------------------------------------------------------------------------------
 app.get('/user/register/checkNameDuplicates', async (req, res) => 
 {
-    
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
     res.setHeader('Content-Type', 'application/json');
@@ -868,9 +800,7 @@ app.get('/user/register/checkNameDuplicates', async (req, res) =>
         const searchQuery = { username: req.query.username};
         
         var result = await dbo.collection("users").findOne(searchQuery);
-        
-        
-        
+
         if (result)
         {
             res.end(JSON.stringify({code:200, result: 1}));
@@ -886,9 +816,7 @@ app.get('/user/register/checkNameDuplicates', async (req, res) =>
         res.end(JSON.stringify({code:500}));
         db.close();
     }
-    
 })
-
 //---------------------------------------------------------------------------------------------------------------------------------------
 //checking duplicate team names
 app.get('/user/teams/check_team_name_duplicates', async (req, res) => 
@@ -902,9 +830,7 @@ app.get('/user/teams/check_team_name_duplicates', async (req, res) =>
         const searchQuery = { team_name: req.query.team_name};
         
         var result = await dbo.collection("teams").findOne(searchQuery);
-        
-        
-        
+
         if (result)
         {
             res.end(JSON.stringify({code:200, result: 1}));
@@ -919,17 +845,14 @@ app.get('/user/teams/check_team_name_duplicates', async (req, res) =>
     {
         res.end(JSON.stringify({code:500}));
         db.close();
-    }
-    
+    }    
 })
-
 //------------------------------------------------------------------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------------------------------------------------------------------
 //checking duplicate game names
 app.get('/user/teams/check_game_name_duplicates', async (req, res) => 
 {
-    
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
     res.setHeader('Content-Type', 'application/json');
@@ -939,8 +862,6 @@ app.get('/user/teams/check_game_name_duplicates', async (req, res) =>
         
         var result = await dbo.collection("games").findOne(searchQuery);
         
-        
-        
         if (result)
         {
             res.end(JSON.stringify({code:200, result: 1}));
@@ -955,25 +876,19 @@ app.get('/user/teams/check_game_name_duplicates', async (req, res) =>
     {
         res.end(JSON.stringify({code:500}));
         db.close();
-    }
-    
+    }    
 })
-
 //------------------------------------------------------------------------------------------------------------------------------------
 
 app.get('/user/register/checkEmailDuplicates', async (req, res) => 
-{
-    
+{  
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
     res.setHeader('Content-Type', 'application/json');
     try
-    {
-        
+    {       
         var result = await dbo.collection("users").findOne({ "email" : { $regex : new RegExp(req.query.email, "i") } });
-        
-        
-        
+
         if (result)
         {
             res.end(JSON.stringify({code:200, result: 1}));
@@ -988,10 +903,8 @@ app.get('/user/register/checkEmailDuplicates', async (req, res) =>
     {
         res.end(JSON.stringify({code:500}));
         db.close();
-    }
-    
+    } 
 })
-
 //------------------------------------------------------------------------------------------------------------------
 //moving match from active to finished
 app.get('/user/active_games/move_from_active_to_finished', async (req, res) => 
@@ -1006,22 +919,16 @@ app.get('/user/active_games/move_from_active_to_finished', async (req, res) =>
         var newActiveGameObject = await dbo.collection("active_games").findOne(searchQuery);
         await dbo.collection("finished_games").insertOne(newActiveGameObject);
         dbo.collection("active_games").deleteOne(searchQuery);
-        
-        
-        
-        
+
         res.end(JSON.stringify({code:200, object: newActiveGameObject}));
-        db.close();s
+        db.close();
     }catch(ex)
     {
         res.end(JSON.stringify({code:500}));
         db.close();
-    }
-    
+    }    
 })
-
 //----------------------------------------------------------------------------------------------------------------
-
 app.get('/', async (req, res) => 
 {
     var fs = require("fs");
@@ -1040,10 +947,8 @@ app.listen(port, () => {
           if (err instanceof ValidationError) {
             return res.status(err.statusCode).json(err.details)
           }
-
           return res.status(500).json(err)
-        })
-        
+        })        
 //----------------------------------------------------------------------------------------------------------------------
 
 app.get('/recorder', async (req, res) => 
