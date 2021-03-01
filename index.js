@@ -105,7 +105,7 @@ const searchPlayerValidation = {
 //---------------------------------------------------------------------------------------------------------------------------
 //validation for calls getting details by id
 const getIdValidation = {
-  body: Joi.object({
+  query: Joi.object({
     _id: Joi.string()
       .required()
       .messages({'string.base':  `Incorrect Id was used`,
@@ -202,7 +202,7 @@ const registerValidation = {
 //valduation for creating match
 const createMatchValidation = {
   body: Joi.object({
-    start_time: Joi.string()
+    startTime: Joi.string()
     //only allows time in 24 our format - e.g. 13:25
     //means if a 0 or 1 is entered it can be followed by any number [01]\d or is a 2 is entered then can only be followed by a 0,1,2,3
     //: means colon has to be input followed by any number from 0-5 then followed by any digit
@@ -226,7 +226,7 @@ const createMatchValidation = {
                  'string.pattern.base': `Public can only be a 0 or 1`,
                  'string.empty': `Public is required`,
                  'any.required': `Public is a required field`}),
-    game_type: Joi.string()
+    gameType: Joi.string()
       .regex(/[a-zA-Z0-9]/)
       .max(30)
       .min(5)
@@ -246,22 +246,22 @@ const createMatchValidation = {
       .messages({'string.base': `location is required`,
                  'string.empty': `location is required`,
                  'any.required': `location is a required field`}),         
-    team_colour: Joi.string()
+    teamColor: Joi.string()
       .required()
       .messages({'string.base': `Team color is required`,
                  'string.empty': `Team color is required`,
                  'any.required': `Team color is a required field`}),
-    team_name: Joi.string()
+    teamName: Joi.string()
       .required()
       .messages({'string.base': `Team name is required`,
                  'string.empty': `Team name is required`,
                  'any.required': `Team name is a required field`}),
-    opp_team_colour: Joi.string()
+    oppTeamColor: Joi.string()
       .required()
       .messages({'string.base': `Opposition team color is required`,
                  'string.empty': `Opposition team color is required`,
                  'any.required': `Opposition team color is a required field`}),
-    opp_team_name: Joi.string()
+    oppTeamName: Joi.string()
       .required()
       .messages({'string.base': `Opposition team name is required`,
                  'string.empty': `Opposition team name is required`,
