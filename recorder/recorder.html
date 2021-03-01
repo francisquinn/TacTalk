@@ -467,7 +467,47 @@ var playernum =
                 keywords:["24"]
             }
         ]
-
+        
+var misc =
+        [
+            {
+                keywords:["blue"]
+            },
+            {
+                keywords:["red"]
+            },
+            {
+                keywords:["yellow"]
+            },
+            {
+                keywords:["purple"]
+            },
+            {
+                keywords:["white"]
+            },
+            {
+                keywords:["black"]
+            },
+            {
+                keywords:["brown"]
+            },
+            {
+                keywords:["green"]
+            },
+            {
+                keywords:["orange"]
+            },
+            {
+                keywords:["possession"]
+            },
+            {
+                keywords:["ball"]
+            },
+            {
+                keywords:["miss"]
+            }
+        ]
+        
 var textArr = event;
 var currentIndex = 0;
 
@@ -492,6 +532,9 @@ function setType(typeNum)
             
         case 4:
             textArr = playernum;
+            break;
+        case 5:
+            textArr = misc;
             break;
     }
 }
@@ -684,6 +727,8 @@ function upload()
     <button onclick="setType(2)">Outcome</button>
     <button onclick="setType(3)">Position</button>
     <button onclick="setType(4)">Player and number</button>
+    <button onclick="setType(5)">Misc</button>
+    
     <h1><p>Before you start, please enter a unique number, this number must not be used in the "dictionary" database on mongodb</p></h1>
     <input id="unInput" type="number">
     <h1><p id="instruction">Click on the Record button and read out the highlighted text, click stop to finish recording</p></h1>

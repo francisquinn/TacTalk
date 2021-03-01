@@ -10,10 +10,12 @@ module.exports =
             teamKickouts : 0,
             teamTurnover : 0,
             teamWides : 0,
+            teamPass:0,
             oppTeamGoal : 0,
             oppTeamPoints : 0,
             oppTeamShots : 0,
-            oppTeamTurnover : 0
+            oppTeamTurnover : 0,
+            oppTeamPass:0
         }
         
         console.log("I am called");

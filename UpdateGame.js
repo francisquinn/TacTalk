@@ -257,11 +257,26 @@ async function createGameEvent(gameID,gameEvent,currentPossessionTeam, newPosses
                         events:[gameEvent]
                     });
         }
+        else if (gameEvent.event_type_id === 8)
+        {
+            //turnover
+            gameObj.possessions[gameObj.possession.length-1].events.push(gameEvent);
+            var newTeamId = Math.abs(currentPossessionTeam - 1);
+            gameObj.possessions.push(
+                    {
+                        possession_team:newTeamId,
+                        time:0,
+                        events:[]
+                    });
+        }
         else if (newPossession)
         {
-            var newPossessionObj = Object.assign({},defaultPossession);
-            newPossessionObj.events.push(gameEvent);
-            newPossessionObj.possession_team = currentPossessionTeam;
+            var newPossessionObj = 
+                    {
+                        possession_team:currentPossessionTeam,
+                        time:0,
+                        events:[gameEvent]
+                    }
             gameObj.possessions.push(newPossessionObj);
         }
         else
