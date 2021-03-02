@@ -14,29 +14,25 @@ module.exports =
             oppTeamGoal : 0,
             oppTeamPoints : 0,
             oppTeamShots : 0,
+            oppTeamKickouts:0,
             oppTeamTurnover : 0,
-            oppTeamPass:0
+            oppTeamPass:0,
+            oppTeamWides:0,
         }
         
-        console.log("I am called");
         
         for (var i = 0;i < json.possessions.length; i++)
         {
-            console.log("looping possessions");
             for (var j = 0; j < json.possessions[i].events.length; j++)
             {
                 
-                console.log("looping events")
                 var event = json.possessions[i].events[j];
-                if (getEventTypeById(event.event_type_id) === "shot")
-                {
-                    processShotTypeEvent(event, statObject);
-                }
-                else if (getEventTypeById(event.event_type_id) === "kickout")
-                {
-                    processKickoutTypeEvent(event, statObject);
+
+                processEvent(event, statObject);
+                
+                processOutcome(event, statObject);
                     
-                }
+                
                 
             }
         }
@@ -69,74 +65,92 @@ function getOutcomeTypeByID(outcomeID)
     }
 }
 
-function processShotTypeEvent(event, statObject)
+function processEvent(event, statObject)
 {
-    if (event.outcome_id === 6)
-                    {
-                        //point
-                        if (event.team_id === 0)
-                        {
-                            statObject.teamPoints++;
-                            statObject.teamShots++;
-                        } else if (event.team_id === 1)
-                        {
-                            statObject.oppTeamPoints++;
-                            statObject.oppTeamShots++;
-                        }
-                    } else if (event.outcome_id === 7)
-                    {
-                        //goal
-                        if (event.team_id === 0)
-                        {
-                            statObject.teamPoints += 3;
-                            statObject.teamShots++;
-                        } else if (event.team_id === 1)
-                        {
-                            statObject.oppTeamPoints += 3;
-                            statObject.oppTeamShots++;
-                        }
-                    }
-                    else if (getOutcomeTypeByID(event.outcome_id) === "shot fail")
-                    {
-                        //wide, shot fail
-                        if (event.team_id === 0)
-                        {
-                            statObject.teamShots++;
-                            statObject.teamWides++;
-                        }
-                        else if (event.team_id === 1)
-                        {
-                            statObject.oppTeamShots++;
-                            statObject.oppTeamWides++;
-                        }
-                    }
-                    else if (getOutcomeTypeByID(event.outcome_id) === "turnover")
-                    {
-                        //turnover
-                        if (event.team_id === 0)
-                        {
-                            statObject.teamShots++;
-                            statObject.teamTurnover++;
-                        }
-                        else if (event.team_id === 1)
-                        {
-                            statObject.oppTeamShots++;
-                            statObject.oppTeamTurnover++;
-                        }
-                    }
+    switch(getEventTypeById(event.event_type_id))
+    {
+        case "kickout":
+            if (event.team_id === 0)
+            {
+                statObject.teamKickouts++;
+            }
+            else if (event.team_id === 1)
+            {
+                statObject.oppTeamKickouts++;
+            }
+            break;
+        case "shot":
+            if (event.team_id === 0)
+            {
+                statObject.teamShots++;
+            }
+            else if (event.team_id === 1)
+            {
+                statObject.oppTeamShots++;
+            }
+            break;
+        case "handpass":
+            if (event.team_id === 0)
+            {
+                statObject.teamPass++;
+            }
+            else if (event.team_id === 1)
+            {
+                statObject.oppTeamPass++;
+            }
+            break;
+        default:
+            break;
+    }
 }
 
-function processKickoutTypeEvent(event, statObject)
+function processOutcome(event, statObject)
 {
-   
-        if (event.team_id === 0)
-        {
-            statObject.teamKickouts++;
-        }
-        else if (event.team_id === 1)
-        {
-            statObject.oppTeamKickouts++;
-            
-        }
     
+    switch(event.outcome_id)
+    {
+        case 2:
+        case 3:
+        case 4:
+            if (event.team_id === 0)
+            {
+                statObject.teamWides++;
+            }
+            else if (event.team_id === 1)
+            {
+                statObject.oppTeamWides++;
+            }
+            break;
+        case 6:
+            if (event.team_id === 0)
+            {
+                statObject.teamGoal++;
+            }
+            else if (event.team_id === 1)
+            {
+                statObject.oppTeamGoal++;
+            }
+            break;
+        case 7:
+            if (event.team_id === 0)
+            {
+                statObject.teamPoints++;
+            }
+            else if (event.team_id === 1)
+            {
+                statObject.oppTeamPoints++;
+            }
+            break;
+        case 8:
+            if (event.team_id === 0)
+            {
+                statObject.teamTurnover++;
+            }
+            else if (event.team_id === 1)
+            {
+                statObject.oppTeamTurnover++;
+            }
+            break;
+        
+    }
 }
