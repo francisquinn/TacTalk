@@ -203,14 +203,9 @@ const registerValidation = {
 const createMatchValidation = {
   body: Joi.object({
     gameType: Joi.string()
-      .regex(/[a-zA-Z0-9]/)
-      .max(30)
-      .min(5)
       .required()
       .messages({'string.base': `Game type is required`,
                  'string.empty': `Game type is required`,
-                 'string.max':`Game type can only be 30 characters long`,
-                 'string.min':`Game type has to be at least 5 characters long`,
                  'any.required': `Game type is a required field`}),
     teamName: Joi.string()
       .required()
@@ -452,7 +447,7 @@ app.get('/user/users/get/user_details_by_id', validate(getIdValidation, {}, {} )
         const searchQuery = { _id: new MongoDB.ObjectID(req.query._id)};
         
         var result = await dbo.collection("users").findOne(searchQuery);
-        res.end(JSON.stringify({code:200, result: result}));
+        res.end(JSON.stringify({code:200, username: result.username, email:result.email}));
         db.close();
         
     }catch(ex)
