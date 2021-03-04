@@ -37,7 +37,6 @@ module.exports =
             const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
             const dbo = db.db("TacTalk");
             res.setHeader('Content-Type', 'application/json');
-            console.log("call");
             try
             {
                 if (req.query.hasOwnProperty("dummyData"))
