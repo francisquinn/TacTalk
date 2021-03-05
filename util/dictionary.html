@@ -264,7 +264,7 @@ var keywords =
             function getData(keyword)
             {
                 console.log("run");
-                fetch("https://tactalk-rojak.herokuapp.com/dictionary/?keyword="+keyword)
+                fetch("localhost:8080/dictionary/?keyword="+keyword)
                 .then(response => response.json())
                 .then(data => console.log(data));
                        //var result = JSON.parse(xhttp.responseText).result;

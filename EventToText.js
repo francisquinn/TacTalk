@@ -100,7 +100,5 @@ function parseEventToText(input)
         }
     }
     
-    console.log(JSON.stringify(result));
-    
     return result;
 }

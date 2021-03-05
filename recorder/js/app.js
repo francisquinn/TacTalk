@@ -269,8 +269,6 @@ var outcome =
 ]
 
 
-
-
 var playernum =
         [
             {
