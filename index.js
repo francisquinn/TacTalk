@@ -26,10 +26,11 @@ const cors = require("cors");
 var CompileDictionary = require('./CompileDictionary');
 var UpdateGame = require('./UpdateGame');
 var CloudFunction = require('./CloudFunction');
-var passwordHash = require('password-hash');
+
 const Util = require("./Util");
 const EventToText = require("./EventToText");
 
+const Login = require('./login')
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
@@ -784,48 +785,10 @@ app.get('/user/players/update_player', async (req, res) =>
 
 //------------------------------------------------------------------------------------------------------------------------------------------------
 //validate(loginValidation, {}, {} ),
-app.post('/user/login',  async (req, res) => 
-{
-    
-    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
-    const dbo = db.db("TacTalk");
-    res.setHeader('Content-Type', 'application/json');
-    try
-    {
 
-        var searchQuery = {
-                            email: req.body.email                           
-                          }
-           
-
-        var result = await dbo.collection("users").findOne(searchQuery);
-
-        if (result && passwordHash.verify(req.body.password, result.password))
-        {
-            
-                res.end(JSON.stringify({code:200, user_id: result._id}));
-                db.close();
-            
-        
-        }
-        else
-        {
-            res.end(JSON.stringify({code:400, message : "Invalid email or password"}));
-            db.close();
-        }
-        
-    }catch(ex)
-    {
-        res.end(JSON.stringify({code:400, message : "Invalid email or password" }));
-        db.close();
-    }
-    
-})
 //keyByField: true
 app.post('/user/register', validate(registerValidation, {}, {} ), async (req, res) =>
 {
-
-    
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
     res.setHeader('Content-Type', 'application/json');
@@ -1069,3 +1032,4 @@ app.get('/cloud/game_events/create', CloudFunction.createInput);
 app.get('/dev/games/event_to_text',EventToText.eventToText);
 app.get('/dev/util/clear_game',Util.resetGame);
 
+app.post('/user/login', Login.loginUser)

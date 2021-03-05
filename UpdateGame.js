@@ -29,7 +29,6 @@ module.exports =
 {
     updateGame: async function(req,res)
     {     
-        
             //3-20
             //first is goal second is points
             const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });

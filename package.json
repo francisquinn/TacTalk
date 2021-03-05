@@ -14,15 +14,20 @@
         "@google-cloud/speech": "^4.2.0",
         "@google-cloud/storage": "^5.7.2",
         "cors": "^2.8.5",
+        "dotenv": "^8.2.0",
         "express": "^4.17.1",
         "express-validation": "^3.0.6",
         "form-data": "^3.0.0",
         "graphic-smith-waterman": "^2.0.2",
+        "jsonwebtoken": "^8.5.1",
         "mongodb": "^3.6.3",
         "natural": "^3.0.1",
         "password-hash": "^1.2.2",
         "string-similarity": "^4.0.3",
         "words-to-numbers": "^1.5.1",
         "xmlhttprequest": "^1.8.0"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.7"
     }
 }
