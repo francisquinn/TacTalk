@@ -22,280 +22,23 @@ const bodyParser = require('body-parser');
 const { validate, ValidationError, Joi } = require('express-validation');
 const enums = require("./enums");
 const cd = require("./CompileDictionary");
-const cors = require("cors");
 var CompileDictionary = require('./CompileDictionary');
 var UpdateGame = require('./UpdateGame');
 var CloudFunction = require('./CloudFunction');
+var passwordHash = require('password-hash');
 
 const Util = require("./Util");
 const EventToText = require("./EventToText");
 
 const Login = require('./login')
+const Player = require('./player')
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
-app.use(cors());
 
-//var sampleQuery = {player_name : "jerry",
-//                            player_age: "30",
-//                            player_number: "5"};
-//                        console.log(JSON.stringify(sampleQuery));
-
-
-
-//Validation
-//---------------------------------------------------------------------------------------------------------------------------
-//validation for creating a player
-const createPlayerValidation = {
-  body: Joi.object({
-    player_name: Joi.string()
-      .regex(/[a-zA-Z]/)
-      .max(20)
-      .min(2)
-      .required()
-      .messages({'string.base': `Name should be a type of 'text'`,
-                 'string.empty': `Name cannot be an empty field`,
-                 'string.min': `Name should have a minimum length of {#limit} characters`,
-                 'string.max': `Name should have a maximum length of {#limit} characters`,
-                 'string.pattern.base': `Name can only contain text`,
-                 'any.required': `"Name" is a required field`}),
-    player_age: Joi.string()
-    //only allow ages between 1 - 59
-      .regex(/^[1-5]?[0-9]$/)
-      .required()
-      .messages({'string.base': `Age was not input in the correct format. It should be a number between 1 and 59`,
-                 'string.pattern.base': `Age was not input in the correct format. It should be a number between 1 and 59`,
-                 'string.empty' : `Age is a required field`,
-                 'any.required': `Age is a required field`}),
-    player_number: Joi.string()
-    //only allow jersey numbers from 1 - 29
-      .regex(/^[1-2]?[0-9]$/)
-      .required()
-      .messages({'string.base': `Number was not input in the correct format. It should be a number between 1 and 29`,
-                 'string.pattern.base': `Number should between 1 and 29`,
-                 'string.empty' : `Number is a required field`,
-                 'any.required': `Number is a required field`}),
-      
-  }),
-  
-}
-
-//---------------------------------------------------------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------------------------------------------------------
-//validation for searching for a player
-const searchPlayerValidation = {
-  body: Joi.object({
-    player_name: Joi.string()
-      .regex(/[a-zA-Z]/)
-      .max(50)
-      .min(2)
-      .required()
-      .messages({'string.base': `Name should be a type of 'text'`,
-                 'string.empty': `Name cannot be an empty field`,
-                 'string.min': `Name should have a minimum length of {#limit} characters`,
-                 'string.max': `Name should have a maximum length of {#limit} characters`,
-                 'string.pattern.base': `Name can only contain text`,
-                 'any.required': `"Name" is a required field`}),
-      
-  }),
-  
-}
-//---------------------------------------------------------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------------------------------------------------------
-//validation for calls getting details by id
-const getIdValidation = {
-  body: Joi.object({
-    _id: Joi.string()
-      .required()
-      .messages({'string.base':  `Incorrect Id was used`,
-                 'string.empty': `Needs id to continue`,
-                 'any.required': `The id field is required`}),
-      
-  }),
-  
-}
-
-//---------------------------------------------------------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------------------------------------------------------
-//validation for getting user match details based off their id
-const getUserMatchDetailsByIdValidation = {
-  body: Joi.object({
-    user_id: Joi.string()
-      .required()
-      .messages({'string.base':  `Details input incorrectly`,
-                 'string.empty': `The id is required`,
-                 'any.required': `This field is required`}),
-      
-  }),
-  
-}
-
-//---------------------------------------------------------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------------------------------------------------------
-//valduation for login 
-const loginValidation = {
-  body: Joi.object({
-    email: Joi.string()
-      .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
-      .required()
-      .messages({'string.base': `Email is required`,
-                 'string.empty': `Email is required`,
-                 'string.email': `Email must end in .com or .net and contain an @`,
-                 'any.required': `Email is a required field`}),
-    password: Joi.string()
-    //minimum 1 upper and lower case letter, 8 characters, 1 special character and 1 number
-      .regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-><\/:;~]).{8,}$/)
-      .min(8)
-      .required()
-      .messages({'string.base': `Password was not input in the correct format.`,
-                 'string.pattern.base': `Password format incorrect, needs at least: 1 upper and lower case letter, 8 characters, 1 special character and 1 number `,
-                 'string.min': `Password should have a minimum length of {#limit} characters`,
-                 'string.empty' : `Password is a required field`,
-                 'any.required': `Password is a required field`})      
-  }),
-  
-}
-
-//---------------------------------------------------------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------------------------------------------------------
-//valduation for register
-const registerValidation = {
-  body: Joi.object({
-    username: Joi.string()
-      .regex(/[a-zA-Z]/)
-      .max(50)
-      .min(2)
-      .required()
-      .messages({'string.base': `Name should be text`,
-                 'string.empty': `Name cannot be an empty field`,
-                 'string.min': `Name should have a minimum length of {#limit} characters`,
-                 'string.max': `Name should have a maximum length of {#limit} characters`,
-                 'string.pattern.base': `Name can only contain text`,
-                 'any.required': `Name is a required field`}),
-    password: Joi.string()
-    //minimum 1 upper and lower case letter, 8 characters, 1 special character and 1 number
-      .regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-><\/:;~]).{8,}$/)
-      .min(8)
-      .required()
-      .messages({'string.base': `Password was not input in the correct format.`,
-                 'string.pattern.base': `Password format incorrect, needs at least: 1 upper and lower case letter, 8 characters, 1 special character and 1 number `,
-                 'string.min': `Password should have a minimum length of {#limit} characters`,
-                 'string.empty' : `Password is a required field`,
-                 'any.required': `Password is a required field`}), 
-    email: Joi.string()
-      .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
-      .required()
-      .messages({'string.base': `Email is required`,
-                 'string.empty': `Email is required`,
-                 'string.email': `Email must end in .com or .net and contain an @`,
-                 'any.required': `Email is a required field`}),
-  }),
-}
-
-//---------------------------------------------------------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------------------------------------------------------
-//valduation for creating match
-const createMatchValidation = {
-  body: Joi.object({
-    game_name: Joi.string()
-      .regex(/[a-zA-Z0-9]/)
-      .max(50)
-      .min(5)
-      .required()
-      .messages({'string.base': `Name should be text`,
-                 'string.empty': `Name cannot be an empty field`,
-                 'string.min': `Name should have a minimum length of {#limit} characters`,
-                 'string.max': `Name should have a maximum length of {#limit} characters`,
-                 'string.pattern.base': `Name can only contain text and numbers`,
-                 'any.required': `Name is a required field`}),
-    start_time: Joi.string()
-    //only allows time in 24 our format - e.g. 13:25
-    //means if a 0 or 1 is entered it can be followed by any number [01]\d or is a 2 is entered then can only be followed by a 0,1,2,3
-    //: means colon has to be input followed by any number from 0-5 then followed by any digit
-      .regex(/^([01]\d|2[0-3]):([0-5]\d)$/)
-      .max(5)
-      .min(5)
-      .required()
-      .messages({'string.base': `Start time was not input in the correct format. E.g. 13:25`,
-                 'string.pattern.base': `Start time was not input in the correct format. E.g. 14:25`,
-                 'string.min': `Start time was not input in the correct length. E.g. 15:25`,
-                 'string.max': `Start time was not input in the correct format. E.g. 16:25`,
-                 'string.empty' : `Start time is a required field`,
-                 'any.required': `Start time is a required field`}), 
-    public: Joi.string()
-    //means only 0 or 1 can be entered
-      .regex(/[0|1]$/)
-      .max(1)
-      .required()
-      .messages({'string.base': `Public is required`,
-                 'string.max': `Public has to have an input`,
-                 'string.pattern.base': `Public can only be a 0 or 1`,
-                 'string.empty': `Public is required`,
-                 'any.required': `Public is a required field`}),
-    game_type: Joi.string()
-      .regex(/[a-zA-Z0-9]/)
-      .max(30)
-      .min(5)
-      .required()
-      .messages({'string.base': `Game type is required`,
-                 'string.empty': `Game type is required`,
-                 'string.max':`Game type can only be 30 characters long`,
-                 'string.min':`Game type has to be at least 5 characters long`,
-                 'any.required': `Game type is a required field`}),
-    date: Joi.string()
-      .required()
-      .messages({'string.base': `Date is required`,
-                 'string.empty': `Date is required`,
-                 'any.required': `Date is a required field`}),
-    location: Joi.string()
-      .required()
-      .messages({'string.base': `location is required`,
-                 'string.empty': `location is required`,
-                 'any.required': `location is a required field`}),         
-    team_colour: Joi.string()
-      .required()
-      .messages({'string.base': `Team color is required`,
-                 'string.empty': `Team color is required`,
-                 'any.required': `Team color is a required field`}),
-    team_name: Joi.string()
-      .required()
-      .messages({'string.base': `Team name is required`,
-                 'string.empty': `Team name is required`,
-                 'any.required': `Team name is a required field`}),
-    opp_team_colour: Joi.string()
-      .required()
-      .messages({'string.base': `Opposition team color is required`,
-                 'string.empty': `Opposition team color is required`,
-                 'any.required': `Opposition team color is a required field`}),
-    opp_team_name: Joi.string()
-      .required()
-      .messages({'string.base': `Opposition team name is required`,
-                 'string.empty': `Opposition team name is required`,
-                 'any.required': `Opposition team name is a required field`}),
-    team_id: Joi.string()
-      .required()
-      .messages({'string.base': `team_id is required`,
-                 'string.empty': `team_id is required`,
-                 'any.required': `team_id is a required field`}),
-    user_id: Joi.string()
-      .required()
-      .messages({'string.base': `user_id is required`,
-                 'string.empty': `user_id is required`,
-                 'any.required': `user_id is a required field`}),
-//    possessions: Joi.string()             
-  }),
-}
-
-//---------------------------------------------------------------------------------------------------------------------------
-
-
-app.get('/user/games/delete', validate(getIdValidation, {}, {} ), async (req, res) => 
+//validate(getIdValidation, {}, {} ),
+app.get('/user/games/delete',  async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
         const dbo = db.db("TacTalk");
@@ -353,7 +96,8 @@ app.get('/user/game_events/delete', async (req, res) =>
 })
 //---------------------------------------------------------------------------------------------------------------------------------------
 //Delete user by id -WORKS
-app.get('/user/users/delete_user_by_id', validate(getIdValidation, {}, {} ), async (req, res) => 
+//validate(getIdValidation, {}, {} ),
+app.get('/user/users/delete_user_by_id',  async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
@@ -373,29 +117,9 @@ app.get('/user/users/delete_user_by_id', validate(getIdValidation, {}, {} ), asy
 })
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-//---------------------------------------------------------------------------------------------------------------------------------------
-//Delete player by id
-app.get('/user/players/delete_player_by_id', validate(getIdValidation, {}, {} ), async (req, res) => 
-{
-    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
-    const dbo = db.db("TacTalk");
-    res.setHeader('Content-Type', 'application/json');
-    try
-    {
-        const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId)};
-        dbo.collection("players").deleteOne(searchQuery);
-        res.end(JSON.stringify({code:200}));
-        db.close();
-    }catch(ex)
-    {
-        res.end(JSON.stringify({code:500}));
-        db.close();
-    }
-    
-})
-//------------------------------------------------------------------------------------------------------------------------------------------
 
-app.get('/user/games/get/id', validate(getIdValidation, {}, {} ), async (req, res) => 
+//validate(getIdValidation, {}, {} ),
+app.get('/user/games/get/id',  async (req, res) => 
 {
     
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
@@ -423,7 +147,8 @@ app.get('/user/games/get/id', validate(getIdValidation, {}, {} ), async (req, re
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 //getting game details by game id
-app.get('/user/games/get/game_by_id', validate(getIdValidation, {}, {} ), async (req, res) => 
+//validate(getIdValidation, {}, {} ),
+app.get('/user/games/get/game_by_id',  async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
@@ -449,7 +174,8 @@ app.get('/user/games/get/game_by_id', validate(getIdValidation, {}, {} ), async 
 //----------------------------------------------------------------------------------------------------------------------------------
 //getting game details based off userid - WORKS
 //currently dispays all details
-app.get('/user/games/get/user_game_details', validate(getUserMatchDetailsByIdValidation, {}, {} ), async (req, res) => 
+//validate(getUserMatchDetailsByIdValidation, {}, {} ),
+app.get('/user/games/get/user_game_details',  async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
@@ -477,7 +203,8 @@ app.get('/user/games/get/user_game_details', validate(getUserMatchDetailsByIdVal
 //----------------------------------------------------------------------------------------------------------------------------------
 //getting user by id - WORKS
 //currently dispays all details
-app.get('/user/users/get/user_details_by_id', validate(getIdValidation, {}, {} ), async (req, res) => 
+//validate(getIdValidation, {}, {} ),
+app.get('/user/users/get/user_details_by_id',  async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
@@ -488,7 +215,7 @@ app.get('/user/users/get/user_details_by_id', validate(getIdValidation, {}, {} )
         const searchQuery = { _id: new MongoDB.ObjectID(req.query._id)};
         
         var result = await dbo.collection("users").findOne(searchQuery);
-        res.end(JSON.stringify({code:200, result: result}));
+        res.end(JSON.stringify({code:200, username: result.username, email: result.email}));
         db.close();
         
     }catch(ex)
@@ -500,60 +227,10 @@ app.get('/user/users/get/user_details_by_id', validate(getIdValidation, {}, {} )
 })
 //--------------------------------------------------------------------------------------------------------------------------------------------------------
 
-//----------------------------------------------------------------------------------------------------------------------------------
-//getting user with name similar to one typed in
-//returns - code:200,result:null
-app.get('/user/users/get/search_similar_players_by_name', validate(searchPlayerValidation, {}, {} ), async (req, res) => 
-{
-    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
-    const dbo = db.db("TacTalk");
-    res.setHeader('Content-Type', 'application/json');
-    try
-    {
-        //Details used to call method put in here
-        const searchQuery = { player_name: req.query.player_name };
-        
-        var result = await dbo.collection("players").findOne(searchQuery);
-        res.end(JSON.stringify({code:200, result: result}));
-        db.close();
-        
-    }catch(ex)
-    {
-        res.end(JSON.stringify({code:500}));
-        db.close();
-    }
-    
-})
-//--------------------------------------------------------------------------------------------------------------------------------------------------------
-
-//----------------------------------------------------------------------------------------------------------------------------------
-//(read )getting player info based off id- WORKS
-app.get('/user/players/get/player_details_by_id', validate(getIdValidation, {}, {} ), async (req, res) => 
-{
-    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
-    const dbo = db.db("TacTalk");
-    res.setHeader('Content-Type', 'application/json');
-    try
-    {
-        //Details used to call method put in here
-        const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId) };
-      
-        var result = await dbo.collection("players").findOne(searchQuery);
-
-        res.end(JSON.stringify({code:200, result: result}));
-        db.close();
-        
-    }catch(ex)
-    {
-        res.end(JSON.stringify({code:500, error:ex.toString()}));
-        db.close();
-    }
-    
-})
-//--------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-app.get('/user/users/get_secure', validate(getIdValidation, {}, {} ), async (req, res) => 
+//validate(getIdValidation, {}, {} ),
+app.get('/user/users/get_secure',  async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
@@ -573,7 +250,8 @@ app.get('/user/users/get_secure', validate(getIdValidation, {}, {} ), async (req
     
 })
 
-app.post('/user/games/create', validate(createMatchValidation, {}, {} ), async (req, res) => 
+//validate(createMatchValidation, {}, {} ),
+app.post('/user/games/create',  async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
@@ -637,44 +315,7 @@ app.post('/user/games/create', validate(createMatchValidation, {}, {} ), async (
     }
 })
 
-//---------------------------------------------------------------------------------------------------------------------------------------------------
-//create players - WORKS
-//
-app.post('/user/players/create_player', validate(createPlayerValidation, {}, {} ), async (req, res) => 
-{
-    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
-    const dbo = db.db("TacTalk");
-    res.setHeader('Content-Type', 'application/json');
-    
-    try
-    {
-        var newPlayerObject = 
-                {
-                    player_name:req.body.player_name,
-                    player_age:req.body.player_age,
-                    player_number:req.body.player_number
-                };
-        
-        await dbo.collection("players").insertOne(newPlayerObject, function(err){
-            //if (err) return;
-            // Object inserted successfully.
 
-            
-            res.end(JSON.stringify({code:200,_id:newPlayerObject._id}));
-            db.close();
-        });
-        
-    }catch(ex)
-    { 
-        res.end(JSON.stringify({code:500,error:ex}));
-        db.close();
-    }
-
-})
-
-
-
-//---------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 app.post('/user/game_events/create', async (req, res) => 
@@ -743,51 +384,11 @@ app.get('/user/game_events/update', async (req, res) =>
     
 })
 
-//--------------------------------------------------------------------------------------------------------------------------------------------
-//Updating player details based off player id - more work needed
-app.get('/user/players/update_player', async (req, res) => 
-{
-    
-    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
-    const dbo = db.db("TacTalk");
-    res.setHeader('Content-Type', 'application/json');
-    
-    try
-    {
-     
-        const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId)};
-        
-//        var sampleQuery = {player_name : "jerry",
-//                            player_age: "30",
-//                            player_number: "5"};
-        
-        const updateDocument = 
-        {
-            "$set":
-                JSON.parse(req.query.updateObject)
-            
-        }
-        await dbo.collection("players").updateOne(searchQuery, updateDocument, function(err)
-        {
-            if (err) return;
-            
- 
-            res.end(JSON.stringify({code:200}));
-            db.close();
-        });
-    }catch(ex)
-    {
-        res.end(JSON.stringify({code:500,error:ex.toString()}));
-        db.close();
-    }
-    
-})
 
-//------------------------------------------------------------------------------------------------------------------------------------------------
-//validate(loginValidation, {}, {} ),
 
 //keyByField: true
-app.post('/user/register', validate(registerValidation, {}, {} ), async (req, res) =>
+//validate(registerValidation, {}, {} ),
+app.post('/user/register',  async (req, res) =>
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
@@ -1032,4 +633,10 @@ app.get('/cloud/game_events/create', CloudFunction.createInput);
 app.get('/dev/games/event_to_text',EventToText.eventToText);
 app.get('/dev/util/clear_game',Util.resetGame);
 
+app.get('/user/players/delete_player_by_id', Player.deletePlayer);
+app.get('/user/players/get/player_details_by_id', Player.readPlayer);
+app.get('/user/players/update_player', Player.updatePlayer);
+app.get('/user/users/get/search_similar_players_by_name',Player.similarName);
+
 app.post('/user/login', Login.loginUser)
+app.post('/user/players/create_player', Player.createPlayer);
