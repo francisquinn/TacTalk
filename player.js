@@ -79,12 +79,16 @@ module.exports = {
 
         try
         {
-
-            const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId)};
+            console.log("run")
+            console.log(JSON.parse(req.query.updateObject));
+            const searchQuery = { _id: new MongoDB.ObjectID(req.query._id)};
 
     //        var sampleQuery = {player_name : "jerry",
     //                            player_age: "30",
     //                            player_number: "5"};
+    
+            
+            
 
             const updateDocument = 
             {

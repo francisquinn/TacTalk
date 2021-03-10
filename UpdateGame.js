@@ -23,6 +23,21 @@ const defaultPossession =
             
         };        
 
+var defaultStatsObject = 
+                    {
+                        teamGoal : 0,
+                        teamPoints : 0,
+                        teamShots : 0,
+                        teamKickouts : 0,
+                        teamTurnover : 0,
+                        teamWides : 0,
+                        oppTeamGoal : 0,
+                        oppTeamPoints : 0,
+                        oppTeamShots : 0,
+                        oppTeamTurnover : 0
+                        
+                    }
+
 const stats = require("./Stats");
 const cp = require('./CommandParser');
 module.exports = 
@@ -62,20 +77,24 @@ module.exports =
                 }
                 const searchQuery = { game_id: new MongoDB.ObjectID(req.query.game_id)};
 
+                console.log("before dbo")
                 var activeGame = await dbo.collection("active_games").findOne(searchQuery);
-
+                console.log("after dbo get");
 
 
                 if (!activeGame)
                 {
+                    console.log("no result")
                     res.end(JSON.stringify({code:200, gameStatus:"NO_ACTIVE_GAME"}));
                 }
                 else if(!activeGame.user_id.equals (new MongoDB.ObjectID(req.query.user_id)))
                 {
+                    consoloe.log("no authorization")
                     res.end(JSON.stringify({code:200, gameStatus:"NOT_AUTHORIZED"}));
                 }
                 else if (activeGame.input_list.length > 0)
                 {
+                    consoloe.log("proces");
                     //if there is item in input list
 
                     //sort the input list
@@ -83,12 +102,21 @@ module.exports =
 
                     for (var i = 0; i < activeGame.input_list.length;i++)
                     {
+                        consoloe.log("i loopp")
                         if (activeGame.current_order + 1 === activeGame.input_list[i].audio_order)
                         {
+                            
                             activeGame.current_order += 1;
-                            for (var j = 0;j < activeGame.input_list[i].text.length; j++)
+                            
+                            
+                            if (activeGame.input_list[i].text.length !== 0)
                             {
-                                activeGame.last_string.push(activeGame.input_list[i].text[j]);
+                                
+                                for (var j = 0;j < activeGame.input_list[i].text.length; j++)
+                                {
+                                    consoloe.log("j loop")
+                                    activeGame.last_string.push(activeGame.input_list[i].text[j]);
+                                }
                             }
 
 
@@ -199,7 +227,10 @@ module.exports =
 
 
                 }
-
+                else if (activeGame.input_list.length === 0)
+                {
+                    res.end(JSON.stringify(({code:200, gameStatus:"NO_INPUT", result:defaultStatResult})));
+                }
 
 
 

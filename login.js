@@ -18,7 +18,7 @@ module.exports = {
     res.setHeader("Content-Type", "application/json");
     try {
       var searchQuery = {
-        email: req.body.email,
+        email: req.body.email
       };
 
       var result = await dbo.collection("users").findOne(searchQuery);
