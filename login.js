@@ -36,7 +36,9 @@ module.exports = {
         // Add token in header
         res.setHeader("Authentication", token);
 
-        res.end(token);
+        res.end(
+          JSON.stringify({ code: 200, message: "Login Successful" })
+        );
         db.close();
       } else {
         console.log("in else");
