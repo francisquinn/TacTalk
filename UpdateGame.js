@@ -20,23 +20,10 @@ const defaultEvent =
         
 const defaultPossession = 
         {
-            
-        };        
-
-var defaultStatsResult = 
-                    {
-                        teamGoal : 0,
-                        teamPoints : 0,
-                        teamShots : 0,
-                        teamKickouts : 0,
-                        teamTurnover : 0,
-                        teamWides : 0,
-                        oppTeamGoal : 0,
-                        oppTeamPoints : 0,
-                        oppTeamShots : 0,
-                        oppTeamTurnover : 0
-                        
-                    }
+            possession_team:-1,
+            time: 0,
+            events: []
+        };       
 
 const stats = require("./Stats");
 const cp = require('./CommandParser');
@@ -44,11 +31,13 @@ module.exports =
 {
     updateGame: async function(req,res)
     {     
+        
             //3-20
             //first is goal second is points
             const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
             const dbo = db.db("TacTalk");
             res.setHeader('Content-Type', 'application/json');
+            console.log("call");
             try
             {
                 if (req.query.hasOwnProperty("dummyData"))
@@ -78,9 +67,10 @@ module.exports =
 
                 var activeGame = await dbo.collection("active_games").findOne(searchQuery);
 
+
+
                 if (!activeGame)
                 {
-                    console.log("no result")
                     res.end(JSON.stringify({code:200, gameStatus:"NO_ACTIVE_GAME"}));
                 }
                 else if(!activeGame.user_id.equals (new MongoDB.ObjectID(req.query.user_id)))
@@ -90,6 +80,7 @@ module.exports =
                 else if (activeGame.input_list.length > 0)
                 {
                     //if there is item in input list
+
                     //sort the input list
                     activeGame.input_list.sort(inputListCompare);
 
@@ -97,17 +88,10 @@ module.exports =
                     {
                         if (activeGame.current_order + 1 === activeGame.input_list[i].audio_order)
                         {
-                            
                             activeGame.current_order += 1;
-                            
-                            
-                            if (activeGame.input_list[i].text.length !== 0)
+                            for (var j = 0;j < activeGame.input_list[i].text.length; j++)
                             {
-                                
-                                for (var j = 0;j < activeGame.input_list[i].text.length; j++)
-                                {
-                                    activeGame.last_string.push(activeGame.input_list[i].text[j]);
-                                }
+                                activeGame.last_string.push(activeGame.input_list[i].text[j]);
                             }
 
 
@@ -133,12 +117,14 @@ module.exports =
                             {
                                 if (activeGame.current_possession_team !== parseResult.team_id)
                                 {
-                                    console.log("different team detected");
                                     activeGame.current_possession_team = parseResult.team_id;
                                     newPossession = true;
 
                                 }
                             }
+                            console.log("%c parse result: ["+JSON.stringify(parseResult)+"]",'background: #222; color: #bada55')
+           
+                                
 
 
                             //cycle through the list of properties
@@ -167,8 +153,6 @@ module.exports =
 
                                     //reset segment string because the information is extracted
                                     segmentString = "";
-
-                                    //remembers the index which has already been parsed
                                     removeIndex = i;
 
 
@@ -211,8 +195,9 @@ module.exports =
 
 
                         console.log(gameObject);
-                        var statResult = stats.getCurrentStats(gameObject);
+                        var statResult = await stats.getCurrentStats(gameObject);
                         res.end(JSON.stringify({code:200, gameStatus: "UPDATING",result: statResult}));
+                        console.log("finish output");
 
                     }
 
@@ -222,6 +207,7 @@ module.exports =
                 {
                     res.end(JSON.stringify(({code:200, gameStatus:"NO_INPUT", result: defaultStatsResult})));
                 }
+
 
 
 
@@ -251,7 +237,7 @@ function inputListCompare(inputA,inputB)
     }
 }
 
-async function createGameEvent(gameID,gameEvent)
+async function createGameEvent(gameID,gameEvent,currentPossessionTeam, newPossession)
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
@@ -259,18 +245,43 @@ async function createGameEvent(gameID,gameEvent)
     {
         
         const searchQuery = { _id: new MongoDB.ObjectID(gameID) };
-        console.log(gameID);
-        
-        
         var gameObj = await dbo.collection("games").findOne(searchQuery);
+        
+        if (gameEvent.team_id === -1)
+        {
+            gameEvent.team_id = currentPossessionTeam;
+        }
         
         if (gameObj.possessions.length === 0)
         {
             gameObj.possessions.push(
                     {
+                        possession_team:currentPossessionTeam,
                         time:0,
                         events:[gameEvent]
                     });
+        }
+        else if (gameEvent.event_type_id === 8)
+        {
+            //turnover
+            gameObj.possessions[gameObj.possessions.length-1].events.push(gameEvent);
+            var newTeamId = Math.abs(currentPossessionTeam - 1);
+            gameObj.possessions.push(
+                    {
+                        possession_team:newTeamId,
+                        time:0,
+                        events:[]
+                    });
+        }
+        else if (newPossession)
+        {
+            var newPossessionObj = 
+                    {
+                        possession_team:currentPossessionTeam,
+                        time:0,
+                        events:[gameEvent]
+                    }
+            gameObj.possessions.push(newPossessionObj);
         }
         else
         {
@@ -286,7 +297,8 @@ async function createGameEvent(gameID,gameEvent)
         await dbo.collection("games").updateOne(searchQuery, updateDocument, function(err)
         {
             if (err) return;
-            console.log("success")
+            console.log("A new event has been inserted into the game:");
+            console.log(JSON.stringify(gameEvent));
             db.close();
         });
     }catch(ex)
