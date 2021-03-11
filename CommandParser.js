@@ -19,10 +19,12 @@ module.exports =
 
         if (compareLang(input,teamColor+" possession") || compareLang(input,teamColor+" team possession"))
         {
+            console.log("New P")
             return {result:1,team_id:0};
         }
         else if (compareLang(input,oppTeamColor+" possession") || compareLang(input,oppTeamColor+" team possession"))
         {
+            console.log("New P")
             return {result:1,team_id:1};
         }
 
