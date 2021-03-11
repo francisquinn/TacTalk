@@ -24,6 +24,25 @@ const defaultPossession =
             time: 0,
             events: []
         };       
+        
+        
+const defaultStatsResult = 
+        {
+            teamGoal : 0,
+            teamPoints : 0,
+            teamShots : 0,
+            teamKickouts : 0,
+            teamTurnover : 0,
+            teamWides : 0,
+            teamPass:0,
+            oppTeamGoal : 0,
+            oppTeamPoints : 0,
+            oppTeamShots : 0,
+            oppTeamKickouts:0,
+            oppTeamTurnover : 0,
+            oppTeamPass:0,
+            oppTeamWides:0
+        }
 
 const stats = require("./Stats");
 const cp = require('./CommandParser');

@@ -18,7 +18,7 @@ module.exports =
             oppTeamKickouts:0,
             oppTeamTurnover : 0,
             oppTeamPass:0,
-            oppTeamWides:0,
+            oppTeamWides:0
         }
         
         

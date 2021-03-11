@@ -22,7 +22,7 @@ module.exports =
             {
                 active_game.current_order = 0;
                 active_game.current_event = {};
-                active_game.last_string = "";
+                active_game.last_string = [];
                 active_game.current_possession_team = -1;
                 if (req.query.hasOwnProperty("clearInput"))
                 {
