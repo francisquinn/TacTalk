@@ -23,7 +23,7 @@ const defaultPossession =
             
         };        
 
-var defaultStatsObject = 
+var defaultStatsResult = 
                     {
                         teamGoal : 0,
                         teamPoints : 0,
@@ -49,7 +49,6 @@ module.exports =
             const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
             const dbo = db.db("TacTalk");
             res.setHeader('Content-Type', 'application/json');
-            console.log("call");
             try
             {
                 if (req.query.hasOwnProperty("dummyData"))
@@ -77,10 +76,7 @@ module.exports =
                 }
                 const searchQuery = { game_id: new MongoDB.ObjectID(req.query.game_id)};
 
-                console.log("before dbo")
                 var activeGame = await dbo.collection("active_games").findOne(searchQuery);
-                console.log("after dbo get");
-
 
                 if (!activeGame)
                 {
@@ -229,7 +225,7 @@ module.exports =
                 }
                 else if (activeGame.input_list.length === 0)
                 {
-                    res.end(JSON.stringify(({code:200, gameStatus:"NO_INPUT", result:defaultStatResult})));
+                    res.end(JSON.stringify(({code:200, gameStatus:"NO_INPUT", result: defaultStatsResult})));
                 }
 
 
