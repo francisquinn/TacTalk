@@ -26,12 +26,14 @@ var CompileDictionary = require('./CompileDictionary');
 var UpdateGame = require('./UpdateGame');
 var CloudFunction = require('./CloudFunction');
 var passwordHash = require('password-hash');
+const verify = require('./verifyToken');
+var jwt = require("jsonwebtoken");
 
 const Util = require("./Util");
 const EventToText = require("./EventToText");
 
-const Login = require('./login')
-const Player = require('./player')
+const Login = require('./login');
+const Player = require('./player');
 
 
 app.use(bodyParser.json());
@@ -251,7 +253,7 @@ app.get('/user/users/get_secure',  async (req, res) =>
 })
 
 //validate(createMatchValidation, {}, {} ),
-app.post('/user/games/create',  async (req, res) => 
+app.post('/user/games/create', verify, async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
@@ -261,20 +263,26 @@ app.post('/user/games/create',  async (req, res) =>
     {
         var newGameObject = 
                 {
-                    game_name:req.body.game_name,
                     user_id:new MongoDB.ObjectID(req.body.user_id),
                     team_id:new MongoDB.ObjectID(req.body.team_id),
-                    start_time:req.body.start_time,
+                    startTime:req.body.startTime,
                     public:req.body.public,
-                    game_type : req.body.game_type,
-                    date:req.body.date,
+                    gameType : req.body.gameType,
+                    startDate:req.body.startDate,
                     location:req.body.location,
-                    team_colour:req.body.team_colour,
-                    team_name:req.body.team_name,
-                    opp_team_colour:req.body.opp_team_colour,
-                    opp_team_name:req.body.opp_team_name,
+                    teamColor:req.body.teamColor,
+                    teamName:req.body.teamName,
+                    oppColor:req.body.oppColor,
+                    opposition:req.body.opposition,
                     possessions:[]
                 };
+                
+        const token = jwt.sign(
+          { user_id: new MongoDB.ObjectID(req.body.user_id) },
+          process.env.TOKEN_SECRET
+        );
+
+        res.header("Authentication", token);
         
         await dbo.collection("games").insertOne(newGameObject, function(err){
 //            if (err)
@@ -297,8 +305,8 @@ app.post('/user/games/create',  async (req, res) =>
                         current_event:{},
                         active: 1,
                         current_possession: -1,
-                        team_colour: req.body.team_colour,
-                        opp_team_colour: req.body.opp_team_colour
+                        teamColor: req.body.teamColor,
+                        oppColor: req.body.oppColor
                         
                     }
             await dbo.collection("active_games").insertOne(newActiveGameObject, function(err){
@@ -638,5 +646,5 @@ app.get('/user/players/get/player_details_by_id', Player.readPlayer);
 app.get('/user/players/update_player', Player.updatePlayer);
 app.get('/user/users/get/search_similar_players_by_name',Player.similarName);
 
-app.post('/user/login', Login.loginUser)
+app.post('/user/login', Login.loginUser);
 app.post('/user/players/create_player', Player.createPlayer);
