@@ -26,7 +26,7 @@ module.exports =
         {
             for (var j = 0; j < json.possessions[i].events.length; j++)
             {
-                
+                console.log("run");
                 var event = json.possessions[i].events[j];
 
                 processEvent(event, statObject);
@@ -68,7 +68,7 @@ function getOutcomeTypeByID(outcomeID)
 
 function processEvent(event, statObject)
 {
-    console.log("Stat "+event.outcome_id);
+    
     switch(getEventTypeById(event.event_type_id))
     {
         case "kickout":
@@ -108,7 +108,7 @@ function processEvent(event, statObject)
 
 function processOutcome(event, statObject)
 {
-    
+    console.log("Stat "+event.outcome_id);
     switch(event.outcome_id)
     {
         case 2:

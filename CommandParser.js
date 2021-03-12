@@ -135,7 +135,10 @@ module.exports =
             playerText = wtn.wordsToNumbers(playerText.replace(/player(?:$|\W)/,""));
 
             var playerNum = parseInt(playerText);
-            return {player_id: playerNum};
+            if (playerNum !== null)
+            {
+                return {player_id: playerNum};
+            }
         }
         
         

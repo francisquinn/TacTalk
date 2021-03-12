@@ -215,6 +215,7 @@ module.exports =
 
                         console.log(gameObject);
                         var statResult = await stats.getCurrentStats(gameObject);
+                        console.log(statResult);
                         res.end(JSON.stringify({code:200, gameStatus: "UPDATING",result: statResult}));
                         console.log("finish output");
 
