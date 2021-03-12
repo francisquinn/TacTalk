@@ -32,9 +32,10 @@ module.exports = {
           { user_id: result._id },
           process.env.TOKEN_SECRET
         );
-
+//console.log(result._id);
         // Add token in header
         res.setHeader("Authentication", token);
+//        res.header("Authentication", token);
 
         res.end(
           JSON.stringify({ code: 200, message: "Login Successful" })
