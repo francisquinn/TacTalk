@@ -68,6 +68,7 @@ function getOutcomeTypeByID(outcomeID)
 
 function processEvent(event, statObject)
 {
+    console.log("Stat "+event.outcome_id);
     switch(getEventTypeById(event.event_type_id))
     {
         case "kickout":
@@ -125,21 +126,22 @@ function processOutcome(event, statObject)
         case 6:
             if (event.team_id === 0)
             {
-                statObject.teamGoal++;
-            }
-            else if (event.team_id === 1)
-            {
-                statObject.oppTeamGoal++;
-            }
-            break;
-        case 7:
-            if (event.team_id === 0)
-            {
                 statObject.teamPoints++;
             }
             else if (event.team_id === 1)
             {
                 statObject.oppTeamPoints++;
+            }
+            break;
+        case 7:
+            
+            if (event.team_id === 0)
+            {
+                statObject.teamGoal++;
+            }
+            else if (event.team_id === 1)
+            {
+                statObject.oppTeamGoal++;
             }
             break;
         case 8:
