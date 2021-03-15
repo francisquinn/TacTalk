@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TacTalk Quiz</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+    </head>
+    <body onload="startQuiz()">
+        <script src="js/quiz.js" ></script>
+        <script src="js/quiz_process.js"></script>
+        <div id="quiz_area"></div>
+        <div id="buttons">
+            <button onclick="switchQuestion(-1)">Previous</button>
+            <button onclick="switchQuestion(1)">Next</button>
+        </div>
+    </body>
+</html>
