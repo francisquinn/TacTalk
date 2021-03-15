@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    
+    <body>
+        <script>
+            const videoSrc = document.querySelector("#video-source");
+            const videoTag = document.querySelector("#video-tag");
+            const inputTag = document.querySelector("#input-tag");
+            
+            function readVideo(event) 
+            {
+                if (event.target.files && event.target.files[0]) {
+                  var reader = new FileReader();
+
+                  reader.onload = function(e) {
+                    videoSrc.src = e.target.result
+                    console.log(e.target.result);
+                    videoTag.load()
+                  }.bind(this)
+
+                  reader.readAsDataURL(event.target.files[0]);
+                }
+          }
+        </script>
+        <input type="file" accept="video/*" id="input-tag"/>
+        <hr>
+        <video controls id="video-tag">
+          <source id="video-source" src="splashVideo">
+          Your browser does not support the video tag.
+        </video>
+    </body>
+</html>

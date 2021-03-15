@@ -634,6 +634,14 @@ app.get('/compileDictionary', async (req, res) =>
     });
 })
 
+app.get('/createTrainingMaterial', async (req, res) => 
+{
+    var fs = require("fs");
+    fs.readFile(__dirname+'/training/createTrainingMaterial.html', 'utf8', (err, text) => {
+        res.send(text);
+    });
+})
+
 app.get('/user/games/updateGame', UpdateGame.updateGame );
 app.get('/dictionary', CompileDictionary.dictionary);
 app.get('/cloud/dictionary/create', CompileDictionary.createDictionary);

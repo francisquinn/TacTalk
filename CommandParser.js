@@ -69,55 +69,14 @@ module.exports =
             }
         }
         
-//        if (!hasOutcome)
-//        {
-//            for (var i = 0; i < enums.event.length; i++)
-//            {
-//                if (enums.event[i].eventID === newEvent.eventID)
-//                {
-//                    newEvent.outcome_id = enums.event[i].defaultOutcome;
-//                    break;
-//                }
-//            }
-//        }
-        
-//        for (var i = 0; i < enums.event.length; i++)
-//        {
-//            if (enums.event[i].eventID === newEvent.eventID)
-//            {
-//                if (enums.event[i].hasOwnProperty("defaultTeam"))
-//                {
-//                    if (enums.event[i].defaultTeam === 1)
-//                    {
-//                        if (newEvent.teamID === 1)
-//                        {
-//                            newEvent.outcome_team_id = 0;
-//                        }
-//                        else
-//                        {
-//                            newEvent.outcome_team_id = 1;
-//                        }
-//                    }
-//                }
-//                break;
-//            }
-//        }
-        
-//        if (!hasPosition)
-//        {
-//            for (var i = 0; i < enums.event.length; i++)
-//            {
-//                if (enums.event[i].eventID === newEvent.eventID)
-//                {
-//                    if (enums.event[i].hasOwnProperty("defaultPosition"))
-//                    {
-//                        newEvent.event_position_id = enums.event[i].defaultPosition;
-//                    }
-//                    break;
-//                }
-//            }
-//        }
-        
+        var singlePlayerNumber = wtn.wordsToNumbers(input);
+        if (singlePlayerNumber !== null)
+        {
+            if (singlePlayerNumber < 45)
+            {
+                return {player_id:singlePlayerNumber};
+            }
+        }
 
         var playerMatch = input.match(playerRegex);
         var playerText = "";
