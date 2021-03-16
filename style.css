@@ -1,7 +1,43 @@
 .list-group-item {
-    display: list-item;
+  display: list-item;
+  padding: 15px;
 }
 
-ul .list-group-item{
+ul .list-group-item {
+  display: block;
+}
+
+#short {
+    color: #01ACB7;
+}
+
+#mid{
+    color: #F47B0C;
+}
+
+#long{
+    color: #DE1818;
+}
+
+ol{
+    list-style-position: inside;
+}
+
+h1 {
+  color: #2ac87b;
+}
+h2, h3 {
+    color: #202C74;
+}
+
+#pitch {
+    margin: auto;    
     display: block;
+}
+
+footer{ 
+    box-sizing: border-box;
+    right: 0;
+    margin: 0;
+    color: #202C74;
 }
