@@ -1,0 +1,7 @@
+.list-group-item {
+    display: list-item;
+}
+
+ul .list-group-item{
+    display: block;
+}
