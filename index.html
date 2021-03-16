@@ -28,10 +28,24 @@
             <div id="events">
                 <ul class="list-group">
                     <li class="list-group-item">
+                        <h3>Start game</h3>
+                        <small>Signify the start of the game.</small>
+                        <div class="pt-2 pb-2">
+                            <span>Use case: <i>Start game (followed by throw-in)</i></span>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <h3>Throw-in</h3>
+                        <small>The ball is thrown up to start the game.</small>
+                        <div class="pt-2 pb-2">
+                            <span>Use case: <i>Throw-in</i></span>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
                         <h3>Shot</h3>
                         <small>A player attempts to score either a goal or a point.</small>
                         <div class="pt-2 pb-2">
-                            <span>Use case: <i>Shot (outcome) (player number)</i></span>
+                            <span>Use case: <i><b>Shot</b> (outcome) (player number)</i></span>
                         </div>
                     </li>
                     <li class="list-group-item">
@@ -106,19 +120,31 @@
                 <ul class="list-group">
                     <li class="list-group-item">
                         <h3>Goal</h3>
-                        <small>description</small>
+                        <small>A player has scored a goal.</small>
+                        <div class="pt-2 pb-2">
+                            <span>Use case: <i>Shot <b>Goal</b> (player number)</i></span>
+                        </div>
                     </li>
                     <li class="list-group-item">
                         <h3>Point</h3>
-                        <small>description</small>
+                        <small>A player has scored a point.</small>
+                        <div class="pt-2 pb-2">
+                            <span>Use case: <i>Shot <b>Point</b> (player number)</i></span>
+                        </div>
                     </li>
                     <li class="list-group-item">
                         <h3>Wide</h3>
-                        <small>description</small>
+                        <small>A player has failed to score from an attempted shot.</small>
+                        <div class="pt-2 pb-2">
+                            <span>Use case: <i>Shot <b>Wide</b> (player number)</i></span>
+                        </div>
                     </li>
                     <li class="list-group-item">
                         <h3>Turnover</h3>
-                        <small>description</small>
+                        <small>A team has lost the ball which results in a change of possession.</small>
+                        <div class="pt-2 pb-2">
+                            <span>Use case: <i><b>Turnover</b> (possession)</i></span>
+                        </div>
                     </li>
                     <li class="list-group-item">
                         <h3>Forthy-five</h3>
@@ -129,8 +155,24 @@
         </div>
         <br>
         <div class="row">
-            <div id="video">
-                <h2>Example video</h2>
+            <h2>Possession</h2>
+        </div>
+        <div class="row">
+            <div id="possession">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <div class="pt-2 pb-2">
+                            <span>- Used to indicate which team has possession of the ball.</span>
+                            <br>
+                            <span>- Teams are refernced using the colour of their jersey <i>e.g. Cavan = Blue, Louth = Red.</i></span>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="pt-2 pb-2">
+                            <span>Use case: <i>(Team colour) ball</i></span>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
 
