@@ -11,17 +11,17 @@ var questions = [
   {
     question_id: 3,
     question:
-      "Which of the statements below is NOT a correct way of specifying which team has the possession?",
+      "Which of these statements is NOT a correct way of specifying that the blue team has the possession?",
   },
   {
     question_id: 4,
     question:
-      "In the video above, what is the correct way to annotate that Player X has scored a point from a location?",
+      "In the video above, what is the correct way to annotate that Player 24 scored a point from a location?",
   },
   {
     question_id: 5,
     question:
-      "When annotating a match, which keyword type must always be spoken first?",
+      "When annotating a match, which keyword type must be spoken first?",
     video: "",
   },
   {
