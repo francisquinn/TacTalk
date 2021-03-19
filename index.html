@@ -112,7 +112,7 @@
                         <div class="pt-2 pb-2">
                             <span>The location in which an event occured on the field. <i>*(optional)</i></span>
                             <br>
-                            <span>The <i>Short</i> position represents the team goal while the <i>Long</i> position represent the opposition goal.</span><br>
+                            <span>The <i>Short</i> grid section is within the 45 line while the <i>Mid</i> grid section is outside the 45 line.</span><br>
                             <span>Mark the position of <i>Shots</i> and <i>Kickouts</i></span>
                         </div>
                         <div class="pt-2 pb-2">
@@ -126,8 +126,8 @@
         </div>
         <br>
         <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-8 ">
-                <img id="pitch" src="media/pitch.png" height="600" alt="">
+            <div class="col-lg-6 col-md-6 col-sm-8 p-5 text-center">
+                <img class="mx-auto d-block" src="media/half-pitch.png" height="300">
             </div>
             <div class="col-lg-6 col-md-6 col-sm-4">
                 <h3>Location</h3>
@@ -138,9 +138,6 @@
                     <li id="mid" class="list-group-item"><b>Mid Left</b></li>
                     <li id="mid" class="list-group-item"><b>Mid Centre</b></li>
                     <li id="mid" class="list-group-item"><b>Mid Right</b></li>
-                    <li id="long" class="list-group-item"><b>Long Left</b></li>
-                    <li id="long" class="list-group-item"><b>Long Centre</b></li>
-                    <li id="long" class="list-group-item"><b>Long Right</b></li>
                 </ol>
             </div>
         </div>
@@ -212,6 +209,28 @@
                             <span>Use cases:</span><br>
                             <span><i>(Team colour) <b>possession</b></i></span><br>
                             <span><i>(Team colour) <b>ball</b></i></span><br>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <h2><b>Player</b></h2>
+        </div>
+        <div class="row">
+            <div id="player">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <div class="pt-2 pb-2">
+                            <span>Players are referenced by using their kit number.</span>
+                            <br>
+                            <span>Players can be linked to events by adding their number after the outcome.</span>
+                        </div>
+                        <div class="pt-2 pb-2">
+                            <span>Use cases:</span><br>
+                            <span><i>Shot Goal <b>Player Number</b></i></span><br>
+                            <span><i>(Event) (Postion) (Outcome) <b>Player Number</b></i></span><br>
                         </div>
                     </li>
                 </ul>

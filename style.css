@@ -34,11 +34,6 @@ h2, h3 {
     color: #202C74;
 }
 
-#pitch {
-    margin: auto;    
-    display: block;
-}
-
 footer{ 
     box-sizing: border-box;
     right: 0;

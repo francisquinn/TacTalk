@@ -71,30 +71,31 @@ var quiz = [
   {
     quiz_no: 4,
     question:
-      "In the video above, what is the correct way to annotate that Player 24 scored a point from a location?",
+      "In the video above, what location on the pitch did Player 24 score from?",
     video: "./media/TacTalk-Q4.mp4",
     choice: [
       {
-        content: "blue possession",
+        content: "Short Centre",
         answer: 0,
       },
       {
-        content: "green team possession",
+        content: "Short Right",
         answer: 0,
       },
       {
-        content: "red ball",
-        answer: 0,
-      },
-      {
-        content: "purple control",
+        content: "Short Left",
         answer: 1,
+      },
+      {
+        content: "Mid Left",
+        answer: 0,
       },
     ],
   },
   {
     quiz_no: 5,
-    question: "Which of the below statements is the correct way to annotate Player 8 missing an attempted shot?",
+    question:
+      "Which of the below statements is the correct way to annotate Player 8 missing an attempted shot?",
     choice: [
       {
         content: "Wide Shot Player 8",
@@ -162,8 +163,7 @@ var quiz = [
   },
   {
     quiz_no: 8,
-    question:
-      "Teams are represented by their colour",
+    question: "Teams are represented by their colour.",
     choice: [
       {
         content: "True",
@@ -177,8 +177,7 @@ var quiz = [
   },
   {
     quiz_no: 9,
-    question:
-      "Players are represented by their name",
+    question: "Players are represented by their name.",
     choice: [
       {
         content: "True",
@@ -196,19 +195,19 @@ var quiz = [
     video: "./media/TacTalk-Q10.mp4",
     choice: [
       {
-        content: "Mid",
-        answer: 0,
-      },
-      {
-        content: "45",
+        content: "Mid Left",
         answer: 1,
       },
       {
-        content: "65",
+        content: "Mid Centre",
         answer: 0,
       },
       {
-        content: "sideline",
+        content: "Short Left",
+        answer: 0,
+      },
+      {
+        content: "Mid Right",
         answer: 0,
       },
     ],
@@ -319,8 +318,8 @@ function getResult() {
   }
 
   quiz_area.innerHTML = "<h2>Your final score is " + score + "/10</h2>";
-  homeButton.innerHTML = "<a href='index.html' role='button' class='btn btn-success'>Exit Quiz</a>"
-  
+  homeButton.innerHTML =
+    "<a href='index.html' role='button' class='btn btn-success'>Exit Quiz</a>";
 }
 
 function shuffleArray(array) {
