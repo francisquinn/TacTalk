@@ -26,14 +26,17 @@ var CompileDictionary = require('./CompileDictionary');
 var UpdateGame = require('./UpdateGame');
 var CloudFunction = require('./CloudFunction');
 var passwordHash = require('password-hash');
-const verify = require('./verifyToken');
 var jwt = require("jsonwebtoken");
 
 const Util = require("./Util");
 const EventToText = require("./EventToText");
+const verify = require('./verifyToken');
 
 const Login = require('./login');
 const Player = require('./player');
+const Team = require('./team');
+const Game = require('./game');
+
 
 
 app.use(bodyParser.json());
@@ -252,77 +255,6 @@ app.get('/user/users/get_secure',  async (req, res) =>
     
 })
 
-//validate(createMatchValidation, {}, {} ),
-app.post('/user/games/create', verify, async (req, res) => 
-{
-    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
-    const dbo = db.db("TacTalk");
-    res.setHeader('Content-Type', 'application/json');
-//    console.log("run");
-    try
-    {
-        var newGameObject = 
-                {
-                    user_id:new MongoDB.ObjectID(req.body.user_id),
-                    team_id:new MongoDB.ObjectID(req.body.team_id),
-                    startTime:req.body.startTime,
-                    public:req.body.public,
-                    gameType : req.body.gameType,
-                    startDate:req.body.startDate,
-                    location:req.body.location,
-                    teamColor:req.body.teamColor,
-                    teamName:req.body.teamName,
-                    oppColor:req.body.oppColor,
-                    opposition:req.body.opposition,
-                    possessions:[]
-                };
-                
-        const token = jwt.sign(
-          { user_id: new MongoDB.ObjectID(req.body.user_id) },
-          process.env.TOKEN_SECRET
-        );
-
-        res.header("Authentication", token);
-        
-        await dbo.collection("games").insertOne(newGameObject, function(err){
-//            if (err)
-//                console.log(err.toString());
-//                return;
-//            // Object inserted successfully.
-//           console.log("stage 1");
-//            res.end(JSON.stringify({code:200, game_name:req.body.game_name}));
-//            db.close();
-            
-
-        });
-        var newActiveGameObject =
-                    {
-                        game_id: newGameObject._id,
-                        user_id: new MongoDB.ObjectID(req.body.user_id),
-                        last_string:[],
-                        input_list:[],
-                        current_order:0,
-                        current_event:{},
-                        active: 1,
-                        current_possession: -1,
-                        teamColor: req.body.teamColor,
-                        oppColor: req.body.oppColor
-                        
-                    }
-            await dbo.collection("active_games").insertOne(newActiveGameObject, function(err){
-            console.log("done");
-            res.end(JSON.stringify({code:200,_id:newGameObject._id}));
-
-            
-            db.close();                
-            });
-    }catch(ex)
-    { 
-        res.end(JSON.stringify({code:500,error:ex}));
-        db.close();
-    }
-})
-
 
 
 
@@ -400,7 +332,7 @@ app.post('/user/register',  async (req, res) =>
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
-    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Content-Type', 'application/json', 'Authentication');
     try
     {
         var hashedPassword = passwordHash.generate(req.body.password)
@@ -655,4 +587,6 @@ app.get('/user/players/update_player', Player.updatePlayer);
 app.get('/user/users/get/search_similar_players_by_name',Player.similarName);
 
 app.post('/user/login', Login.loginUser);
-app.post('/user/players/create_player', Player.createPlayer);
+app.post('/user/create_team', verify.LoginVerify, Team.createTeam);
+app.post('/user/players/create_player', verify.TeamVerify, Player.createPlayer);
+app.post('/user/games/create', verify.TeamVerify, Game.createGame );

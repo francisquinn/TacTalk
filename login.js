@@ -28,14 +28,14 @@ module.exports = {
         passwordHash.verify(req.body.password, result.password.toString())
       ) {
         // Create and assign token
-        const token = jwt.sign(
+        const loginToken = jwt.sign(
           { user_id: result._id },
           process.env.TOKEN_SECRET
         );
 //console.log(result._id);
         // Add token in header
-        res.setHeader("Authentication", token);
-//        res.header("Authentication", token);
+        res.setHeader("LoginAuth", loginToken);
+//        res.header("LoginAuth", token).send(token);
 
         res.end(
           JSON.stringify({ code: 200, message: "Login Successful" })
