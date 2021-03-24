@@ -1,0 +1,42 @@
+[
+    {
+        "merged": "C:\\Users\\Timot\\OneDrive\\Desktop\\TacTalk\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_user_page.xml",
+        "source": "C:\\Users\\Timot\\OneDrive\\Desktop\\TacTalk\\app\\src\\main\\res\\layout\\fragment_user_page.xml"
+    },
+    {
+        "merged": "C:\\Users\\Timot\\OneDrive\\Desktop\\TacTalk\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_login.xml",
+        "source": "C:\\Users\\Timot\\OneDrive\\Desktop\\TacTalk\\app\\src\\main\\res\\layout\\fragment_login.xml"
+    },
+    {
+        "merged": "C:\\Users\\Timot\\OneDrive\\Desktop\\TacTalk\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_manage_team.xml",
+        "source": "C:\\Users\\Timot\\OneDrive\\Desktop\\TacTalk\\app\\src\\main\\res\\layout\\fragment_manage_team.xml"
+    },
+    {
+        "merged": "C:\\Users\\Timot\\OneDrive\\Desktop\\TacTalk\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_main_menu.xml",
+        "source": "C:\\Users\\Timot\\OneDrive\\Desktop\\TacTalk\\app\\src\\main\\res\\layout\\fragment_main_menu.xml"
+    },
+    {
+        "merged": "C:\\Users\\Timot\\OneDrive\\Desktop\\TacTalk\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_set_up_match.xml",
+        "source": "C:\\Users\\Timot\\OneDrive\\Desktop\\TacTalk\\app\\src\\main\\res\\layout\\fragment_set_up_match.xml"
+    },
+    {
+        "merged": "C:\\Users\\Timot\\OneDrive\\Desktop\\TacTalk\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_statistics.xml",
+        "source": "C:\\Users\\Timot\\OneDrive\\Desktop\\TacTalk\\app\\src\\main\\res\\layout\\fragment_statistics.xml"
+    },
+    {
+        "merged": "C:\\Users\\Timot\\OneDrive\\Desktop\\TacTalk\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_end_game.xml",
+        "source": "C:\\Users\\Timot\\OneDrive\\Desktop\\TacTalk\\app\\src\\main\\res\\layout\\fragment_end_game.xml"
+    },
+    {
+        "merged": "C:\\Users\\Timot\\OneDrive\\Desktop\\TacTalk\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_register.xml",
+        "source": "C:\\Users\\Timot\\OneDrive\\Desktop\\TacTalk\\app\\src\\main\\res\\layout\\fragment_register.xml"
+    },
+    {
+        "merged": "C:\\Users\\Timot\\OneDrive\\Desktop\\TacTalk\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_recording_page.xml",
+        "source": "C:\\Users\\Timot\\OneDrive\\Desktop\\TacTalk\\app\\src\\main\\res\\layout\\fragment_recording_page.xml"
+    },
+    {
+        "merged": "C:\\Users\\Timot\\OneDrive\\Desktop\\TacTalk\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\fragment_home_screen.xml",
+        "source": "C:\\Users\\Timot\\OneDrive\\Desktop\\TacTalk\\app\\src\\main\\res\\layout\\fragment_home_screen.xml"
+    }
+]

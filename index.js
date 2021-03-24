@@ -14,7 +14,7 @@ const cp = require('./CommandParser');
 const stats = require('./Stats');
 const express = require('express');
 const app = express();
-const uri = "mongodb+srv://RojakAdmin:RojakIsASalad@rojakcluster.ho1ff.mongodb.net/sample_analytics?retryWrites=true&w=majority";
+const uri = process.env.DB_CONNECT;
 const Games = require("./Games");
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 var FormData = require('form-data');

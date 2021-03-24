@@ -2,7 +2,7 @@ const MongoClient = require("mongodb").MongoClient;
 const ObjectID = require("mongodb").ObjectID;
 const MongoDB = require("mongodb");
 var passwordHash = require("password-hash");
-const uri = "mongodb+srv://RojakAdmin:RojakIsASalad@rojakcluster.ho1ff.mongodb.net/sample_analytics?retryWrites=true&w=majority";
+const uri = process.env.DB_CONNECT;
 
 module.exports = {
 registerUser: async function (req, res) 

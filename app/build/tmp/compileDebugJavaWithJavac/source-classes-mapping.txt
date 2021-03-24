@@ -1,0 +1,24 @@
+com/example/tactalk/BuildConfig.java
+ com.example.tactalk.BuildConfig
+com/example/tactalk/databinding/FragmentMainMenuBinding.java
+ com.example.tactalk.databinding.FragmentMainMenuBinding
+com/example/tactalk/databinding/FragmentHomeScreenBinding.java
+ com.example.tactalk.databinding.FragmentHomeScreenBinding
+com/example/tactalk/databinding/FragmentLoginBinding.java
+ com.example.tactalk.databinding.FragmentLoginBinding
+com/example/tactalk/databinding/FragmentStatisticsBinding.java
+ com.example.tactalk.databinding.FragmentStatisticsBinding
+com/example/tactalk/databinding/FragmentSetUpMatchBinding.java
+ com.example.tactalk.databinding.FragmentSetUpMatchBinding
+com/example/tactalk/databinding/FragmentManageTeamBinding.java
+ com.example.tactalk.databinding.FragmentManageTeamBinding
+com/example/tactalk/databinding/FragmentRecordingPageBinding.java
+ com.example.tactalk.databinding.FragmentRecordingPageBinding
+com/example/tactalk/databinding/FragmentUserPageBinding.java
+ com.example.tactalk.databinding.FragmentUserPageBinding
+com/example/tactalk/DataBindingTriggerClass.java
+ com.example.tactalk.DataBindingTriggerClass
+com/example/tactalk/databinding/FragmentRegisterBinding.java
+ com.example.tactalk.databinding.FragmentRegisterBinding
+com/example/tactalk/databinding/FragmentEndGameBinding.java
+ com.example.tactalk.databinding.FragmentEndGameBinding

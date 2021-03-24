@@ -4,7 +4,7 @@ const MongoDB = require("mongodb");
 const dotenv = require("dotenv");
 const bodyParser = require('body-parser');
 const { validate, ValidationError, Joi } = require('express-validation');
-const uri = "mongodb+srv://RojakAdmin:RojakIsASalad@rojakcluster.ho1ff.mongodb.net/sample_analytics?retryWrites=true&w=majority";
+const uri = process.env.DB_CONNECT;
 dotenv.config();
 
 //var sampleQuery = {player_name : "jerry",

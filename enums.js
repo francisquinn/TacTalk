@@ -126,8 +126,12 @@ module.exports.event =
         eventID:24,
         defaultOutcome:1,
         defaultTeam:-1
+    },
+    {
+        keywords:["pass","past"],
+        eventID:25,
+        statType:"pass"
     }
-    
 ];
 
 module.exports.position = 
@@ -181,6 +185,20 @@ module.exports.position =
         positionID:12
     }
 ];
+
+moduel.exports.misc =
+[
+    {
+        keywords:["ball", "bowl", "bawl", "paul"]
+    },
+    {
+        keywords:["team","theme"]
+    },
+    {
+        keyword:"player",
+        regexs:[/player(?:$|\W)+[^(\s)]+/,/play(?:$|\W)+[^(\s)]+/,/prayer(?:$|\W)+[^(\s)]+/]
+    }
+]
 
 module.exports.outcome =
 [
@@ -243,6 +261,10 @@ module.exports.outcome =
     {
         keywords:["throw in awarded","throw in award"],
         outcomeID:13
+    },
+    {
+        keywrods:["save","saved"],
+        outcomeID:14
     }
     
     

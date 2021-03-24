@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\Users\\Timot\\OneDrive\\Desktop\\TacTalk\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v14\\values-v14.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Timot\\.gradle\\caches\\transforms-2\\files-2.1\\fb510a6b30ae589ca50d178660f829b0\\jetified-core-0.9.0.2\\res\\values-v14\\values-v14.xml",
+                    "from": {
+                        "startLines": "2,9",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,428",
+                        "endLines": "8,17",
+                        "endColumns": "12,12",
+                        "endOffsets": "423,855"
+                    }
+                }
+            ]
+        }
+    ]
+}

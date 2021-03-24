@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.Armen101:AudioRecordView:1.0.5@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/617441f8c4cbbb4059e76167794dfc42/jetified-AudioRecordView-1.0.5/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/617441f8c4cbbb4059e76167794dfc42/jetified-AudioRecordView-1.0.5/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/617441f8c4cbbb4059e76167794dfc42/jetified-AudioRecordView-1.0.5/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.Armen101/AudioRecordView/1.0.5/c9f0a1a2a07d04725644d4922a7e6ef0efd44f4/AudioRecordView-1.0.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,446 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:2:1-39:12
+INJECTED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:2:1-39:12
+INJECTED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:2:1-39:12
+INJECTED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:2:1-39:12
+MERGED from [androidx.databinding:databinding-adapters:4.1.2] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\5a3244b0723f56d9277d989fbba2823a\databinding-adapters-4.1.2\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.databinding:databinding-runtime:4.1.2] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\7a45532bfa5b2feecdfc746949f36aeb\databinding-runtime-4.1.2\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.databinding:viewbinding:4.1.2] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\b0cae943608f910ea16cb40772bd7c31\jetified-viewbinding-4.1.2\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.multidex:multidex:2.0.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\ef32e78459242ba9aa7b09dd39160870\multidex-2.0.1\AndroidManifest.xml:17:1-22:12
+MERGED from [com.github.squti:Android-Wave-Recorder:1.5.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\c6b0ea64e24d71388ff160e6ffdd793e\jetified-Android-Wave-Recorder-1.5.0\AndroidManifest.xml:2:1-11:12
+MERGED from [androidx.navigation:navigation-fragment-ktx:2.3.3] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\7939acc6d07b94d216a8fa46389bc14d\navigation-fragment-ktx-2.3.3\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.navigation:navigation-ui-ktx:2.3.3] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\223c42fa66a7f2668a175eb3dead6c69\navigation-ui-ktx-2.3.3\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.fragment:fragment-ktx:1.2.4] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\69a96fcf65db360c6133c0ee80b0b9d0\jetified-fragment-ktx-1.2.4\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.navigation:navigation-runtime-ktx:2.3.3] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\db3dba0c6df0ceec787d2c9112ff6f89\navigation-runtime-ktx-2.3.3\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.navigation:navigation-common-ktx:2.3.3] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\3359003f26df65b7c77370fa5aac6429\navigation-common-ktx-2.3.3\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.activity:activity-ktx:1.1.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\b450e802cbd033f02c9f9d1fdc65bc92\jetified-activity-ktx-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.core:core-ktx:1.3.2] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\d68f0c720b5a07aca71c83de751fea17\jetified-core-ktx-1.3.2\AndroidManifest.xml:2:1-9:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-ktx:2.3.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\c7885ea02c9ec05d555a7be4fca8433b\jetified-lifecycle-livedata-ktx-2.3.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\206f8478966633c896d1326e25dde472\jetified-lifecycle-viewmodel-ktx-2.3.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.3.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\1ba75fc778b61cb568ed63d5f88ed037\jetified-lifecycle-livedata-core-ktx-2.3.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx:2.2.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\7562ed0451dcc1657b5016eae6c76aa0\jetified-lifecycle-runtime-ktx-2.2.0\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.firebase:firebase-storage-ktx:19.2.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\b793a6a0f0d2a5e1e75e85f3d8341be6\jetified-firebase-storage-ktx-19.2.1\AndroidManifest.xml:2:1-21:12
+MERGED from [com.github.Armen101:AudioRecordView:1.0.5] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\617441f8c4cbbb4059e76167794dfc42\jetified-AudioRecordView-1.0.5\AndroidManifest.xml:2:1-11:12
+MERGED from [com.google.firebase:firebase-common-ktx:19.5.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\7f62ad09ad287a066ffc87081e47bf5e\jetified-firebase-common-ktx-19.5.0\AndroidManifest.xml:2:1-21:12
+MERGED from [androidx.navigation:navigation-ui:2.3.3] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\c140baf3cc918c92c8ee5be57482ef6e\navigation-ui-2.3.3\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.material:material:1.3.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\293d13a4407b1aeddb34482b8213a7d0\material-1.3.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.constraintlayout:constraintlayout:2.0.4] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\0f7e22744f71ef00e6245ab144eb5f4b\constraintlayout-2.0.4\AndroidManifest.xml:2:1-11:12
+MERGED from [com.rengwuxian.materialedittext:library:2.1.4] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\d8eb676da71750391ca869e4f8c91078\jetified-library-2.1.4\AndroidManifest.xml:2:1-10:12
+MERGED from [com.github.javiersantos:MaterialStyledDialogs:2.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\e98e99023a70b542e0e80f87d0999c1f\jetified-MaterialStyledDialogs-2.1\AndroidManifest.xml:2:1-11:12
+MERGED from [com.afollestad.material-dialogs:core:0.9.0.2] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\fb510a6b30ae589ca50d178660f829b0\jetified-core-0.9.0.2\AndroidManifest.xml:2:1-15:12
+MERGED from [me.zhanghai.android.materialprogressbar:library:1.1.7] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\fd1189ec725632880963c1b89fca7963\jetified-library-1.1.7\AndroidManifest.xml:6:1-16:12
+MERGED from [androidx.appcompat:appcompat:1.2.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\3d06b478e61e33d212e67b3cc8ac278c\appcompat-1.2.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\923cc9aca7418847c66de793d3ef5d62\legacy-support-v4-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.appcompat:appcompat-resources:1.2.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\0671c010b7c88c841e52afca294b1706\jetified-appcompat-resources-1.2.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\0b1317b5a2d879b8d0cd3f4723b27da1\legacy-support-core-ui-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\095636558aee9be22e35c986ed684835\coordinatorlayout-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\e1c8df8fd63a90a2414beeeef22b7100\dynamicanimation-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\8d892b1d1bd71a0f3f06a1fa5c541282\vectordrawable-animated-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\de4cc8687f8dced84bfc18adb06e2e6e\vectordrawable-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.viewpager2:viewpager2:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\e8fab2bf8da1d3af729b8ce85c260358\jetified-viewpager2-1.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.media:media:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\898d39500520bd1b4c207ee3c761483f\media-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\fa248bda4259c500e69a8208a9cfc07a\legacy-support-core-utils-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.navigation:navigation-fragment:2.3.3] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\ef13fb01e2cfecb0ecd332124717eeb9\navigation-fragment-2.3.3\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.firebase:firebase-storage:19.2.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\e41626e6d770039b65048fbc2bfe7758\jetified-firebase-storage-19.2.1\AndroidManifest.xml:15:1-39:12
+MERGED from [com.google.firebase:firebase-auth-interop:18.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\38a235eef216815fda6407f842eb440c\jetified-firebase-auth-interop-18.0.0\AndroidManifest.xml:2:1-10:12
+MERGED from [com.google.firebase:firebase-common:19.5.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\11d2a777c992e1ca5d86a60eb987f1b3\jetified-firebase-common-19.5.0\AndroidManifest.xml:15:1-49:12
+MERGED from [com.google.android.gms:play-services-base:17.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\a9f3c0786cd71a46b2a6339c88bc0320\jetified-play-services-base-17.0.0\AndroidManifest.xml:17:1-29:12
+MERGED from [com.google.android.gms:play-services-tasks:17.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\ca3ae2516f5a326e702ce908b8a0c89f\jetified-play-services-tasks-17.0.0\AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-basement:17.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\29f40e4213babd2790a83cfb266a9162\jetified-play-services-basement-17.0.0\AndroidManifest.xml:17:1-28:12
+MERGED from [androidx.fragment:fragment:1.2.4] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\a7c60cd27f60e6cb0ec18e1a3bacb121\fragment-1.2.4\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\1c24f4f6129669e237213ffe002aecc1\drawerlayout-1.1.1\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.transition:transition:1.3.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\4a118d822855d49c1f7f0bf10eca17eb\transition-1.3.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\ce4a0e7f1e6c1f7c67a9a3e4474dee02\recyclerview-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\eb5209f88512ee4618b4b68d06d7d0e3\viewpager-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\a2bdc3acdbd51df75cf2034cc3df9f15\slidingpanelayout-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.customview:customview:1.1.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\c730e36ea7effae9d6f56e21c3692f06\customview-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\e916ae023e850873ddbb9101bc5af7f7\loader-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\672fd8d35664c6c0683b6e9d11deb5f9\swiperefreshlayout-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\f01aca3324eb41b8c6e10662b201e654\asynclayoutinflater-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.navigation:navigation-runtime:2.3.3] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\2d1546b1d44746cb75a6612994e0d6a8\navigation-runtime-2.3.3\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.activity:activity:1.1.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\7c0e05f07c50237d762f77dbfade3c4a\jetified-activity-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.navigation:navigation-common:2.3.3] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\8c1a6e4d8305fb4c071a8c3720c11edd\navigation-common-2.3.3\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.core:core:1.3.2] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\5bf85e75b2855e89d2acbda576ada631\core-1.3.2\AndroidManifest.xml:17:1-26:12
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\09d21d0b7c130cb56690f9b506bc14d1\cursoradapter-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.cardview:cardview:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\7408ea0664800e5b8584088e1e0ed9c6\cardview-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.2.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\476518ac90d512dc92e37af436e7702e\jetified-lifecycle-viewmodel-savedstate-2.2.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.3.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\671f691b3c1c4c366cbbbd6c122b3de9\lifecycle-viewmodel-2.3.0\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.firebase:firebase-components:16.1.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\ddf50df78e55b1930133db3c4efb8764\jetified-firebase-components-16.1.0\AndroidManifest.xml:15:1-23:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\c379cc2c62c37fb0fd623c9684d499a8\versionedparcelable-1.1.0\AndroidManifest.xml:17:1-27:12
+MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\6c4784efc1e1c93dd058a243869ac008\documentfile-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\69a28a81a15f8650033897b301309277\localbroadcastmanager-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.print:print:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\c7c4ca02d2f1c0cd3f7afc525d09c13d\print-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\2b49efe633671c2fbe52f8ad64b741bc\interpolator-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.3.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\2ff9a4c88230d2ce5d632dcec04d88ec\lifecycle-livedata-2.3.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.3.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\98bec3a595c996acbb5d650ec9ee9c12\lifecycle-livedata-core-2.3.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.arch.core:core-runtime:2.1.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\c707783a1916cf57eaaa42e03a3175a0\core-runtime-2.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.savedstate:savedstate:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\48db6fed9c60f8f7e1776a70b835075a\jetified-savedstate-1.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.2.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\c4924924f58f4a0399d0bc00f559adb1\lifecycle-runtime-2.2.0\AndroidManifest.xml:17:1-24:12
+MERGED from [io.reactivex.rxjava2:rxandroid:2.0.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\19a98951db7df6aecb108558070f56da\jetified-rxandroid-2.0.1\AndroidManifest.xml:15:1-21:12
+MERGED from [androidx.annotation:annotation-experimental:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\d276a79ea58989c5ea1191200bdff61b\jetified-annotation-experimental-1.0.0\AndroidManifest.xml:17:1-24:12
+INJECTED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:2:1-39:12
+INJECTED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:2:1-39:12
+INJECTED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:2:1-39:12
+	package
+		ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:4:5-34
+		INJECTED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:2:1-39:12
+		INJECTED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml
+	xmlns:tools
+		ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:3:5-51
+	android:versionCode
+		INJECTED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:2:1-39:12
+		INJECTED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:2:11-69
+uses-permission#android.permission.INTERNET
+ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:6:5-67
+MERGED from [com.google.firebase:firebase-storage:19.2.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\e41626e6d770039b65048fbc2bfe7758\jetified-firebase-storage-19.2.1\AndroidManifest.xml:27:5-67
+MERGED from [com.google.firebase:firebase-storage:19.2.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\e41626e6d770039b65048fbc2bfe7758\jetified-firebase-storage-19.2.1\AndroidManifest.xml:27:5-67
+	android:name
+		ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:6:22-64
+uses-permission#android.permission.RECORD_AUDIO
+ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:7:5-70
+	android:name
+		ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:7:22-68
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:8:5-9:40
+	tools:ignore
+		ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:9:9-37
+	android:name
+		ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:8:22-78
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:10:5-79
+	android:name
+		ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:10:22-77
+application
+ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:12:5-38:19
+MERGED from [com.google.firebase:firebase-storage-ktx:19.2.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\b793a6a0f0d2a5e1e75e85f3d8341be6\jetified-firebase-storage-ktx-19.2.1\AndroidManifest.xml:11:5-19:19
+MERGED from [com.google.firebase:firebase-storage-ktx:19.2.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\b793a6a0f0d2a5e1e75e85f3d8341be6\jetified-firebase-storage-ktx-19.2.1\AndroidManifest.xml:11:5-19:19
+MERGED from [com.google.firebase:firebase-common-ktx:19.5.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\7f62ad09ad287a066ffc87081e47bf5e\jetified-firebase-common-ktx-19.5.0\AndroidManifest.xml:11:5-19:19
+MERGED from [com.google.firebase:firebase-common-ktx:19.5.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\7f62ad09ad287a066ffc87081e47bf5e\jetified-firebase-common-ktx-19.5.0\AndroidManifest.xml:11:5-19:19
+MERGED from [com.google.android.material:material:1.3.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\293d13a4407b1aeddb34482b8213a7d0\material-1.3.0\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.material:material:1.3.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\293d13a4407b1aeddb34482b8213a7d0\material-1.3.0\AndroidManifest.xml:22:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:2.0.4] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\0f7e22744f71ef00e6245ab144eb5f4b\constraintlayout-2.0.4\AndroidManifest.xml:9:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:2.0.4] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\0f7e22744f71ef00e6245ab144eb5f4b\constraintlayout-2.0.4\AndroidManifest.xml:9:5-20
+MERGED from [com.afollestad.material-dialogs:core:0.9.0.2] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\fb510a6b30ae589ca50d178660f829b0\jetified-core-0.9.0.2\AndroidManifest.xml:13:5-20
+MERGED from [com.afollestad.material-dialogs:core:0.9.0.2] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\fb510a6b30ae589ca50d178660f829b0\jetified-core-0.9.0.2\AndroidManifest.xml:13:5-20
+MERGED from [com.google.firebase:firebase-storage:19.2.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\e41626e6d770039b65048fbc2bfe7758\jetified-firebase-storage-19.2.1\AndroidManifest.xml:29:5-37:19
+MERGED from [com.google.firebase:firebase-storage:19.2.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\e41626e6d770039b65048fbc2bfe7758\jetified-firebase-storage-19.2.1\AndroidManifest.xml:29:5-37:19
+MERGED from [com.google.firebase:firebase-auth-interop:18.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\38a235eef216815fda6407f842eb440c\jetified-firebase-auth-interop-18.0.0\AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.firebase:firebase-auth-interop:18.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\38a235eef216815fda6407f842eb440c\jetified-firebase-auth-interop-18.0.0\AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.firebase:firebase-common:19.5.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\11d2a777c992e1ca5d86a60eb987f1b3\jetified-firebase-common-19.5.0\AndroidManifest.xml:25:5-47:19
+MERGED from [com.google.firebase:firebase-common:19.5.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\11d2a777c992e1ca5d86a60eb987f1b3\jetified-firebase-common-19.5.0\AndroidManifest.xml:25:5-47:19
+MERGED from [com.google.android.gms:play-services-base:17.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\a9f3c0786cd71a46b2a6339c88bc0320\jetified-play-services-base-17.0.0\AndroidManifest.xml:22:5-27:19
+MERGED from [com.google.android.gms:play-services-base:17.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\a9f3c0786cd71a46b2a6339c88bc0320\jetified-play-services-base-17.0.0\AndroidManifest.xml:22:5-27:19
+MERGED from [com.google.android.gms:play-services-tasks:17.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\ca3ae2516f5a326e702ce908b8a0c89f\jetified-play-services-tasks-17.0.0\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-tasks:17.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\ca3ae2516f5a326e702ce908b8a0c89f\jetified-play-services-tasks-17.0.0\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-basement:17.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\29f40e4213babd2790a83cfb266a9162\jetified-play-services-basement-17.0.0\AndroidManifest.xml:22:5-26:19
+MERGED from [com.google.android.gms:play-services-basement:17.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\29f40e4213babd2790a83cfb266a9162\jetified-play-services-basement-17.0.0\AndroidManifest.xml:22:5-26:19
+MERGED from [androidx.core:core:1.3.2] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\5bf85e75b2855e89d2acbda576ada631\core-1.3.2\AndroidManifest.xml:24:5-89
+MERGED from [androidx.core:core:1.3.2] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\5bf85e75b2855e89d2acbda576ada631\core-1.3.2\AndroidManifest.xml:24:5-89
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\c379cc2c62c37fb0fd623c9684d499a8\versionedparcelable-1.1.0\AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\c379cc2c62c37fb0fd623c9684d499a8\versionedparcelable-1.1.0\AndroidManifest.xml:24:5-25:19
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.3.2] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\5bf85e75b2855e89d2acbda576ada631\core-1.3.2\AndroidManifest.xml:24:18-86
+	android:supportsRtl
+		ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:17:9-35
+	android:label
+		ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:15:9-41
+	android:roundIcon
+		ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:16:9-54
+	android:icon
+		ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:14:9-43
+	android:allowBackup
+		ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:13:9-35
+	android:theme
+		ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:18:9-45
+activity#com.example.tactalk.login.LoginFragment
+ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:19:9-25:20
+	android:name
+		ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:19:19-54
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:20:13-24:29
+action#android.intent.action.MAIN
+ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:21:17-69
+	android:name
+		ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:21:25-66
+category#android.intent.category.LAUNCHER
+ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:23:17-77
+	android:name
+		ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:23:27-74
+activity#com.example.tactalk.register.RegisterFragment
+ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:26:9-63
+	android:name
+		ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:26:19-60
+activity#com.example.tactalk.recording.RecordingPageFragment
+ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:28:9-69
+	android:name
+		ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:28:19-66
+activity#com.example.tactalk.main.MainMenuFragment
+ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:29:9-59
+	android:name
+		ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:29:19-56
+activity#com.example.tactalk.HomeFragment
+ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:30:9-50
+	android:name
+		ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:30:19-47
+activity#com.example.tactalk.statistics.StatisticFragment
+ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:31:9-66
+	android:name
+		ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:31:19-63
+activity#com.example.tactalk.EndGameFragment
+ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:32:9-53
+	android:name
+		ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:32:19-50
+activity#com.example.tactalk.user.UserFragment
+ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:33:9-55
+	android:name
+		ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:33:19-52
+meta-data#preloaded_fonts
+ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:35:9-37:57
+	android:resource
+		ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:37:13-54
+	android:name
+		ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml:36:13-43
+uses-sdk
+INJECTED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml
+MERGED from [androidx.databinding:databinding-adapters:4.1.2] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\5a3244b0723f56d9277d989fbba2823a\databinding-adapters-4.1.2\AndroidManifest.xml:22:5-44
+MERGED from [androidx.databinding:databinding-adapters:4.1.2] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\5a3244b0723f56d9277d989fbba2823a\databinding-adapters-4.1.2\AndroidManifest.xml:22:5-44
+MERGED from [androidx.databinding:databinding-runtime:4.1.2] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\7a45532bfa5b2feecdfc746949f36aeb\databinding-runtime-4.1.2\AndroidManifest.xml:22:5-44
+MERGED from [androidx.databinding:databinding-runtime:4.1.2] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\7a45532bfa5b2feecdfc746949f36aeb\databinding-runtime-4.1.2\AndroidManifest.xml:22:5-44
+MERGED from [androidx.databinding:viewbinding:4.1.2] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\b0cae943608f910ea16cb40772bd7c31\jetified-viewbinding-4.1.2\AndroidManifest.xml:20:5-44
+MERGED from [androidx.databinding:viewbinding:4.1.2] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\b0cae943608f910ea16cb40772bd7c31\jetified-viewbinding-4.1.2\AndroidManifest.xml:20:5-44
+MERGED from [androidx.multidex:multidex:2.0.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\ef32e78459242ba9aa7b09dd39160870\multidex-2.0.1\AndroidManifest.xml:20:5-43
+MERGED from [androidx.multidex:multidex:2.0.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\ef32e78459242ba9aa7b09dd39160870\multidex-2.0.1\AndroidManifest.xml:20:5-43
+MERGED from [com.github.squti:Android-Wave-Recorder:1.5.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\c6b0ea64e24d71388ff160e6ffdd793e\jetified-Android-Wave-Recorder-1.5.0\AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.squti:Android-Wave-Recorder:1.5.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\c6b0ea64e24d71388ff160e6ffdd793e\jetified-Android-Wave-Recorder-1.5.0\AndroidManifest.xml:7:5-9:41
+MERGED from [androidx.navigation:navigation-fragment-ktx:2.3.3] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\7939acc6d07b94d216a8fa46389bc14d\navigation-fragment-ktx-2.3.3\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-fragment-ktx:2.3.3] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\7939acc6d07b94d216a8fa46389bc14d\navigation-fragment-ktx-2.3.3\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-ui-ktx:2.3.3] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\223c42fa66a7f2668a175eb3dead6c69\navigation-ui-ktx-2.3.3\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-ui-ktx:2.3.3] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\223c42fa66a7f2668a175eb3dead6c69\navigation-ui-ktx-2.3.3\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment-ktx:1.2.4] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\69a96fcf65db360c6133c0ee80b0b9d0\jetified-fragment-ktx-1.2.4\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment-ktx:1.2.4] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\69a96fcf65db360c6133c0ee80b0b9d0\jetified-fragment-ktx-1.2.4\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-runtime-ktx:2.3.3] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\db3dba0c6df0ceec787d2c9112ff6f89\navigation-runtime-ktx-2.3.3\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-runtime-ktx:2.3.3] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\db3dba0c6df0ceec787d2c9112ff6f89\navigation-runtime-ktx-2.3.3\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-common-ktx:2.3.3] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\3359003f26df65b7c77370fa5aac6429\navigation-common-ktx-2.3.3\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-common-ktx:2.3.3] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\3359003f26df65b7c77370fa5aac6429\navigation-common-ktx-2.3.3\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.activity:activity-ktx:1.1.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\b450e802cbd033f02c9f9d1fdc65bc92\jetified-activity-ktx-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.activity:activity-ktx:1.1.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\b450e802cbd033f02c9f9d1fdc65bc92\jetified-activity-ktx-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core-ktx:1.3.2] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\d68f0c720b5a07aca71c83de751fea17\jetified-core-ktx-1.3.2\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.core:core-ktx:1.3.2] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\d68f0c720b5a07aca71c83de751fea17\jetified-core-ktx-1.3.2\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.lifecycle:lifecycle-livedata-ktx:2.3.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\c7885ea02c9ec05d555a7be4fca8433b\jetified-lifecycle-livedata-ktx-2.3.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-livedata-ktx:2.3.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\c7885ea02c9ec05d555a7be4fca8433b\jetified-lifecycle-livedata-ktx-2.3.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\206f8478966633c896d1326e25dde472\jetified-lifecycle-viewmodel-ktx-2.3.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\206f8478966633c896d1326e25dde472\jetified-lifecycle-viewmodel-ktx-2.3.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.3.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\1ba75fc778b61cb568ed63d5f88ed037\jetified-lifecycle-livedata-core-ktx-2.3.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.3.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\1ba75fc778b61cb568ed63d5f88ed037\jetified-lifecycle-livedata-core-ktx-2.3.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx:2.2.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\7562ed0451dcc1657b5016eae6c76aa0\jetified-lifecycle-runtime-ktx-2.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx:2.2.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\7562ed0451dcc1657b5016eae6c76aa0\jetified-lifecycle-runtime-ktx-2.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.firebase:firebase-storage-ktx:19.2.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\b793a6a0f0d2a5e1e75e85f3d8341be6\jetified-firebase-storage-ktx-19.2.1\AndroidManifest.xml:6:5-8:41
+MERGED from [com.google.firebase:firebase-storage-ktx:19.2.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\b793a6a0f0d2a5e1e75e85f3d8341be6\jetified-firebase-storage-ktx-19.2.1\AndroidManifest.xml:6:5-8:41
+MERGED from [com.github.Armen101:AudioRecordView:1.0.5] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\617441f8c4cbbb4059e76167794dfc42\jetified-AudioRecordView-1.0.5\AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.Armen101:AudioRecordView:1.0.5] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\617441f8c4cbbb4059e76167794dfc42\jetified-AudioRecordView-1.0.5\AndroidManifest.xml:7:5-9:41
+MERGED from [com.google.firebase:firebase-common-ktx:19.5.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\7f62ad09ad287a066ffc87081e47bf5e\jetified-firebase-common-ktx-19.5.0\AndroidManifest.xml:6:5-8:41
+MERGED from [com.google.firebase:firebase-common-ktx:19.5.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\7f62ad09ad287a066ffc87081e47bf5e\jetified-firebase-common-ktx-19.5.0\AndroidManifest.xml:6:5-8:41
+MERGED from [androidx.navigation:navigation-ui:2.3.3] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\c140baf3cc918c92c8ee5be57482ef6e\navigation-ui-2.3.3\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-ui:2.3.3] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\c140baf3cc918c92c8ee5be57482ef6e\navigation-ui-2.3.3\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.material:material:1.3.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\293d13a4407b1aeddb34482b8213a7d0\material-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.material:material:1.3.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\293d13a4407b1aeddb34482b8213a7d0\material-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.constraintlayout:constraintlayout:2.0.4] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\0f7e22744f71ef00e6245ab144eb5f4b\constraintlayout-2.0.4\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.constraintlayout:constraintlayout:2.0.4] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\0f7e22744f71ef00e6245ab144eb5f4b\constraintlayout-2.0.4\AndroidManifest.xml:5:5-7:41
+MERGED from [com.rengwuxian.materialedittext:library:2.1.4] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\d8eb676da71750391ca869e4f8c91078\jetified-library-2.1.4\AndroidManifest.xml:6:5-8:41
+MERGED from [com.rengwuxian.materialedittext:library:2.1.4] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\d8eb676da71750391ca869e4f8c91078\jetified-library-2.1.4\AndroidManifest.xml:6:5-8:41
+MERGED from [com.github.javiersantos:MaterialStyledDialogs:2.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\e98e99023a70b542e0e80f87d0999c1f\jetified-MaterialStyledDialogs-2.1\AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.javiersantos:MaterialStyledDialogs:2.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\e98e99023a70b542e0e80f87d0999c1f\jetified-MaterialStyledDialogs-2.1\AndroidManifest.xml:7:5-9:41
+MERGED from [com.afollestad.material-dialogs:core:0.9.0.2] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\fb510a6b30ae589ca50d178660f829b0\jetified-core-0.9.0.2\AndroidManifest.xml:8:5-11:75
+MERGED from [com.afollestad.material-dialogs:core:0.9.0.2] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\fb510a6b30ae589ca50d178660f829b0\jetified-core-0.9.0.2\AndroidManifest.xml:8:5-11:75
+MERGED from [me.zhanghai.android.materialprogressbar:library:1.1.7] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\fd1189ec725632880963c1b89fca7963\jetified-library-1.1.7\AndroidManifest.xml:12:5-14:41
+MERGED from [me.zhanghai.android.materialprogressbar:library:1.1.7] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\fd1189ec725632880963c1b89fca7963\jetified-library-1.1.7\AndroidManifest.xml:12:5-14:41
+MERGED from [androidx.appcompat:appcompat:1.2.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\3d06b478e61e33d212e67b3cc8ac278c\appcompat-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat:1.2.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\3d06b478e61e33d212e67b3cc8ac278c\appcompat-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\923cc9aca7418847c66de793d3ef5d62\legacy-support-v4-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\923cc9aca7418847c66de793d3ef5d62\legacy-support-v4-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat-resources:1.2.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\0671c010b7c88c841e52afca294b1706\jetified-appcompat-resources-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat-resources:1.2.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\0671c010b7c88c841e52afca294b1706\jetified-appcompat-resources-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\0b1317b5a2d879b8d0cd3f4723b27da1\legacy-support-core-ui-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\0b1317b5a2d879b8d0cd3f4723b27da1\legacy-support-core-ui-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\095636558aee9be22e35c986ed684835\coordinatorlayout-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\095636558aee9be22e35c986ed684835\coordinatorlayout-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\e1c8df8fd63a90a2414beeeef22b7100\dynamicanimation-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\e1c8df8fd63a90a2414beeeef22b7100\dynamicanimation-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\8d892b1d1bd71a0f3f06a1fa5c541282\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\8d892b1d1bd71a0f3f06a1fa5c541282\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\de4cc8687f8dced84bfc18adb06e2e6e\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\de4cc8687f8dced84bfc18adb06e2e6e\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.viewpager2:viewpager2:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\e8fab2bf8da1d3af729b8ce85c260358\jetified-viewpager2-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.viewpager2:viewpager2:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\e8fab2bf8da1d3af729b8ce85c260358\jetified-viewpager2-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.media:media:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\898d39500520bd1b4c207ee3c761483f\media-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.media:media:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\898d39500520bd1b4c207ee3c761483f\media-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\fa248bda4259c500e69a8208a9cfc07a\legacy-support-core-utils-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\fa248bda4259c500e69a8208a9cfc07a\legacy-support-core-utils-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-fragment:2.3.3] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\ef13fb01e2cfecb0ecd332124717eeb9\navigation-fragment-2.3.3\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-fragment:2.3.3] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\ef13fb01e2cfecb0ecd332124717eeb9\navigation-fragment-2.3.3\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.firebase:firebase-storage:19.2.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\e41626e6d770039b65048fbc2bfe7758\jetified-firebase-storage-19.2.1\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.firebase:firebase-storage:19.2.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\e41626e6d770039b65048fbc2bfe7758\jetified-firebase-storage-19.2.1\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.firebase:firebase-auth-interop:18.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\38a235eef216815fda6407f842eb440c\jetified-firebase-auth-interop-18.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-auth-interop:18.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\38a235eef216815fda6407f842eb440c\jetified-firebase-auth-interop-18.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-common:19.5.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\11d2a777c992e1ca5d86a60eb987f1b3\jetified-firebase-common-19.5.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.firebase:firebase-common:19.5.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\11d2a777c992e1ca5d86a60eb987f1b3\jetified-firebase-common-19.5.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.gms:play-services-base:17.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\a9f3c0786cd71a46b2a6339c88bc0320\jetified-play-services-base-17.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-base:17.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\a9f3c0786cd71a46b2a6339c88bc0320\jetified-play-services-base-17.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-tasks:17.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\ca3ae2516f5a326e702ce908b8a0c89f\jetified-play-services-tasks-17.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-tasks:17.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\ca3ae2516f5a326e702ce908b8a0c89f\jetified-play-services-tasks-17.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-basement:17.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\29f40e4213babd2790a83cfb266a9162\jetified-play-services-basement-17.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-basement:17.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\29f40e4213babd2790a83cfb266a9162\jetified-play-services-basement-17.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.fragment:fragment:1.2.4] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\a7c60cd27f60e6cb0ec18e1a3bacb121\fragment-1.2.4\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment:1.2.4] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\a7c60cd27f60e6cb0ec18e1a3bacb121\fragment-1.2.4\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\1c24f4f6129669e237213ffe002aecc1\drawerlayout-1.1.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\1c24f4f6129669e237213ffe002aecc1\drawerlayout-1.1.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.transition:transition:1.3.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\4a118d822855d49c1f7f0bf10eca17eb\transition-1.3.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.transition:transition:1.3.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\4a118d822855d49c1f7f0bf10eca17eb\transition-1.3.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\ce4a0e7f1e6c1f7c67a9a3e4474dee02\recyclerview-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\ce4a0e7f1e6c1f7c67a9a3e4474dee02\recyclerview-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\eb5209f88512ee4618b4b68d06d7d0e3\viewpager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\eb5209f88512ee4618b4b68d06d7d0e3\viewpager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\a2bdc3acdbd51df75cf2034cc3df9f15\slidingpanelayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\a2bdc3acdbd51df75cf2034cc3df9f15\slidingpanelayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.1.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\c730e36ea7effae9d6f56e21c3692f06\customview-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.customview:customview:1.1.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\c730e36ea7effae9d6f56e21c3692f06\customview-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\e916ae023e850873ddbb9101bc5af7f7\loader-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\e916ae023e850873ddbb9101bc5af7f7\loader-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\672fd8d35664c6c0683b6e9d11deb5f9\swiperefreshlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\672fd8d35664c6c0683b6e9d11deb5f9\swiperefreshlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\f01aca3324eb41b8c6e10662b201e654\asynclayoutinflater-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\f01aca3324eb41b8c6e10662b201e654\asynclayoutinflater-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-runtime:2.3.3] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\2d1546b1d44746cb75a6612994e0d6a8\navigation-runtime-2.3.3\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-runtime:2.3.3] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\2d1546b1d44746cb75a6612994e0d6a8\navigation-runtime-2.3.3\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.activity:activity:1.1.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\7c0e05f07c50237d762f77dbfade3c4a\jetified-activity-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.activity:activity:1.1.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\7c0e05f07c50237d762f77dbfade3c4a\jetified-activity-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-common:2.3.3] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\8c1a6e4d8305fb4c071a8c3720c11edd\navigation-common-2.3.3\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-common:2.3.3] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\8c1a6e4d8305fb4c071a8c3720c11edd\navigation-common-2.3.3\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.3.2] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\5bf85e75b2855e89d2acbda576ada631\core-1.3.2\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.3.2] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\5bf85e75b2855e89d2acbda576ada631\core-1.3.2\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\09d21d0b7c130cb56690f9b506bc14d1\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\09d21d0b7c130cb56690f9b506bc14d1\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cardview:cardview:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\7408ea0664800e5b8584088e1e0ed9c6\cardview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cardview:cardview:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\7408ea0664800e5b8584088e1e0ed9c6\cardview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.2.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\476518ac90d512dc92e37af436e7702e\jetified-lifecycle-viewmodel-savedstate-2.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.2.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\476518ac90d512dc92e37af436e7702e\jetified-lifecycle-viewmodel-savedstate-2.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.3.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\671f691b3c1c4c366cbbbd6c122b3de9\lifecycle-viewmodel-2.3.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.3.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\671f691b3c1c4c366cbbbd6c122b3de9\lifecycle-viewmodel-2.3.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.firebase:firebase-components:16.1.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\ddf50df78e55b1930133db3c4efb8764\jetified-firebase-components-16.1.0\AndroidManifest.xml:19:5-21:41
+MERGED from [com.google.firebase:firebase-components:16.1.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\ddf50df78e55b1930133db3c4efb8764\jetified-firebase-components-16.1.0\AndroidManifest.xml:19:5-21:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\c379cc2c62c37fb0fd623c9684d499a8\versionedparcelable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\c379cc2c62c37fb0fd623c9684d499a8\versionedparcelable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\6c4784efc1e1c93dd058a243869ac008\documentfile-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\6c4784efc1e1c93dd058a243869ac008\documentfile-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\69a28a81a15f8650033897b301309277\localbroadcastmanager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\69a28a81a15f8650033897b301309277\localbroadcastmanager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\c7c4ca02d2f1c0cd3f7afc525d09c13d\print-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\c7c4ca02d2f1c0cd3f7afc525d09c13d\print-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\2b49efe633671c2fbe52f8ad64b741bc\interpolator-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\2b49efe633671c2fbe52f8ad64b741bc\interpolator-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.3.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\2ff9a4c88230d2ce5d632dcec04d88ec\lifecycle-livedata-2.3.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.3.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\2ff9a4c88230d2ce5d632dcec04d88ec\lifecycle-livedata-2.3.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.3.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\98bec3a595c996acbb5d650ec9ee9c12\lifecycle-livedata-core-2.3.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.3.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\98bec3a595c996acbb5d650ec9ee9c12\lifecycle-livedata-core-2.3.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.arch.core:core-runtime:2.1.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\c707783a1916cf57eaaa42e03a3175a0\core-runtime-2.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.arch.core:core-runtime:2.1.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\c707783a1916cf57eaaa42e03a3175a0\core-runtime-2.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.savedstate:savedstate:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\48db6fed9c60f8f7e1776a70b835075a\jetified-savedstate-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.savedstate:savedstate:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\48db6fed9c60f8f7e1776a70b835075a\jetified-savedstate-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.2.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\c4924924f58f4a0399d0bc00f559adb1\lifecycle-runtime-2.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.2.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\c4924924f58f4a0399d0bc00f559adb1\lifecycle-runtime-2.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [io.reactivex.rxjava2:rxandroid:2.0.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\19a98951db7df6aecb108558070f56da\jetified-rxandroid-2.0.1\AndroidManifest.xml:19:5-43
+MERGED from [io.reactivex.rxjava2:rxandroid:2.0.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\19a98951db7df6aecb108558070f56da\jetified-rxandroid-2.0.1\AndroidManifest.xml:19:5-43
+MERGED from [androidx.annotation:annotation-experimental:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\d276a79ea58989c5ea1191200bdff61b\jetified-annotation-experimental-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.annotation:annotation-experimental:1.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\d276a79ea58989c5ea1191200bdff61b\jetified-annotation-experimental-1.0.0\AndroidManifest.xml:20:5-22:41
+INJECTED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml
+	tools:overrideLibrary
+		ADDED from [com.afollestad.material-dialogs:core:0.9.0.2] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\fb510a6b30ae589ca50d178660f829b0\jetified-core-0.9.0.2\AndroidManifest.xml:11:9-72
+	android:targetSdkVersion
+		INJECTED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Timot\OneDrive\Desktop\TacTalk\app\src\main\AndroidManifest.xml
+service#com.google.firebase.components.ComponentDiscoveryService
+ADDED from [com.google.firebase:firebase-storage-ktx:19.2.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\b793a6a0f0d2a5e1e75e85f3d8341be6\jetified-firebase-storage-ktx-19.2.1\AndroidManifest.xml:12:9-18:19
+MERGED from [com.google.firebase:firebase-common-ktx:19.5.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\7f62ad09ad287a066ffc87081e47bf5e\jetified-firebase-common-ktx-19.5.0\AndroidManifest.xml:12:9-18:19
+MERGED from [com.google.firebase:firebase-common-ktx:19.5.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\7f62ad09ad287a066ffc87081e47bf5e\jetified-firebase-common-ktx-19.5.0\AndroidManifest.xml:12:9-18:19
+MERGED from [com.google.firebase:firebase-storage:19.2.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\e41626e6d770039b65048fbc2bfe7758\jetified-firebase-storage-19.2.1\AndroidManifest.xml:30:9-36:19
+MERGED from [com.google.firebase:firebase-storage:19.2.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\e41626e6d770039b65048fbc2bfe7758\jetified-firebase-storage-19.2.1\AndroidManifest.xml:30:9-36:19
+MERGED from [com.google.firebase:firebase-common:19.5.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\11d2a777c992e1ca5d86a60eb987f1b3\jetified-firebase-common-19.5.0\AndroidManifest.xml:33:9-46:19
+MERGED from [com.google.firebase:firebase-common:19.5.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\11d2a777c992e1ca5d86a60eb987f1b3\jetified-firebase-common-19.5.0\AndroidManifest.xml:33:9-46:19
+	android:exported
+		ADDED from [com.google.firebase:firebase-storage-ktx:19.2.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\b793a6a0f0d2a5e1e75e85f3d8341be6\jetified-firebase-storage-ktx-19.2.1\AndroidManifest.xml:14:13-37
+	tools:targetApi
+		ADDED from [com.google.firebase:firebase-common:19.5.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\11d2a777c992e1ca5d86a60eb987f1b3\jetified-firebase-common-19.5.0\AndroidManifest.xml:37:13-32
+	android:directBootAware
+		ADDED from [com.google.firebase:firebase-common:19.5.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\11d2a777c992e1ca5d86a60eb987f1b3\jetified-firebase-common-19.5.0\AndroidManifest.xml:35:13-43
+	android:name
+		ADDED from [com.google.firebase:firebase-storage-ktx:19.2.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\b793a6a0f0d2a5e1e75e85f3d8341be6\jetified-firebase-storage-ktx-19.2.1\AndroidManifest.xml:13:13-84
+meta-data#com.google.firebase.components:com.google.firebase.storage.ktx.FirebaseStorageKtxRegistrar
+ADDED from [com.google.firebase:firebase-storage-ktx:19.2.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\b793a6a0f0d2a5e1e75e85f3d8341be6\jetified-firebase-storage-ktx-19.2.1\AndroidManifest.xml:15:13-17:85
+	android:value
+		ADDED from [com.google.firebase:firebase-storage-ktx:19.2.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\b793a6a0f0d2a5e1e75e85f3d8341be6\jetified-firebase-storage-ktx-19.2.1\AndroidManifest.xml:17:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-storage-ktx:19.2.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\b793a6a0f0d2a5e1e75e85f3d8341be6\jetified-firebase-storage-ktx-19.2.1\AndroidManifest.xml:16:17-122
+meta-data#com.google.firebase.components:com.google.firebase.ktx.FirebaseCommonKtxRegistrar
+ADDED from [com.google.firebase:firebase-common-ktx:19.5.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\7f62ad09ad287a066ffc87081e47bf5e\jetified-firebase-common-ktx-19.5.0\AndroidManifest.xml:15:13-17:85
+	android:value
+		ADDED from [com.google.firebase:firebase-common-ktx:19.5.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\7f62ad09ad287a066ffc87081e47bf5e\jetified-firebase-common-ktx-19.5.0\AndroidManifest.xml:17:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-common-ktx:19.5.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\7f62ad09ad287a066ffc87081e47bf5e\jetified-firebase-common-ktx-19.5.0\AndroidManifest.xml:16:17-113
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from [com.google.firebase:firebase-storage:19.2.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\e41626e6d770039b65048fbc2bfe7758\jetified-firebase-storage-19.2.1\AndroidManifest.xml:26:5-79
+	android:name
+		ADDED from [com.google.firebase:firebase-storage:19.2.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\e41626e6d770039b65048fbc2bfe7758\jetified-firebase-storage-19.2.1\AndroidManifest.xml:26:22-76
+meta-data#com.google.firebase.components:com.google.firebase.storage.StorageRegistrar
+ADDED from [com.google.firebase:firebase-storage:19.2.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\e41626e6d770039b65048fbc2bfe7758\jetified-firebase-storage-19.2.1\AndroidManifest.xml:33:13-35:85
+	android:value
+		ADDED from [com.google.firebase:firebase-storage:19.2.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\e41626e6d770039b65048fbc2bfe7758\jetified-firebase-storage-19.2.1\AndroidManifest.xml:35:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-storage:19.2.1] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\e41626e6d770039b65048fbc2bfe7758\jetified-firebase-storage-19.2.1\AndroidManifest.xml:34:17-107
+provider#com.google.firebase.provider.FirebaseInitProvider
+ADDED from [com.google.firebase:firebase-common:19.5.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\11d2a777c992e1ca5d86a60eb987f1b3\jetified-firebase-common-19.5.0\AndroidManifest.xml:26:9-31:39
+	android:authorities
+		ADDED from [com.google.firebase:firebase-common:19.5.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\11d2a777c992e1ca5d86a60eb987f1b3\jetified-firebase-common-19.5.0\AndroidManifest.xml:28:13-72
+	android:exported
+		ADDED from [com.google.firebase:firebase-common:19.5.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\11d2a777c992e1ca5d86a60eb987f1b3\jetified-firebase-common-19.5.0\AndroidManifest.xml:30:13-37
+	android:directBootAware
+		ADDED from [com.google.firebase:firebase-common:19.5.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\11d2a777c992e1ca5d86a60eb987f1b3\jetified-firebase-common-19.5.0\AndroidManifest.xml:29:13-43
+	android:initOrder
+		ADDED from [com.google.firebase:firebase-common:19.5.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\11d2a777c992e1ca5d86a60eb987f1b3\jetified-firebase-common-19.5.0\AndroidManifest.xml:31:13-36
+	android:name
+		ADDED from [com.google.firebase:firebase-common:19.5.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\11d2a777c992e1ca5d86a60eb987f1b3\jetified-firebase-common-19.5.0\AndroidManifest.xml:27:13-77
+meta-data#com.google.firebase.components:com.google.firebase.dynamicloading.DynamicLoadingRegistrar
+ADDED from [com.google.firebase:firebase-common:19.5.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\11d2a777c992e1ca5d86a60eb987f1b3\jetified-firebase-common-19.5.0\AndroidManifest.xml:43:13-45:85
+	android:value
+		ADDED from [com.google.firebase:firebase-common:19.5.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\11d2a777c992e1ca5d86a60eb987f1b3\jetified-firebase-common-19.5.0\AndroidManifest.xml:45:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-common:19.5.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\11d2a777c992e1ca5d86a60eb987f1b3\jetified-firebase-common-19.5.0\AndroidManifest.xml:44:17-121
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:17.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\a9f3c0786cd71a46b2a6339c88bc0320\jetified-play-services-base-17.0.0\AndroidManifest.xml:23:9-26:75
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:17.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\a9f3c0786cd71a46b2a6339c88bc0320\jetified-play-services-base-17.0.0\AndroidManifest.xml:25:13-37
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:17.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\a9f3c0786cd71a46b2a6339c88bc0320\jetified-play-services-base-17.0.0\AndroidManifest.xml:26:13-72
+	android:name
+		ADDED from [com.google.android.gms:play-services-base:17.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\a9f3c0786cd71a46b2a6339c88bc0320\jetified-play-services-base-17.0.0\AndroidManifest.xml:24:13-79
+meta-data#com.google.android.gms.version
+ADDED from [com.google.android.gms:play-services-basement:17.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\29f40e4213babd2790a83cfb266a9162\jetified-play-services-basement-17.0.0\AndroidManifest.xml:23:9-25:69
+	android:value
+		ADDED from [com.google.android.gms:play-services-basement:17.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\29f40e4213babd2790a83cfb266a9162\jetified-play-services-basement-17.0.0\AndroidManifest.xml:25:13-66
+	android:name
+		ADDED from [com.google.android.gms:play-services-basement:17.0.0] C:\Users\Timot\.gradle\caches\transforms-2\files-2.1\29f40e4213babd2790a83cfb266a9162\jetified-play-services-basement-17.0.0\AndroidManifest.xml:24:13-58
