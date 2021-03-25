@@ -16,7 +16,7 @@ dotenv.config();
 //create players
 //validate(createPlayerValidation, {}, {} ),
 module.exports = {  
-    createPlayer: async function(req, res) { 
+   createPlayer: async function(req, res) { 
 
         const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
         const dbo = db.db("TacTalk");
@@ -27,7 +27,6 @@ module.exports = {
             var newPlayerObject = 
                     {
                         player_name:req.body.player_name,
-                        player_age:req.body.player_age,
                         player_number:req.body.player_number
                     };
 
