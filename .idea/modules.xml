@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="ProjectModuleManager">
-    <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/TacTalk.iml" filepath="$PROJECT_DIR$/.idea/TacTalk.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/TacTalk.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/TacTalk.app.iml" />
-    </modules>
-  </component>
-</project>
