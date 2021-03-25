@@ -16,19 +16,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TacTalk">
-        <activity android:name=".activity.LoginFragment">
+        <activity android:name=".login.LoginFragment">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.RegisterFragment" />
+        <activity android:name=".register.RegisterFragment" />
         <!--<activity android:name=".activity.LoginFragment" />-->
-        <activity android:name=".RecordingPageFragment" />
-        <activity android:name=".MainMenuFragment" />
+        <activity android:name=".recording.RecordingPageFragment" />
+        <activity android:name=".main.MainMenuFragment" />
         <activity android:name=".HomeFragment" />
-        <activity android:name=".StatsFragment" />
+        <activity android:name=".statistics.StatisticFragment" />
+        <activity android:name=".EndGameFragment" />
+        <activity android:name=".user.UserFragment" />
+        <activity android:name=".match.SetUpMatchFragment" />
 
         <meta-data
             android:name="preloaded_fonts"

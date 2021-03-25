@@ -1,26 +1,20 @@
-package com.example.tactalk.activity
+package com.example.tactalk.register
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.tactalk.MainMenuFragment
 import com.example.tactalk.R
+import com.example.tactalk.login.LoginFragment
 import com.example.tactalk.network.RetrofitClient
 import com.example.tactalk.network.TacTalkAPI
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_login.view.*
 import kotlinx.android.synthetic.main.fragment_register.*
-import kotlinx.android.synthetic.main.fragment_register.view.*
 import retrofit2.HttpException
-import java.security.MessageDigest
 import java.util.*
 import kotlin.concurrent.timerTask
 

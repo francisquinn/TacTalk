@@ -1,153 +1,227 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#202C74"
-    tools:context=".RecordingPageFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <Chronometer
-        android:id="@+id/match_time"
+    <data>
+
+        <variable
+            name="recordViewModel"
+            type="com.example.tactalk.recording.RecordingViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="16dp"
-        android:fontFamily="@font/orbitron_medium"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="50sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/TeamB"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.487"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
-    <com.visualizer.amplitude.AudioRecordView
-        android:id="@+id/audioRecordView"
-        android:layout_width="256dp"
-        android:layout_height="64dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="16dp"
-        app:chunkAlignTo="center"
-        app:chunkColor="@color/green"
-        app:chunkMaxHeight="100dp"
-        app:chunkMinHeight="2dp"
-        app:chunkRoundedCorners="true"
-        app:chunkSoftTransition="true"
-        app:chunkSpace="5dp"
-        app:chunkWidth="5dp"
-        app:direction="leftToRight"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
-
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="16dp"
-        android:contentDescription="@string/logo_img"
-        android:src="@drawable/record_logo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.489"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/audioRecordView"
-        app:srcCompat="@drawable/record_logo" />
-
-    <Button
-        android:id="@+id/endHalf"
-        android:layout_width="114dp"
-        android:layout_height="64dp"
-        android:layout_marginEnd="24dp"
-        android:text="@string/EndHalf"
-        android:textColor="#FFFFFF"
-        app:backgroundTint="@color/green"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logo" />
-
-    <Button
-        android:id="@+id/pause"
-        android:layout_width="114dp"
-        android:layout_height="64dp"
-        android:layout_marginStart="24dp"
-        android:text="@string/Pause"
-        android:textColor="#FFFFFF"
-        app:backgroundTint="#2AC87B"
-        app:layout_constraintBaseline_toBaselineOf="@+id/endHalf"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <!--<TextView
-        android:id="@+id/Time"
-        android:layout_width="254dp"
-        android:layout_height="94dp"
+        android:layout_height="match_parent"
         android:background="#202C74"
-        android:gravity="center_horizontal"
-        android:text="@string/startTime"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="80sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />-->
+        android:keepScreenOn="true"
+        tools:context="com.example.tactalk.recording.RecordingPageFragment">
 
-    <TextView
-        android:id="@+id/firsthalf"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="16dp"
-        android:fontFamily="sans-serif"
-        android:gravity="center_horizontal"
-        android:text="@string/FirstHalf"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/match_time" />
+        <Chronometer
+            android:id="@+id/match_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/orbitron_medium"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="50sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="16dp"
-        android:fontFamily="sans-serif"
-        android:text="@string/TeamA"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/firsthalf" />
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="139dp"
+            android:layout_height="41dp"
+            android:layout_marginStart="60dp"
+            android:text="@string/TeamB"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/oppTeamGoals"
+            app:layout_constraintStart_toStartOf="parent" />
 
+        <TextView
+            android:id="@+id/oppTeamGoals"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="36dp"
+            android:text="@{recordViewModel.property.result.oppTeamGoal}"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            app:layout_constraintStart_toEndOf="@+id/textView7"
+            app:layout_constraintTop_toBottomOf="@+id/teamGoals" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/oppTeamPoints"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="36dp"
+            android:text="@{recordViewModel.property.result.oppTeamPoints}"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            app:layout_constraintStart_toEndOf="@+id/colon2"
+            app:layout_constraintTop_toBottomOf="@+id/teamGoals" />
+
+        <com.visualizer.amplitude.AudioRecordView
+            android:id="@+id/audioRecordView"
+            android:layout_width="256dp"
+            android:layout_height="64dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="36dp"
+            android:layout_marginEnd="16dp"
+            app:chunkAlignTo="center"
+            app:chunkColor="@color/green"
+            app:chunkMaxHeight="100dp"
+            app:chunkMinHeight="2dp"
+            app:chunkRoundedCorners="true"
+            app:chunkSoftTransition="true"
+            app:chunkSpace="5dp"
+            app:chunkWidth="5dp"
+            app:direction="leftToRight"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="44dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/logo_img"
+            android:src="@drawable/record_logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.489"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/audioRecordView"
+            app:srcCompat="@drawable/record_logo" />
+
+        <Button
+            android:id="@+id/endHalf"
+            android:layout_width="114dp"
+            android:layout_height="64dp"
+            android:layout_marginEnd="24dp"
+            android:text="@string/EndHalf"
+            android:textColor="#FFFFFF"
+            app:backgroundTint="@color/green"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+        <Button
+            android:id="@+id/pause"
+            android:layout_width="114dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="24dp"
+            android:text="@string/Pause"
+            android:textColor="#FFFFFF"
+            app:backgroundTint="#2AC87B"
+            app:layout_constraintBaseline_toBaselineOf="@+id/endHalf"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!--<TextView
+            android:id="@+id/Time"
+            android:layout_width="254dp"
+            android:layout_height="94dp"
+            android:background="#202C74"
+            android:gravity="center_horizontal"
+            android:text="@string/startTime"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="80sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />-->
+
+        <TextView
+            android:id="@+id/firsthalf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="sans-serif"
+            android:gravity="center_horizontal"
+            android:text="@string/FirstHalf"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/match_time" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="135dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:fontFamily="sans-serif"
+            android:text="@string/TeamA"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/teamGoals"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/teamGoals"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:text="@{recordViewModel.property.result.teamGoal}"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            app:layout_constraintStart_toEndOf="@+id/textView6"
+            app:layout_constraintTop_toBottomOf="@+id/firsthalf" />
+
+        <TextView
+            android:id="@+id/teamPoints"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:text="@{recordViewModel.property.result.teamPoints}"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            app:layout_constraintStart_toEndOf="@+id/colon"
+            app:layout_constraintTop_toBottomOf="@+id/firsthalf" />
+
+        <TextView
+            android:id="@+id/colon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:text=":"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            app:layout_constraintStart_toEndOf="@+id/teamGoals"
+            app:layout_constraintTop_toBottomOf="@+id/firsthalf" />
+
+        <TextView
+            android:id="@+id/colon2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="36dp"
+            android:text=":"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            app:layout_constraintStart_toEndOf="@+id/oppTeamGoals"
+            app:layout_constraintTop_toBottomOf="@+id/colon" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainMenuFragment"
-        android:name="com.example.tactalk.MainMenuFragment"
+        android:name="com.example.tactalk.main.MainMenuFragment"
         android:label="fragment_main_menu"
         tools:layout="@layout/fragment_main_menu" >
         <action
@@ -27,7 +27,7 @@
         tools:layout="@layout/fragment_manage_team" />
     <fragment
         android:id="@+id/recordingPageFragment"
-        android:name="com.example.tactalk.RecordingPageFragment"
+        android:name="com.example.tactalk.recording.RecordingPageFragment"
         android:label="RecordingPageFragment" >
         <action
             android:id="@+id/RecordToEnd"
@@ -43,7 +43,7 @@
         android:id="@+id/statsFragment"
         android:name="com.example.tactalk.StatsFragment"
         android:label="fragment_stats"
-        tools:layout="@layout/fragment_stats" >
+        tools:layout="@layout/fragment_statistics" >
         <action
             android:id="@+id/StatToSecondHalf"
             app:destination="@id/recordingPageFragment"
@@ -96,12 +96,12 @@
     </fragment>
     <activity
         android:id="@+id/loginFragment"
-        android:name="com.example.tactalk.activity.LoginFragment"
+        android:name="com.example.tactalk.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" />
     <activity
         android:id="@+id/registerFragment2"
-        android:name="com.example.tactalk.activity.RegisterFragment"
+        android:name="com.example.tactalk.register.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" />
 </navigation>

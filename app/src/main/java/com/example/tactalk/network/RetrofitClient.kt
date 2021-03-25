@@ -11,8 +11,6 @@ object RetrofitClient {
 
     private var instance: Retrofit? = null
 
-
-
         fun getInstance():Retrofit {
             if (instance == null) instance = Retrofit.Builder()
                     .baseUrl("https://tactalk-rojak.herokuapp.com")
@@ -21,8 +19,6 @@ object RetrofitClient {
                     .build()
             return instance!!
         }
-
-
 
 }
 /*

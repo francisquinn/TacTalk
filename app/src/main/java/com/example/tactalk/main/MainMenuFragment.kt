@@ -1,21 +1,19 @@
-package com.example.tactalk
+package com.example.tactalk.main
 
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
 import android.widget.Toast
-import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.navigation.Navigation
-import kotlinx.android.synthetic.main.fragment_home_screen.view.*
-import kotlinx.android.synthetic.main.fragment_main_menu.view.*
+import com.example.tactalk.R
+import com.example.tactalk.match.SetUpMatchFragment
+import com.example.tactalk.recording.RecordingPageFragment
+import com.example.tactalk.user.UserFragment
 
 class MainMenuFragment : AppCompatActivity(){
 
@@ -24,6 +22,8 @@ class MainMenuFragment : AppCompatActivity(){
         setContentView(R.layout.fragment_main_menu)
 
         val recordButton : Button = findViewById(R.id.Record)
+        val userPage : ImageView = findViewById(R.id.user_account)
+        val setUpMatch : Button = findViewById(R.id.btn_setUpMatch)
 
         recordButton.setOnClickListener{
             if (ContextCompat.checkSelfPermission(
@@ -41,10 +41,24 @@ class MainMenuFragment : AppCompatActivity(){
                 )
                 ActivityCompat.requestPermissions(this, permissions, 0)
             } else {
-                startActivity(Intent(this, RecordingPageFragment::class.java))
+                //startActivity(Intent(this, RecordingPageFragment::class.java))
+                val timerVal = 0
+                val intent = Intent(this, RecordingPageFragment::class.java)
+                intent.putExtra("timerVal", timerVal)
+                startActivity(intent)
                 finish()
             }
             //Toast.makeText(this, "pressed record!", Toast.LENGTH_SHORT).show()
+        }
+
+        userPage.setOnClickListener {
+            startActivity(Intent(this, UserFragment::class.java))
+            Toast.makeText(this, "user touched", Toast.LENGTH_SHORT).show()
+        }
+
+        setUpMatch.setOnClickListener {
+            startActivity(Intent(this, SetUpMatchFragment::class.java))
+            Toast.makeText(this, "set up touched", Toast.LENGTH_SHORT).show()
         }
     }
 

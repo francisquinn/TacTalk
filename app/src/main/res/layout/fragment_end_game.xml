@@ -5,88 +5,88 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#202C74"
-    tools:context=".MainActivity">
+    tools:context=".EndGameFragment">
 
     <ImageView
-        android:id="@+id/imageView8"
-        android:layout_width="87dp"
-        android:layout_height="102dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.916"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.015"
-        tools:src="@tools:sample/avatars" />
-
-    <ImageView
-        android:id="@+id/imageView6"
-        android:layout_width="122dp"
-        android:layout_height="110dp"
+        android:id="@+id/logo"
+        android:layout_width="86dp"
+        android:layout_height="74dp"
+        android:layout_marginTop="12dp"
         android:src="@drawable/white_logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="160dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/project_name"
+        android:textAlignment="viewStart"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/logo"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Button
+        android:id="@+id/btn_stats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="50dp"
+        android:background="#2AC87B"
+        android:fontFamily="@font/roboto_regular"
+        android:text="@string/view_statistics"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        app:backgroundTint="#2AC87B"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.003" />
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="160dp"
-        android:layout_height="40dp"
-        android:text="@string/project_name"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.486"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.066" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_home"
+        app:layout_constraintVertical_bias="0.015" />
 
     <Button
-        android:id="@+id/Stats"
-        android:layout_width="277dp"
-        android:layout_height="75dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="148dp"
-        android:text="@string/StatsButton"
-        app:backgroundTint="#2AC87B"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.567"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/Home"
-        android:layout_width="277dp"
-        android:layout_height="75dp"
-        android:layout_marginBottom="65dp"
+        android:id="@+id/btn_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="50dp"
+        android:background="#2AC87B"
+        android:fontFamily="@font/roboto_regular"
         android:text="@string/HomeButton"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
         app:backgroundTint="#2AC87B"
-        app:layout_constraintBottom_toTopOf="@+id/Stats"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/EndGameBanner" />
 
     <TextView
         android:id="@+id/EndGameBanner"
         android:layout_width="257dp"
         android:layout_height="62dp"
-        android:layout_marginTop="132dp"
-        android:background="#1446F4"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="136dp"
+        android:layout_marginEnd="50dp"
         android:fontFamily="sans-serif-medium"
         android:gravity="center_horizontal"
-        android:text="@string/Match_Over"
+        android:text="@string/game_over"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="36sp"
-        app:layout_constraintBottom_toTopOf="@+id/Home"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,21 +6,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#202C74"
-    tools:context=".MainMenuFragment">
+    tools:context=".main.MainMenuFragment">
 
     <ImageView
-        android:id="@+id/imageView12"
+        android:id="@+id/user_account"
         android:layout_width="66dp"
         android:layout_height="56dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
+        android:src="@drawable/fbp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@tools:sample/avatars"
+        tools:src="@drawable/fbp"
         tools:visibility="visible" />
 
     <Button
-        android:id="@+id/SetUpMatchButton"
+        android:id="@+id/btn_setUpMatch"
         android:layout_width="260dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -36,13 +37,13 @@
         android:id="@+id/Record"
         android:layout_width="273dp"
         android:layout_height="88dp"
-        android:text="Start Match "
+        android:text="Start Match"
         android:textColor="@color/white"
         app:backgroundTint="#2AC87B"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SetUpMatchButton" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_setUpMatch" />
 
     <ImageView
         android:id="@+id/imageView4"
@@ -63,7 +64,7 @@
         android:textColor="@color/white"
         android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/imageView12"
+        app:layout_constraintEnd_toStartOf="@+id/user_account"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/imageView4"
         app:layout_constraintTop_toTopOf="parent" />

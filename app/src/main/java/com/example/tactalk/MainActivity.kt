@@ -4,14 +4,10 @@ package com.example.tactalk
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
-import androidx.navigation.Navigation
-import com.example.tactalk.activity.LoginFragment
-import com.example.tactalk.activity.RegisterFragment
+import com.example.tactalk.login.LoginFragment
+import com.example.tactalk.main.MainMenuFragment
 
 class MainActivity : AppCompatActivity() {
 

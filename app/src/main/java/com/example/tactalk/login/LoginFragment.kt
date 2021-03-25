@@ -1,31 +1,21 @@
-package com.example.tactalk.activity
+package com.example.tactalk.login
 
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.Navigation
-import com.example.tactalk.MainActivity
-import com.example.tactalk.MainMenuFragment
+import com.example.tactalk.main.MainMenuFragment
 import com.example.tactalk.R
+import com.example.tactalk.register.RegisterFragment
 import com.example.tactalk.network.TacTalkAPI
 import com.example.tactalk.network.RetrofitClient
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-
 import kotlinx.android.synthetic.main.fragment_login.*
-import kotlinx.android.synthetic.main.fragment_login.view.*
-import retrofit2.HttpException
 import java.util.*
-import java.util.logging.Handler
 import kotlin.concurrent.timerTask
 
 class LoginFragment : AppCompatActivity() {

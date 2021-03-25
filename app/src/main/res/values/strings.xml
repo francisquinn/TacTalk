@@ -2,22 +2,51 @@
     <string name="app_name">TacTalk</string>
     <string name="welcome">Welcome to TacTalk</string>
 
+    <string name="set_up_match">SET UP MATCH</string>
+
+    <string-array name="game_type">
+        <item>Please Select A Game Type</item>
+        <item>Championship</item>
+        <item>Friendly</item>
+        <item>Europe Cup</item>
+        <item>Others</item>
+    </string-array>
+
+    <string-array name="team_colour">
+        <item>Please Select A Team Colour</item>
+        <item>Blue</item>
+        <item>Green</item>
+    </string-array>
+
+    <string-array name="opp_colour">
+        <item>Please Select A Opposition Colour</item>
+        <item>Blue</item>
+        <item>Green</item>
+    </string-array>
+
+    <string-array name="chose_public">
+        <item>Please Chosen Public or Not</item>
+        <item>Yes</item>
+        <item>Not</item>
+    </string-array>
+
+
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="NextHalf">NextHalf</string>
-    <string name="HalfTime">Next Half</string>
+    <string name="second_half">Start Second Half</string>
+    <string name="end_game">End Game</string>
     <string name="Pause">Pause</string>
     <string name="Stop">Stop</string>
     <string name="Start">Start</string>
     <string name="match_start">Start Recording!</string>
     <string name="startTime">0:00</string>
-    <string name="GameOver">GameOver</string>
     <string name="HomeButton">Home</string>
-    <string name="StatsButton">Stats</string>
+    <string name="view_statistics">View Statistics</string>
     <string name="BackButton">Back</string>
     <string name="FirstHalf">1st Half</string>
-    <string name="TeamA">DUBLIN 0 – 00</string>
-    <string name="TeamB">KERRY 0 – 00</string>
+    <string name="TeamA">DUBLIN</string>
+    <string name="TeamB">KERRY</string>
     <string name="EndHalf">End Half</string>
 
     <!-- Strings related to login -->
@@ -53,7 +82,7 @@
     <string name="Set_Up_Match">SETUP MATCH</string>
     <string name="ManageTeam">MANAGE TEAM</string>
     <string name="Record">Record</string>
-    <string name="Match_Over">MATCH OVER</string>
+    <string name="game_over">GAME OVER</string>
 
     <string name="working">Working</string>
     <string name="stopped">Stopped</string>
