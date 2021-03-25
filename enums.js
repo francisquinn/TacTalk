@@ -126,12 +126,8 @@ module.exports.event =
         eventID:24,
         defaultOutcome:1,
         defaultTeam:-1
-    },
-    {
-        keywords:["pass","past"],
-        eventID:25,
-        statType:"pass"
     }
+    
 ];
 
 module.exports.position = 
@@ -186,14 +182,6 @@ module.exports.position =
     }
 ];
 
-module.exports.misc =
-{
-    
-    ball:["ball", "bowl", "bawl", "paul","pall","brawl"],    
-    possession:["position","possession","profession"],
-    team:["team","theme","tim","tin"]
-    
-}
 module.exports.outcome =
 [
     {
@@ -255,10 +243,6 @@ module.exports.outcome =
     {
         keywords:["throw in awarded","throw in award"],
         outcomeID:13
-    },
-    {
-        keywrods:["save","saved"],
-        outcomeID:14
     }
     
     

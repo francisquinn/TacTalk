@@ -17,12 +17,14 @@ module.exports =
 
         input = input.toLowerCase();
 
-        if (compareLangPossession(input,teamColor,"possession") || compareLang(input,teamColor+" team possession") || compareLangPossession(input,teamColor,"ball"))
+        if (compareLang(input,teamColor+" possession") || compareLang(input,teamColor+" team possession") || compareLang(input,teamColor+" ball"))
         {
+            console.log("New P")
             return {result:1,team_id:0};
         }
-        else if (compareLangPossession(input,oppTeamColor+" possession") || compareLang(input,oppTeamColor+" team possession") || compareLangPossession(input,oppTeamColor+" ball"))
+        else if (compareLang(input,oppTeamColor+" possession") || compareLang(input,oppTeamColor+" team possession") || compareLang(input,oppTeamColor+" ball"))
         {
+            console.log("New P")
             return {result:1,team_id:1};
         }
 
@@ -30,6 +32,7 @@ module.exports =
         if (input == "free")
         {
             return {result:1,outcome_id:5};
+            input = "";
         }
 
 
@@ -140,18 +143,4 @@ function compareLang(input, compare)
 
 
     return (input.includes(compare) || smithWatermanDistance >= 17 || jaroWinklerDistance >= 0.9) 
-}
-
-function compareLangPossession(input, color,compare)
-{
-    const enums = require('./enums');
-    for (var i = 0;i < enums.misc[compare].length;i++)
-    {
-        var compareString = color+" "+enums.misc[compare][i];
-        if (compareLang(input, compareString))
-        {
-            return true;
-        }
-    }
-    return false;
-}
+}    
