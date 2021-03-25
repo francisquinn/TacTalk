@@ -193,7 +193,8 @@ module.exports.misc =
     possession:["position","possession","profession"],
     team:["team","theme","tim","tin"]
     
-}
+};
+
 module.exports.outcome =
 [
     {
@@ -257,7 +258,7 @@ module.exports.outcome =
         outcomeID:13
     },
     {
-        keywrods:["save","saved"],
+        keywords:["save","saved"],
         outcomeID:14
     }
     

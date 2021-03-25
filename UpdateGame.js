@@ -1,7 +1,7 @@
 const MongoClient = require('mongodb').MongoClient;
 const ObjectID = require("mongodb").ObjectID;
 const MongoDB = require('mongodb');
-const uri = process.env.DB_CONNECT;
+const uri = "mongodb+srv://RojakAdmin:RojakIsASalad@rojakcluster.ho1ff.mongodb.net/sample_analytics?retryWrites=true&w=majority";
 const eventPropertyList = ["event_type_id","event_position_id","player_id","team_id","outcome_id","outcome_team_id","outcome_player_id"];
 
 const defaultEvent =
@@ -56,7 +56,6 @@ module.exports =
             const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
             const dbo = db.db("TacTalk");
             res.setHeader('Content-Type', 'application/json');
-            console.log("call");
             try
             {
                 if (req.query.hasOwnProperty("dummyData"))
@@ -102,15 +101,19 @@ module.exports =
 
                     //sort the input list
                     activeGame.input_list.sort(inputListCompare);
-
                     for (var i = 0; i < activeGame.input_list.length;i++)
                     {
-                        if (activeGame.current_order + 1 === activeGame.input_list[i].audio_order)
+                        console.log("pushed")
+                        console.log((activeGame.current_order+1)+"vs"+activeGame.input_list[i].audio_order)
+                        if (activeGame.current_order + 1 == activeGame.input_list[i].audio_order)
                         {
+                            console.log("pushed 2222")
                             activeGame.current_order += 1;
                             for (var j = 0;j < activeGame.input_list[i].text.length; j++)
                             {
+                                console.log("pushed 3333")
                                 activeGame.last_string.push(activeGame.input_list[i].text[j]);
+                                
                             }
 
 
@@ -121,69 +124,74 @@ module.exports =
                     var segmentString = "";
                     var removeIndex = -1;
                     var newPossession = false;
-                    for(var i = 0;i < activeGame.last_string.length;i++)
+                    
+                    if (activeGame.last_string.length > 0)
                     {
-                        segmentString += " "+activeGame.last_string[i];
-                        console.log("current state: "+segmentString);
-                        var parseResult = cp.parseCommand(segmentString,activeGame);
-
-                        //if the parse result extracted a value
-                        if (parseResult !== null)
+                        for(var i = 0;i < activeGame.last_string.length;i++)
                         {
+                            segmentString += " "+activeGame.last_string[i];
+                            console.log("current state: "+segmentString);
+                            var parseResult = cp.parseCommand(segmentString,activeGame);
+                            console.log("cp ok")
 
-                            //if the current team possession has been changed, change it in active game too
-                            if (parseResult.hasOwnProperty("team_id"))
+                            //if the parse result extracted a value
+                            if (parseResult !== null)
                             {
-                                if (activeGame.current_possession_team !== parseResult.team_id)
+
+                                //if the current team possession has been changed, change it in active game too
+                                if (parseResult.hasOwnProperty("team_id"))
                                 {
-                                    activeGame.current_possession_team = parseResult.team_id;
-                                    newPossession = true;
+                                    if (activeGame.current_possession_team !== parseResult.team_id)
+                                    {
+                                        activeGame.current_possession_team = parseResult.team_id;
+                                        newPossession = true;
 
+                                    }
                                 }
-                            }
-                            console.log("%c parse result: ["+JSON.stringify(parseResult)+"]",'background: #222; color: #bada55')
-           
-                                
+                                console.log("%c parse result: ["+JSON.stringify(parseResult)+"]",'background: #222; color: #bada55')
 
 
-                            //cycle through the list of properties
-                            for (var j = 0; j < eventPropertyList.length; j++)
-                            {
-                                if (parseResult.hasOwnProperty(eventPropertyList[j]))
+
+
+                                //cycle through the list of properties
+                                for (var j = 0; j < eventPropertyList.length; j++)
                                 {
-                                    if (!activeGame.current_event.hasOwnProperty(eventPropertyList[j]))
+                                    if (parseResult.hasOwnProperty(eventPropertyList[j]))
                                     {
-                                        activeGame.current_event = Object.assign({},defaultEvent);
+                                        if (!activeGame.current_event.hasOwnProperty(eventPropertyList[j]))
+                                        {
+                                            activeGame.current_event = Object.assign({},defaultEvent);
+                                        }
+
+                                        // if the current event already has this property, upload this event, and replace it with a new one
+                                        if (activeGame.current_event[eventPropertyList[j]] !== -1)
+                                        {
+                                            await createGameEvent(activeGame.game_id,activeGame.current_event,activeGame.current_possession_team,newPossession);
+                                            activeGame.current_event = Object.assign({},defaultEvent);
+                                            activeGame.current_event[eventPropertyList[j]] = parseResult[eventPropertyList[j]];
+                                            newPossession = false;
+                                        }
+                                        else // or else, add this new property to the exisiting event
+                                        {
+                                            activeGame.current_event[eventPropertyList[j]] = parseResult[eventPropertyList[j]];
+                                        }
+
+
+                                        //reset segment string because the information is extracted
+                                        segmentString = "";
+                                        removeIndex = i;
+
+
                                     }
-
-                                    // if the current event already has this property, upload this event, and replace it with a new one
-                                    if (activeGame.current_event[eventPropertyList[j]] !== -1)
-                                    {
-                                        await createGameEvent(activeGame.game_id,activeGame.current_event,activeGame.current_possession_team,newPossession);
-                                        activeGame.current_event = Object.assign({},defaultEvent);
-                                        activeGame.current_event[eventPropertyList[j]] = parseResult[eventPropertyList[j]];
-                                        newPossession = false;
-                                    }
-                                    else // or else, add this new property to the exisiting event
-                                    {
-                                        activeGame.current_event[eventPropertyList[j]] = parseResult[eventPropertyList[j]];
-                                    }
-
-
-                                    //reset segment string because the information is extracted
-                                    segmentString = "";
-                                    removeIndex = i;
-
-
                                 }
+
+
+
+
+
                             }
-
-
-
-
 
                         }
-
                     }
 
                     //remove the used strings that has already been parsed

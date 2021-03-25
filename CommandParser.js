@@ -9,11 +9,6 @@ module.exports =
         
         var teamColor = game.team_color;
         var oppTeamColor = game.opp_team_color;
- 
-
-        var hasEvent = false;
-        var hasPosition = false;
-        var hasOutcome = false;
 
         input = input.toLowerCase();
 
@@ -21,7 +16,7 @@ module.exports =
         {
             return {result:1,team_id:0};
         }
-        else if (compareLangPossession(input,oppTeamColor+" possession") || compareLang(input,oppTeamColor+" team possession") || compareLangPossession(input,oppTeamColor+" ball"))
+        else if (compareLangPossession(input,oppTeamColor,"possession") || compareLang(input,oppTeamColor+" team possession") || compareLangPossession(input,oppTeamColor,"ball"))
         {
             return {result:1,team_id:1};
         }
@@ -32,7 +27,7 @@ module.exports =
             return {result:1,outcome_id:5};
         }
 
-
+        console.log("event")
         for (var i = 0;i < enums.event.length;i++)
         {
             for (var j = 0;j < enums.event[i].keywords.length; j++)
@@ -44,6 +39,7 @@ module.exports =
             }
         }
 
+        console.log("Position")
         for (var i = 0;i < enums.position.length;i++)
         {
             for (var j = 0;j < enums.position[i].keywords.length; j++)
@@ -55,17 +51,21 @@ module.exports =
             }
         }
 
+        console.log("outcome");
         for (var i = 0;i < enums.outcome.length;i++)
         {
+            console.log(i);
+            console.log(enums.outcome[i].keywords);
             for (var j = 0;j < enums.outcome[i].keywords.length; j++)
             {
                 if (compareLang(input,enums.outcome[i].keywords[j]))
                 {
+                    console.log("j"+j);
                     return {outcome_id:enums.outcome[i].outcomeID}
                 }
             }
         }
-        
+        console.log("Player")
         var singlePlayerNumber = wtn.wordsToNumbers(input);
         if (singlePlayerNumber !== null)
         {
@@ -145,6 +145,7 @@ function compareLang(input, compare)
 function compareLangPossession(input, color,compare)
 {
     const enums = require('./enums');
+    console.log(compare)
     for (var i = 0;i < enums.misc[compare].length;i++)
     {
         var compareString = color+" "+enums.misc[compare][i];
@@ -155,3 +156,4 @@ function compareLangPossession(input, color,compare)
     }
     return false;
 }
+

@@ -124,16 +124,6 @@ function processOutcome(event, statObject)
             }
             break;
         case 6:
-            if (event.team_id === 0)
-            {
-                statObject.teamPoints++;
-            }
-            else if (event.team_id === 1)
-            {
-                statObject.oppTeamPoints++;
-            }
-            break;
-        case 7:
             
             if (event.team_id === 0)
             {
@@ -144,6 +134,17 @@ function processOutcome(event, statObject)
                 statObject.oppTeamGoal++;
             }
             break;
+        case 7:
+            if (event.team_id === 0)
+            {
+                statObject.teamPoints++;
+            }
+            else if (event.team_id === 1)
+            {
+                statObject.oppTeamPoints++;
+            }
+            break;
+        
         case 8:
             if (event.team_id === 0)
             {
