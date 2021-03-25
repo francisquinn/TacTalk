@@ -186,20 +186,14 @@ module.exports.position =
     }
 ];
 
-moduel.exports.misc =
-[
-    {
-        keywords:["ball", "bowl", "bawl", "paul"]
-    },
-    {
-        keywords:["team","theme"]
-    },
-    {
-        keyword:"player",
-        regexs:[/player(?:$|\W)+[^(\s)]+/,/play(?:$|\W)+[^(\s)]+/,/prayer(?:$|\W)+[^(\s)]+/]
-    }
-]
-
+module.exports.misc =
+{
+    
+    ball:["ball", "bowl", "bawl", "paul","pall","brawl"],    
+    possession:["position","possession","profession"],
+    team:["team","theme","tim","tin"]
+    
+}
 module.exports.outcome =
 [
     {
