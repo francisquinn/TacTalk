@@ -4,6 +4,7 @@ const MongoDB = require("mongodb");
 var passwordHash = require("password-hash");
 var jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
+const {loginValidation} = require('./validation');
 
 dotenv.config();
 
@@ -16,6 +17,11 @@ module.exports = {
 
     const dbo = db.db("TacTalk");
     res.setHeader("Content-Type", "application/json");
+         
+        //getting validation and displaying the error message if details are entered incorrectly
+        const {error} = loginValidation(req.body);
+        if(error) return res.status(400).send(error.details[0].message);
+        
     try {
       var searchQuery = {
         email: req.body.email

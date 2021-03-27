@@ -19,7 +19,6 @@ const Games = require("./Games");
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 var FormData = require('form-data');
 const bodyParser = require('body-parser');
-const { validate, ValidationError, Joi } = require('express-validation');
 const enums = require("./enums");
 const cd = require("./CompileDictionary");
 var CompileDictionary = require('./CompileDictionary');
@@ -33,6 +32,7 @@ const EventToText = require("./EventToText");
 const verify = require('./verifyToken');
 
 const Login = require('./login');
+const Register = require('./register');
 const Player = require('./player');
 const Team = require('./team');
 const Game = require('./game');
@@ -324,178 +324,6 @@ app.get('/user/game_events/update', async (req, res) =>
     
 })
 
-
-
-//keyByField: true
-//validate(registerValidation, {}, {} ),
-app.post('/user/register',  async (req, res) =>
-{
-    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
-    const dbo = db.db("TacTalk");
-    res.setHeader('Content-Type', 'application/json', 'Authentication');
-    try
-    {
-        var hashedPassword = passwordHash.generate(req.body.password)
-        var newUserObject =
-        {
-            username: req.body.username,
-            password: hashedPassword,
-            email: req.body.email
-        };
-        
-        await dbo.collection("users").insertOne(newUserObject, function(err){
-//            if (err) 
-                
-            // Object inserted successfully.
-           
-        
-            res.end(JSON.stringify({code:200,_id:newUserObject._id}));
-            db.close();
-        });
-       
-        
-    }catch(ex)
-    {
-        res.end(JSON.stringify({code:500,error:ex.toString()}));
-        db.close();
-    }
-});
-
-app.get('/user/register/checkNameDuplicates', async (req, res) => 
-{
-    
-    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
-    const dbo = db.db("TacTalk");
-    res.setHeader('Content-Type', 'application/json');
-    try
-    {
-        const searchQuery = { username: req.query.username};
-        
-        var result = await dbo.collection("users").findOne(searchQuery);
-        
-        
-        
-        if (result)
-        {
-            res.end(JSON.stringify({code:200, result: 1}));
-            db.close();
-        }
-        else
-        {
-            res.end(JSON.stringify({code:200, result: 0}));
-            db.close();
-        }
-    }catch(ex)
-    {
-        res.end(JSON.stringify({code:500}));
-        db.close();
-    }
-    
-})
-
-//---------------------------------------------------------------------------------------------------------------------------------------
-//checking duplicate team names
-app.get('/user/teams/check_team_name_duplicates', async (req, res) => 
-{
-    
-    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
-    const dbo = db.db("TacTalk");
-    res.setHeader('Content-Type', 'application/json');
-    try
-    {
-        const searchQuery = { team_name: req.query.team_name};
-        
-        var result = await dbo.collection("teams").findOne(searchQuery);
-        
-        
-        
-        if (result)
-        {
-            res.end(JSON.stringify({code:200, result: 1}));
-            db.close();
-        }
-        else
-        {
-            res.end(JSON.stringify({code:200, result: 0}));
-            db.close();
-        }
-    }catch(ex)
-    {
-        res.end(JSON.stringify({code:500}));
-        db.close();
-    }
-    
-})
-
-//------------------------------------------------------------------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------------------------------------------------------------------
-//checking duplicate game names
-app.get('/user/teams/check_game_name_duplicates', async (req, res) => 
-{
-    
-    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
-    const dbo = db.db("TacTalk");
-    res.setHeader('Content-Type', 'application/json');
-    try
-    {
-        const searchQuery = { game_name: req.query.game_name};
-        
-        var result = await dbo.collection("games").findOne(searchQuery);
-        
-        
-        
-        if (result)
-        {
-            res.end(JSON.stringify({code:200, result: 1}));
-            db.close();
-        }
-        else
-        {
-            res.end(JSON.stringify({code:200, result: 0}));
-            db.close();
-        }
-    }catch(ex)
-    {
-        res.end(JSON.stringify({code:500}));
-        db.close();
-    }
-    
-})
-
-//------------------------------------------------------------------------------------------------------------------------------------
-
-app.get('/user/register/checkEmailDuplicates', async (req, res) => 
-{
-    
-    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
-    const dbo = db.db("TacTalk");
-    res.setHeader('Content-Type', 'application/json');
-    try
-    {
-        
-        var result = await dbo.collection("users").findOne({ "email" : { $regex : new RegExp(req.query.email, "i") } });
-        
-        
-        
-        if (result)
-        {
-            res.end(JSON.stringify({code:200, result: 1}));
-            db.close();
-        }
-        else
-        {
-            res.end(JSON.stringify({code:200, result: 0}));
-            db.close();
-        }
-    }catch(ex)
-    {
-        res.end(JSON.stringify({code:500}));
-        db.close();
-    }
-    
-})
-
 //------------------------------------------------------------------------------------------------------------------
 //moving match from active to finished
 app.get('/user/active_games/move_from_active_to_finished', async (req, res) => 
@@ -538,18 +366,6 @@ app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`)
 })
 
-//----------------------------------------------------------------------------------------------------------------------------
-//Error message for validation
-        app.use(function(err, req, res, next) {
-          if (err instanceof ValidationError) {
-            return res.status(err.statusCode).json(err.details)
-          }
-
-          return res.status(500).json(err)
-        })
-        
-//----------------------------------------------------------------------------------------------------------------------
-
 app.get('/recorder', async (req, res) => 
 {
     var fs = require("fs");
@@ -586,6 +402,7 @@ app.get('/user/players/get/player_details_by_id', Player.readPlayer);
 app.get('/user/players/update_player', Player.updatePlayer);
 app.get('/user/users/get/search_similar_players_by_name',Player.similarName);
 
+app.post('/user/register', Register.registerUser);
 app.post('/user/login', Login.loginUser);
 app.post('/user/create_team', verify.LoginVerify, Team.createTeam);
 app.post('/user/players/create_player', verify.TeamVerify, Player.createPlayer);
