@@ -3,24 +3,22 @@ const ObjectID = require("mongodb").ObjectID;
 const MongoDB = require("mongodb");
 const dotenv = require("dotenv");
 const bodyParser = require('body-parser');
-const { validate, ValidationError, Joi } = require('express-validation');
-const uri = "mongodb+srv://RojakAdmin:RojakIsASalad@rojakcluster.ho1ff.mongodb.net/sample_analytics?retryWrites=true&w=majority";
+const {createPlayerValidation} = require('./validation');
 dotenv.config();
 
-//var sampleQuery = {player_name : "jerry",
-//                            player_age: "30",
-//                            player_number: "5"};
-//                        console.log(JSON.stringify(sampleQuery));
-
-
 //create players
-//validate(createPlayerValidation, {}, {} ),
 module.exports = {  
-   createPlayer: async function(req, res) { 
-
-        const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
+  createPlayer: async function (req, res) {
+    const db = await MongoClient.connect(process.env.DB_CONNECT, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
         const dbo = db.db("TacTalk");
         res.setHeader('Content-Type', 'application/json');
+
+           //getting validation and displaying the error message if details are entered incorrectly
+            const {error} = createPlayerValidation(req.body);
+            if(error) return res.status(400).send(error.details[0].message);  
 
         try
         {
@@ -45,10 +43,11 @@ module.exports = {
     },
 
 //getting player info based off id
-//validate(getIdValidation, {}, {} ),
     readPlayer: async function (req, res) {
-
-        const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
+        const db = await MongoClient.connect(process.env.DB_CONNECT, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    });
         const dbo = db.db("TacTalk");
         res.setHeader('Content-Type', 'application/json');
         try
@@ -70,9 +69,11 @@ module.exports = {
     },
 
 //Updating player details based off player id - more work needed
-    updatePlayer :async function(req, res) {
-
-        const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
+    updatePlayer :async function (req, res) {
+        const db = await MongoClient.connect(process.env.DB_CONNECT, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    });
         const dbo = db.db("TacTalk");
         res.setHeader('Content-Type', 'application/json');
 
@@ -81,13 +82,6 @@ module.exports = {
             console.log("run")
             console.log(JSON.parse(req.query.updateObject));
             const searchQuery = { _id: new MongoDB.ObjectID(req.query._id)};
-
-    //        var sampleQuery = {player_name : "jerry",
-    //                            player_age: "30",
-    //                            player_number: "5"};
-    
-            
-            
 
             const updateDocument = 
             {
@@ -112,11 +106,11 @@ module.exports = {
     },
 
 //Delete player by id
-//validate(getIdValidation, {}, {} ),
-    deletePlayer: async function (req, res) { 
-
-        const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
-
+    deletePlayer: async function (req, res) {
+        const db = await MongoClient.connect(process.env.DB_CONNECT, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    });
         const dbo = db.db("TacTalk");
         res.setHeader('Content-Type', 'application/json');
         try
@@ -134,10 +128,11 @@ module.exports = {
     },
 
 //getting user with name similar to one typed in
-//returns - code:200,result:null
-//validate(searchPlayerValidation, {}, {} ),
-    similarName:  async function(req, res){
-        const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
+    similarName:  async function (req, res) {
+        const db = await MongoClient.connect(process.env.DB_CONNECT, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    });
         const dbo = db.db("TacTalk");
         res.setHeader('Content-Type', 'application/json');
         try

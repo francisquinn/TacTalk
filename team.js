@@ -16,6 +16,10 @@ module.exports = {
         const dbo = db.db("TacTalk");
         res.setHeader('Content-Type', 'application/json');
 
+                //checking for duplicate teams
+        const teamExist = await dbo.collection("teams").findOne({teamName:req.body.teamName});
+        if(teamExist) return res.end(JSON.stringify({code:400, message: "Team already exists"}));
+
         try
         {
             var newTeamObject = 

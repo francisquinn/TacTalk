@@ -3,11 +3,11 @@ const ObjectID = require("mongodb").ObjectID;
 const MongoDB = require("mongodb");
 var jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
+const {createMatchValidation} = require('./validation');
 
 dotenv.config();
 
 
-//validate(createMatchValidation, {}, {} ),
 module.exports = {
   createGame: async function (req, res) {
     const db = await MongoClient.connect(process.env.DB_CONNECT, {
@@ -17,6 +17,10 @@ module.exports = {
     
     const dbo = db.db("TacTalk");
     res.setHeader('Content-Type', 'application/json');
+    
+        //getting validation and displaying the error message if details are entered incorrectly
+        const {error} = createMatchValidation(req.body);
+        if(error) return res.status(400).send(error.details[0].message);  
     
     try
     {
@@ -46,15 +50,7 @@ module.exports = {
         console.log(decoded);
         
         await dbo.collection("games").insertOne(newGameObject, function(err){
-//            if (err)
-//                console.log(err.toString());
-//                return;
-//            // Object inserted successfully.
-//           console.log("stage 1");
-//            res.end(JSON.stringify({code:200, game_name:req.body.game_name}));
-//            db.close();
             
-
         });
         var newActiveGameObject =
                     {
