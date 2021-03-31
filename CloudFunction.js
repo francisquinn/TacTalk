@@ -16,7 +16,7 @@ module.exports =
 
             var gameID = new MongoDB.ObjectID(req.query.object_id);
 
-            var searchQuery = { game_id:gameID }
+            var searchQuery = { _id:gameID }
 
 
             var jsonObj = JSON.parse(req.query.package.replace(/u'/g, '\"'));
@@ -52,7 +52,7 @@ module.exports =
                     }
                 };
 
-            await dbo.collection("active_games").updateOne(searchQuery, updateDocument, function(err){
+            await dbo.collection("games").updateOne(searchQuery, updateDocument, function(err){
                 if (err) return;
                 // Object inserted successfully.
 

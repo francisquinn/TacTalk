@@ -577,7 +577,7 @@ app.get('/createTrainingMaterial', async (req, res) =>
 app.get('/user/games/updateGame', UpdateGame.updateGame );
 app.get('/dictionary', CompileDictionary.dictionary);
 app.get('/cloud/dictionary/create', CompileDictionary.createDictionary);
-app.get('/cloud/game_events/create', CloudFunction.createInput);
+app.get('/cloud/createInput', CloudFunction.createInput);
 app.get('/dev/games/event_to_text',EventToText.eventToText);
 app.get('/dev/util/clear_game',Util.resetGame);
 

@@ -81,9 +81,9 @@ module.exports =
                     }));
                     return;
                 }
-                const searchQuery = { game_id: new MongoDB.ObjectID(req.query.game_id)};
+                const searchQuery = { _id: new MongoDB.ObjectID(req.query.game_id)};
 
-                var activeGame = await dbo.collection("active_games").findOne(searchQuery);
+                var activeGame = await dbo.collection("games").findOne(searchQuery);
 
 
 
@@ -103,17 +103,12 @@ module.exports =
                     activeGame.input_list.sort(inputListCompare);
                     for (var i = 0; i < activeGame.input_list.length;i++)
                     {
-                        console.log("pushed")
-                        console.log((activeGame.current_order+1)+"vs"+activeGame.input_list[i].audio_order)
                         if (activeGame.current_order + 1 == activeGame.input_list[i].audio_order)
                         {
-                            console.log("pushed 2222")
                             activeGame.current_order += 1;
                             for (var j = 0;j < activeGame.input_list[i].text.length; j++)
                             {
-                                console.log("pushed 3333")
                                 activeGame.last_string.push(activeGame.input_list[i].text[j]);
-                                
                             }
 
 
@@ -166,7 +161,7 @@ module.exports =
                                         // if the current event already has this property, upload this event, and replace it with a new one
                                         if (activeGame.current_event[eventPropertyList[j]] !== -1)
                                         {
-                                            await createGameEvent(activeGame.game_id,activeGame.current_event,activeGame.current_possession_team,newPossession);
+                                            activeGame = createGameEvent(activeGame,activeGame.game_id,activeGame.current_event,activeGame.current_possession_team,newPossession);
                                             activeGame.current_event = Object.assign({},defaultEvent);
                                             activeGame.current_event[eventPropertyList[j]] = parseResult[eventPropertyList[j]];
                                             newPossession = false;
@@ -210,13 +205,13 @@ module.exports =
                                 activeGame
                             }
 
-                    await dbo.collection("active_games").updateOne(searchQuery,newActiveGameValues);
+                    await dbo.collection("games").updateOne(searchQuery,newActiveGameValues);
 
                     console.log(req.query.game_id +"me");
                     var gameSearchQuery = {_id:new MongoDB.ObjectID(req.query.game_id)};
 
                     //compile stats and send the response back to user
-                    var gameObject = await dbo.collection("games").findOne(gameSearchQuery);
+                    var gameObject = activeGame;
                     if (gameObject)
                     {
 
@@ -265,15 +260,15 @@ function inputListCompare(inputA,inputB)
     }
 }
 
-async function createGameEvent(gameID,gameEvent,currentPossessionTeam, newPossession)
+async function createGameEvent(game,gameID,gameEvent,currentPossessionTeam, newPossession)
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
     try
     {
         
-        const searchQuery = { _id: new MongoDB.ObjectID(gameID) };
-        var gameObj = await dbo.collection("games").findOne(searchQuery);
+        
+        var gameObj = game;
         
         if (gameEvent.team_id === -1)
         {
@@ -316,23 +311,10 @@ async function createGameEvent(gameID,gameEvent,currentPossessionTeam, newPosses
             gameObj.possessions[gameObj.possessions.length-1].events.push(gameEvent);
         }
         
-        const updateDocument = 
-        {
-            "$set": gameObj 
-        }
-        
-        
-        await dbo.collection("games").updateOne(searchQuery, updateDocument, function(err)
-        {
-            if (err) return;
-            console.log("A new event has been inserted into the game:");
-            console.log(JSON.stringify(gameEvent));
-            db.close();
-        });
+        return gameObj;
     }catch(ex)
     {
         console.log(ex)
-        db.close();
     }
     
 }
