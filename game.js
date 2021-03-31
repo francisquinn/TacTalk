@@ -35,7 +35,13 @@ module.exports = {
                     teamName:req.body.teamName,
                     oppColor:req.body.oppColor,
                     opposition:req.body.opposition,
-                    possessions:[]
+                    possessions:[],
+                    last_string:[],
+                    input_list:[],
+                    current_order:0,
+                    current_event:{},
+                    active: 1,
+                    current_possession: -1,
                 };
                 
         const gameToken = jwt.sign(
@@ -50,29 +56,9 @@ module.exports = {
         console.log(decoded);
         
         await dbo.collection("games").insertOne(newGameObject, function(err){
-            
+            db.close();
+            res.end(JSON.stringify({code:200}));
         });
-        var newActiveGameObject =
-                    {
-                        game_id: newGameObject._id,
-                        user_id: new MongoDB.ObjectID(req.body.user_id),
-                        last_string:[],
-                        input_list:[],
-                        current_order:0,
-                        current_event:{},
-                        active: 1,
-                        current_possession: -1,
-                        teamColor: req.body.teamColor,
-                        oppColor: req.body.oppColor
-                        
-                    }
-            await dbo.collection("active_games").insertOne(newActiveGameObject, function(err){
-            console.log("done");
-            res.end(JSON.stringify({code:200,_id:newGameObject._id}));
-
-            
-            db.close();                
-            });
     }catch(ex)
     { 
         res.end(JSON.stringify({code:500,error:ex}));

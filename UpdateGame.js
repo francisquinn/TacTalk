@@ -162,7 +162,10 @@ module.exports =
                                         if (activeGame.current_event[eventPropertyList[j]] !== -1)
                                         {
                                             activeGame = createGameEvent(activeGame,activeGame.game_id,activeGame.current_event,activeGame.current_possession_team,newPossession);
+                                            console.log("after createGameEvent");
+                                            console.log("b4 "+JSON.stringify(activeGame));
                                             activeGame.current_event = Object.assign({},defaultEvent);
+                                            console.log("after "+JSON.stringify(activeGame));
                                             activeGame.current_event[eventPropertyList[j]] = parseResult[eventPropertyList[j]];
                                             newPossession = false;
                                         }
@@ -175,19 +178,27 @@ module.exports =
                                         //reset segment string because the information is extracted
                                         segmentString = "";
                                         removeIndex = i;
-
+                                        
 
                                     }
+                                    console.log("event property list looping")
                                 }
+                                
+                                console.log("after event property list looping")
+                                
 
 
 
 
 
                             }
-
+                            
+                            console.log("last string looping");
+                            console.log(JSON.stringify(activeGame))
                         }
+                        console.log("after last string looping")
                     }
+                    console.log("after for loop")
 
                     //remove the used strings that has already been parsed
                     if (removeIndex !== -1)
@@ -204,6 +215,7 @@ module.exports =
                                 $set:
                                 activeGame
                             }
+                            console.log("before update")
 
                     await dbo.collection("games").updateOne(searchQuery,newActiveGameValues);
 
@@ -236,8 +248,10 @@ module.exports =
 
             }catch(ex)
             {
-                res.end(JSON.stringify({code:500, error:ex.toString()}));
+                res.end(JSON.stringify({code:500, error:ex.toString()+" at "+ex.lineNumber}));
                 db.close();
+                console.log("error occured");
+                return;
             }
 
         
@@ -260,20 +274,18 @@ function inputListCompare(inputA,inputB)
     }
 }
 
-async function createGameEvent(game,gameID,gameEvent,currentPossessionTeam, newPossession)
+function createGameEvent(gameObj,gameID,gameEvent,currentPossessionTeam, newPossession)
 {
-    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
-    const dbo = db.db("TacTalk");
     try
     {
+        console.log("Create Event");
         
-        
-        var gameObj = game;
         
         if (gameEvent.team_id === -1)
         {
             gameEvent.team_id = currentPossessionTeam;
         }
+        
         
         if (gameObj.possessions.length === 0)
         {
@@ -310,7 +322,7 @@ async function createGameEvent(game,gameID,gameEvent,currentPossessionTeam, newP
         {
             gameObj.possessions[gameObj.possessions.length-1].events.push(gameEvent);
         }
-        
+        console.log("return gameOBJ"+JSON.stringify(gameObj));
         return gameObj;
     }catch(ex)
     {
