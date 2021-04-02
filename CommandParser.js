@@ -27,7 +27,6 @@ module.exports =
             return {result:1,outcome_id:5};
         }
 
-        console.log("event")
         for (var i = 0;i < enums.event.length;i++)
         {
             for (var j = 0;j < enums.event[i].keywords.length; j++)
@@ -39,7 +38,6 @@ module.exports =
             }
         }
 
-        console.log("Position")
         for (var i = 0;i < enums.position.length;i++)
         {
             for (var j = 0;j < enums.position[i].keywords.length; j++)
@@ -51,7 +49,6 @@ module.exports =
             }
         }
 
-        console.log("outcome");
         for (var i = 0;i < enums.outcome.length;i++)
         {
             console.log(i);
@@ -65,37 +62,37 @@ module.exports =
                 }
             }
         }
-        console.log("Player")
+        
         var singlePlayerNumber = wtn.wordsToNumbers(input);
         if (singlePlayerNumber !== null)
         {
-            if (singlePlayerNumber < 45)
+            if (singlePlayerNumber < 30)
             {
                 return {player_id:singlePlayerNumber};
             }
         }
 
-        var playerMatch = input.match(playerRegex);
-        var playerText = "";
-
-        if (playerMatch !== null)
-        {
-            if (Array.isArray(playerMatch))
-            {
-                playerText = playerMatch[0];
-            }
-            else
-            {
-                playerText = playerMatch;
-            }
-            playerText = wtn.wordsToNumbers(playerText.replace(/player(?:$|\W)/,""));
-
-            var playerNum = parseInt(playerText);
-            if (playerNum !== null)
-            {
-                return {player_id: playerNum};
-            }
-        }
+//        var playerMatch = input.match(playerRegex);
+//        var playerText = "";
+//
+//        if (playerMatch !== null)
+//        {
+//            if (Array.isArray(playerMatch))
+//            {
+//                playerText = playerMatch[0];
+//            }
+//            else
+//            {
+//                playerText = playerMatch;
+//            }
+//            playerText = wtn.wordsToNumbers(playerText.replace(/player(?:$|\W)/,""));
+//
+//            var playerNum = parseInt(playerText);
+//            if (playerNum !== null)
+//            {
+//                return {player_id: playerNum};
+//            }
+//        }
         
         
         return null;

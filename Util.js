@@ -12,31 +12,24 @@ module.exports =
         try
         {
             const searchQuery = { _id: new MongoDB.ObjectID(req.query.game_id)};
-            const activeGameSearchQuery = { game_id: new MongoDB.ObjectID(req.query.game_id)};
                 
             var game = await dbo.collection("games").findOne(searchQuery);
             
-            var active_game = await dbo.collection(("active_games")).findOne(activeGameSearchQuery);
-            
-            if (game && active_game)
+            if (game)
             {
-                active_game.current_order = 0;
-                active_game.current_event = {};
-                active_game.last_string = [];
-                active_game.current_possession_team = -1;
+                game.current_order = 0;
+                game.current_event = {};
+                game.last_string = [];
+                game.current_possession_team = -1;
                 if (req.query.hasOwnProperty("clearInput"))
                 {
-                    if (req.query.clearInput == 1)
-                    {
-                        active_game.input_list = [];
-                    }
+
+                    game.input_list = [];
+
                 }
                 if (req.query.hasOwnProperty(("clearEvent")))
                 {
-                    if (req.query.clearEvent == 1)
-                    {
-                        game.possessions = [];
-                    }
+                    game.possessions = [];
                 }
                 
                 var updateGame = 
@@ -45,14 +38,8 @@ module.exports =
                     
                 }
                 
-                var updateActiveGame = 
-                {
-                    "$set": active_game
-                    
-                }
                 
                 await dbo.collection("games").updateOne(searchQuery,updateGame);
-                await dbo.collection("active_games").updateOne(activeGameSearchQuery, updateActiveGame);
                 db.close();
                 res.end(JSON.stringify({code:200}));
                 
