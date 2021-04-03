@@ -26,7 +26,8 @@ module.exports = {
                     {
 //                        team_id:new MongoDB.ObjectID(req.body.team_id),
                         teamName:req.body.teamName,
-                        teamColor:req.body.teamColor
+                        teamColor:req.body.teamColor,
+                        teamLevel:req.body.teamLevel
 
                     };
 

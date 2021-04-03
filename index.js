@@ -401,6 +401,7 @@ app.get('/user/players/delete_player_by_id', Player.deletePlayer);
 app.get('/user/players/get/player_details_by_id', Player.readPlayer);
 app.get('/user/players/update_player', Player.updatePlayer);
 app.get('/user/users/get/search_similar_players_by_name',Player.similarName);
+app.get('/user/players/all_players', Player.allPlayers);
 
 app.post('/user/register', Register.registerUser);
 app.post('/user/login', Login.loginUser);

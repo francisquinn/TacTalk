@@ -40,8 +40,8 @@ module.exports = {
         );
 //console.log(result._id);
         // Add token in header
-        res.setHeader("LoginAuth", loginToken);
-//        res.header("LoginAuth", token).send(token);
+//        res.setHeader("LoginAuth", loginToken);
+        res.header("LoginAuth", loginToken).send(loginToken);
 
         res.end(
           JSON.stringify({ code: 200, message: "Login Successful" })

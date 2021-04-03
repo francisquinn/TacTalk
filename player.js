@@ -67,7 +67,42 @@ module.exports = {
         }
     
     },
+    
+    
+    //getting all players
+    allPlayers: async function (req, res) {
+        const db = await MongoClient.connect(process.env.DB_CONNECT, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    });
+        const dbo = db.db("TacTalk");
+        res.setHeader('Content-Type', 'application/json');
+        try
+        {
+            //Details used to call method put in here
+//            const searchQuery = { _id: new MongoDB.ObjectID(req.query._id) };
 
+            await dbo.collection("players").find({}, {projection: {_id: 0, player_name: 1, player_number: 1} }).toArray(function(err,result)
+            {           
+                
+                if (err) throw err;
+                res.end(JSON.stringify({code:200, result}));
+                db.close();  
+            
+            });
+            
+//            db.close();
+
+        }catch(ex)
+        {
+            res.end(JSON.stringify({code:500, error:ex.toString()}));
+            db.close();
+        }
+    
+    },
+    
+    
+    
 //Updating player details based off player id - more work needed
     updatePlayer :async function (req, res) {
         const db = await MongoClient.connect(process.env.DB_CONNECT, {
