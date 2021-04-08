@@ -44,17 +44,17 @@ module.exports = {
                     current_possession: -1,
                 };
                 
-        const gameToken = jwt.sign(
-          { game_id: new MongoDB.ObjectID(req.body._id) },
-          process.env.TOKEN_SECRET
-        );
-
-        res.header("GameAuth", gameToken);
-        
-        console.log(gameToken)
-        var decoded = jwt.decode(gameToken);
-        console.log(decoded);
-        
+//        const gameToken = jwt.sign(
+//          { game_id: new MongoDB.ObjectID(req.body._id) },
+//          process.env.TOKEN_SECRET
+//        );
+//
+//        res.header("GameAuth", gameToken);
+//        
+//        console.log(gameToken)
+//        var decoded = jwt.decode(gameToken);
+//        console.log(decoded);
+//        
         await dbo.collection("games").insertOne(newGameObject, function(err){
             db.close();
             res.end(JSON.stringify({code:200}));

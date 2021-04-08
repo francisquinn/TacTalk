@@ -405,6 +405,6 @@ app.get('/user/players/all_players', Player.allPlayers);
 
 app.post('/user/register', Register.registerUser);
 app.post('/user/login', Login.loginUser);
-app.post('/user/create_team', verify.LoginVerify, Team.createTeam);
-app.post('/user/players/create_player', verify.TeamVerify, Player.createPlayer);
-app.post('/user/games/create', verify.TeamVerify, Game.createGame );
+app.post('/user/create_team', Team.createTeam);
+app.post('/user/players/create_player',  Player.createPlayer);
+app.post('/user/games/create', Game.createGame );

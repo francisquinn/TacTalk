@@ -20,7 +20,7 @@ module.exports = {
     {
                 //getting validation and displaying the error message if details are entered incorrectly
         const {error} = registerValidation(req.body);
-        if(error) return res.status(400).send(error.details[0].message);
+        if(error) return res.status(400).send(error.details[0]);
         
         //checking for duplicate users
         const emailExist = await dbo.collection("users").findOne({email:req.body.email});

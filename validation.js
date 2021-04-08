@@ -19,8 +19,8 @@ const registerValidation = data => {
           .max(50)
           .min(2)
           .required()
-          .messages({'string.base': `Name should be text`,
-                     'string.empty': `Name cannot be an empty field`,
+          .messages({'string.base': `NAME SHOULD BE TEXT`,
+                     'string.empty': `NAME CANNOT BE EMPTY`,
                      'string.min': `Name should have a minimum length of {#limit} characters`,
                      'string.max': `Name should have a maximum length of {#limit} characters`,
                      'string.pattern.base': `Name can only contain text`,
@@ -31,7 +31,7 @@ const registerValidation = data => {
           .min(8)
           .required()
           .messages({'string.base': `Password was not input in the correct format.`,
-                     'string.pattern.base': `Password format incorrect, needs at least: 1 upper and lower case letter, 8 characters, 1 special character and 1 number `,
+                     'string.pattern.base': `Password format incorrect`,
                      'string.min': `Password should have a minimum length of {#limit} characters`,
                      'string.empty' : `Password is a required field`,
                      'any.required': `Password is a required field`}), 
@@ -40,7 +40,7 @@ const registerValidation = data => {
           .required()
           .messages({'string.base': `Email is required`,
                      'string.empty': `Email is required`,
-                     'string.email': `Email must end in .com or .net and contain an @`,
+                     'string.email': `Email IS IN AN INCORRCT FORMAT`,
                      'any.required': `Email is a required field`})
     });
     return schema.validate(data);
@@ -50,28 +50,28 @@ const registerValidation = data => {
 
 //---------------------------------------------------------------------------------------------------------------------------
 //valduation for login 
-const loginValidation = data => {
-    const schema = Joi.object ({
-        email: Joi.string()
-          .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
-          .required()
-          .messages({'string.base': `Email is required`,
-                     'string.empty': `Email is required`,
-                     'string.email': `Email must end in .com or .net and contain an @`,
-                     'any.required': `Email is a required field`}),
-        password: Joi.string()
-        //minimum 1 upper and lower case letter, 8 characters, 1 special character and 1 number
-          .regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-><\/:;~]).{8,}$/)
-          .min(8)
-          .required()
-          .messages({'string.base': `Password was not input in the correct format.`,
-                     'string.pattern.base': `Password format incorrect, needs at least: 1 upper and lower case letter, 8 characters, 1 special character and 1 number `,
-                     'string.min': `Password should have a minimum length of {#limit} characters`,
-                     'string.empty' : `Password is a required field`,
-                     'any.required': `Password is a required field`})      
-    });
-    return schema.validate(data);
-};
+//const loginValidation = data => {
+//    const schema = Joi.object ({
+//        email: Joi.string()
+//          .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
+//          .required()
+//          .messages({'string.base': `Email is required`,
+//                     'string.empty': `Email is required`,
+//                     'string.email': `Email IS IN AN INCORRECT FORMAT`,
+//                     'any.required': `Email is a required field`}),
+//        password: Joi.string()
+//        //minimum 1 upper and lower case letter, 8 characters, 1 special character and 1 number
+//          .regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-><\/:;~]).{8,}$/)
+//          .min(8)
+//          .required()
+//          .messages({'string.base': `Password was not input in the correct format.`,
+//                     'string.pattern.base': `Password format incorrect`,
+//                     'string.min': `Password should have a minimum length of {#limit} characters`,
+//                     'string.empty' : `Password is a required field`,
+//                     'any.required': `Password is a required field`})      
+//    });
+//    return schema.validate(data);
+//};
 //---------------------------------------------------------------------------------------------------------------------------
 
 
@@ -212,6 +212,6 @@ const createMatchValidation = data => {
 };
 
 module.exports.registerValidation = registerValidation;
-module.exports.loginValidation = loginValidation;
+//module.exports.loginValidation = loginValidation;
 module.exports.createPlayerValidation = createPlayerValidation;
 module.exports.createMatchValidation = createMatchValidation;
