@@ -1,10 +1,8 @@
 const MongoClient = require("mongodb").MongoClient;
-const ObjectID = require("mongodb").ObjectID;
-const MongoDB = require("mongodb");
 var passwordHash = require("password-hash");
 var jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
-const {loginValidation} = require('./validation');
+//const { loginValidation } = require("./validation");
 
 dotenv.config();
 
@@ -17,14 +15,10 @@ module.exports = {
 
     const dbo = db.db("TacTalk");
     res.setHeader("Content-Type", "application/json");
-         
-        //getting validation and displaying the error message if details are entered incorrectly
-        const {error} = loginValidation(req.body);
-        if(error) return res.status(400).send(error.details[0].message);
-        
+
     try {
       var searchQuery = {
-        email: req.body.email
+        email: req.body.email,
       };
 
       var result = await dbo.collection("users").findOne(searchQuery);
@@ -38,26 +32,18 @@ module.exports = {
           { user_id: result._id },
           process.env.TOKEN_SECRET
         );
-//console.log(result._id);
+        //console.log(result._id);
         // Add token in header
-        res.setHeader("Authentication", token);
-//        res.header("LoginAuth", loginToken).send(loginToken);
+        //res.setHeader("Authentication", token);
 
-        res.end(
-          JSON.stringify({ code: 200, message: "Login Successful", token: token })
-        );
+        res.status(200).send({ message: "Login Successful", token: token });
         db.close();
       } else {
-        console.log("in else");
-        res.end(
-          JSON.stringify({ code: 400, message: "Invalid email or password" })
-        );
+        res.status(400).send({ message: "Invalid Email or Password" });
         db.close();
       }
     } catch (ex) {
-      res.end(
-        JSON.stringify({ code: 400, message: "Invalid email or password" })
-      );
+      res.status(500).send({ message: ex.toString() });
       db.close();
     }
   },
