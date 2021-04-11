@@ -125,9 +125,7 @@ module.exports =
                         for(var i = 0;i < activeGame.last_string.length;i++)
                         {
                             segmentString += " "+activeGame.last_string[i];
-                            console.log("current state: "+segmentString);
                             var parseResult = cp.parseCommand(segmentString,activeGame);
-                            console.log("cp ok")
 
                             //if the parse result extracted a value
                             if (parseResult !== null)
@@ -143,10 +141,6 @@ module.exports =
 
                                     }
                                 }
-                                console.log("%c parse result: ["+JSON.stringify(parseResult)+"]",'background: #222; color: #bada55')
-
-
-
 
                                 //cycle through the list of properties
                                 for (var j = 0; j < eventPropertyList.length; j++)
@@ -162,10 +156,7 @@ module.exports =
                                         if (activeGame.current_event[eventPropertyList[j]] !== -1)
                                         {
                                             activeGame = createGameEvent(activeGame,activeGame.game_id,activeGame.current_event,activeGame.current_possession_team,newPossession);
-                                            console.log("after createGameEvent");
-                                            console.log("b4 "+JSON.stringify(activeGame));
                                             activeGame.current_event = Object.assign({},defaultEvent);
-                                            console.log("after "+JSON.stringify(activeGame));
                                             activeGame.current_event[eventPropertyList[j]] = parseResult[eventPropertyList[j]];
                                             newPossession = false;
                                         }
@@ -181,24 +172,13 @@ module.exports =
                                         
 
                                     }
-                                    console.log("event property list looping")
                                 }
-                                
-                                console.log("after event property list looping")
-                                
-
-
-
-
-
                             }
                             
-                            console.log("last string looping");
                             console.log(JSON.stringify(activeGame))
                         }
-                        console.log("after last string looping")
                     }
-                    console.log("after for loop")
+
 
                     //remove the used strings that has already been parsed
                     if (removeIndex !== -1)
@@ -215,11 +195,9 @@ module.exports =
                                 $set:
                                 activeGame
                             }
-                            console.log("before update")
 
                     await dbo.collection("games").updateOne(searchQuery,newActiveGameValues);
 
-                    console.log(req.query.game_id +"me");
                     var gameSearchQuery = {_id:new MongoDB.ObjectID(req.query.game_id)};
 
                     //compile stats and send the response back to user
@@ -232,8 +210,6 @@ module.exports =
                         var statResult = await stats.getCurrentStats(gameObject);
                         console.log(statResult);
                         res.end(JSON.stringify({code:200, gameStatus: "UPDATING",result: statResult}));
-                        console.log("finish output");
-
                     }
 
 
