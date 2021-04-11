@@ -4,7 +4,7 @@ const MongoDB = require("mongodb");
 var passwordHash = require("password-hash");
 var jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
-const {registerValidation} = require('./validation');
+const { registerValidation } = require("./validation");
 
 dotenv.config();
 
@@ -15,36 +15,36 @@ module.exports = {
       useUnifiedTopology: true,
     });
     const dbo = db.db("TacTalk");
-    res.setHeader('Content-Type', 'application/json');
-    try
-    {
-                //getting validation and displaying the error message if details are entered incorrectly
-        const {error} = registerValidation(req.body);
-        if(error) return res.status(400).send(error.details[0].message);
-        
-        //checking for duplicate users
-        const emailExist = await dbo.collection("users").findOne({email:req.body.email});
-        if(emailExist) return res.end(JSON.stringify({code:400, message: "Email already exists"}));
-      
-        var hashedPassword = passwordHash.generate(req.body.password)
-        var newUserObject =
-        {
-            username: req.body.username,
-            password: hashedPassword,
-            email: req.body.email
-        };
-        
-        await dbo.collection("users").insertOne(newUserObject, function(err){
+    res.setHeader("Content-Type", "application/json");
+    try {
+      //getting validation and displaying the error message if details are entered incorrectly
+      const { error } = registerValidation(req.body);
+      if (error) return res.status(400).send(error.details[0]);
 
-            res.end(JSON.stringify({code:200,_id:newUserObject._id}));
-            db.close();
-        });
-       
-        
-    }catch(ex)
-    {
-        res.end(JSON.stringify({code:500,error:ex.toString()}));
+      //checking for duplicate users
+      const emailExist = await dbo
+        .collection("users")
+        .findOne({ email: req.body.email });
+
+      // Send back 400 status code with error message
+      if (emailExist)
+        return res.status(400).send({ message: "Email already exists" });
+
+      var hashedPassword = passwordHash.generate(req.body.password);
+      var newUserObject = {
+        username: req.body.username,
+        password: hashedPassword,
+        email: req.body.email,
+      };
+
+      // add the new user and send back 200
+      await dbo.collection("users").insertOne(newUserObject, function (err) {
+        res.status(200).send({ message: "Registration Successful" });
         db.close();
+      });
+    } catch (ex) {
+      res.status(500).send({ message: ex.toString() });
+      db.close();
     }
-},
-}
+  },
+};

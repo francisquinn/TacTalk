@@ -26,22 +26,23 @@ module.exports = {
                     {
 //                        team_id:new MongoDB.ObjectID(req.body.team_id),
                         teamName:req.body.teamName,
-                        teamColor:req.body.teamColor
+                        teamColor:req.body.teamColor,
+                        teamLevel:req.body.teamLevel
 
                     };
 
            await dbo.collection("teams").insertOne(newTeamObject, function(err){
                 
-            const teamToken = jwt.sign(
-              { _id: newTeamObject._id },
-              process.env.TOKEN_SECRET
-            );
-
-            // Add token in header
-            res.setHeader("TeamAuth", teamToken);
-            console.log(teamToken)
-            var decoded = jwt.decode(teamToken);
-            console.log(decoded);
+//            const teamToken = jwt.sign(
+//              { _id: newTeamObject._id },
+//              process.env.TOKEN_SECRET
+//            );
+//
+//            // Add token in header
+//            res.setHeader("TeamAuth", teamToken);
+//            console.log(teamToken)
+//            var decoded = jwt.decode(teamToken);
+//            console.log(decoded);
         
                 res.end(JSON.stringify({code:200,_id:newTeamObject._id}));
                 

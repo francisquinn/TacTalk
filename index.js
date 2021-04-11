@@ -401,9 +401,10 @@ app.get('/user/players/delete_player_by_id', Player.deletePlayer);
 app.get('/user/players/get/player_details_by_id', Player.readPlayer);
 app.get('/user/players/update_player', Player.updatePlayer);
 app.get('/user/users/get/search_similar_players_by_name',Player.similarName);
+app.get('/user/players/all_players', Player.allPlayers);
 
 app.post('/user/register', Register.registerUser);
 app.post('/user/login', Login.loginUser);
-app.post('/user/create_team', verify.LoginVerify, Team.createTeam);
-app.post('/user/players/create_player', verify.TeamVerify, Player.createPlayer);
-app.post('/user/games/create', verify.TeamVerify, Game.createGame );
+app.post('/user/create_team', Team.createTeam);
+app.post('/user/players/create_player',  Player.createPlayer);
+app.post('/user/games/create', Game.createGame );
