@@ -36,6 +36,7 @@ const Register = require('./register');
 const Player = require('./player');
 const Team = require('./team');
 const Game = require('./game');
+const User = require ('./user');
 
 
 
@@ -99,28 +100,6 @@ app.get('/user/game_events/delete', async (req, res) =>
     }
     
 })
-//---------------------------------------------------------------------------------------------------------------------------------------
-//Delete user by id -WORKS
-//validate(getIdValidation, {}, {} ),
-app.get('/user/users/delete_user_by_id',  async (req, res) => 
-{
-    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
-    const dbo = db.db("TacTalk");
-    res.setHeader('Content-Type', 'application/json');
-    try
-    {
-        const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId)};
-        dbo.collection("users").deleteOne(searchQuery);
-        res.end(JSON.stringify({code:200}));
-        db.close();
-    }catch(ex)
-    {
-        res.end(JSON.stringify({code:500}));
-        db.close();
-    }
-    
-})
-//------------------------------------------------------------------------------------------------------------------------------------------
 
 
 //validate(getIdValidation, {}, {} ),
@@ -205,32 +184,7 @@ app.get('/user/games/get/user_game_details',  async (req, res) =>
 })
 //--------------------------------------------------------------------------------------------------------------------------------------------------------
 
-//----------------------------------------------------------------------------------------------------------------------------------
-//getting user by id - WORKS
-//currently dispays all details
-//validate(getIdValidation, {}, {} ),
-app.get('/user/users/get/user_details_by_id',  async (req, res) => 
-{
-    const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
-    const dbo = db.db("TacTalk");
-    res.setHeader('Content-Type', 'application/json');
-    try
-    {
-        //Details used to call method put in here
-        const searchQuery = { _id: new MongoDB.ObjectID(req.query._id)};
-        
-        var result = await dbo.collection("users").findOne(searchQuery);
-        res.end(JSON.stringify({code:200, username: result.username, email: result.email}));
-        db.close();
-        
-    }catch(ex)
-    {
-        res.end(JSON.stringify({code:500}));
-        db.close();
-    }
-    
-})
-//--------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 
 
@@ -402,9 +356,11 @@ app.get('/user/players/get/player_details_by_id', Player.readPlayer);
 app.get('/user/players/update_player', Player.updatePlayer);
 app.get('/user/users/get/search_similar_players_by_name',Player.similarName);
 app.get('/user/players/all_players', Player.allPlayers);
+app.get('/user/users/get/user_details',verify.LoginVerify, User.getUserDetails);
+app.get('/user/users/delete_user_by_id',verify.LoginVerify, User.deleteUser);
 
 app.post('/user/register', Register.registerUser);
 app.post('/user/login', Login.loginUser);
-app.post('/user/create_team', Team.createTeam);
-app.post('/user/players/create_player',  Player.createPlayer);
-app.post('/user/games/create', Game.createGame );
+app.post('/user/create_team',verify.LoginVerify, Team.createTeam);
+app.post('/user/players/create_player',verify.LoginVerify,  Player.createPlayer);
+app.post('/user/games/create',verify.LoginVerify, Game.createGame );
