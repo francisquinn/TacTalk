@@ -7,7 +7,7 @@ dotenv.config();
 const registerValidation = (data) => {
   const schema = Joi.object({
     username: Joi.string()
-      .regex(/[a-zA-Z]/)
+      .regex(/^[a-zA-Z]+$/)
       .max(50)
       .min(2)
       .required()
@@ -50,7 +50,7 @@ const registerValidation = (data) => {
 const createPlayerValidation = (data) => {
   const schema = Joi.object({
     player_name: Joi.string()
-      .regex(/[a-zA-Z]/)
+      .regex(/^[a-zA-Z]+$/)
       .max(20)
       .min(2)
       .required()
@@ -75,6 +75,52 @@ const createPlayerValidation = (data) => {
   });
   return schema.validate(data);
 };
+
+
+//validation for creating a team
+const createTeamValidation = (data) => {
+  const schema = Joi.object({
+    teamName: Joi.string()
+      .regex(/^[a-zA-Z]+$/)
+      .max(20)
+      .min(2)
+      .required()
+      .messages({
+        "string.base": `Team name should be of type of 'text'`,
+        "string.empty": `Team name cannot be an empty field`,
+        "string.min": `Team name should have a minimum length of {#limit} characters`,
+        "string.max": `Team name should have a maximum length of {#limit} characters`,
+        "string.pattern.base": `Team name can only contain text`,
+        "any.required": `Team name is a required field`,
+      }),
+    teamColor: Joi.string()
+      //only allow jersey numbers from 1 - 29
+      .regex(/^[a-zA-Z]+$/)
+      .max(20)
+      .min(3)
+      .required()
+      .messages({
+        "string.base": `Color was not input in the correct format`,
+        "string.pattern.base": `Color can only contain text`,
+        "string.empty": `Color is a required field`,
+        "any.required": `Color is a required field`,
+      }),
+      teamLevel: Joi.string()
+      //only allow jersey numbers from 1 - 29
+      .regex(/[a-zA-Z0-9]/)
+      .max(20)
+      .min(2)
+      .required()
+      .messages({
+        "string.base": `Number was not input in the correct format`,
+        "string.pattern.base": `Level should only contain text and/or numbers`,
+        "string.empty": `Level is a required field`,
+        "any.required": `Level is a required field`,
+      })
+  });
+  return schema.validate(data);
+};
+
 //---------------------------------------------------------------------------------------------------------------------------
 
 ////---------------------------------------------------------------------------------------------------------------------------
@@ -203,3 +249,4 @@ module.exports.registerValidation = registerValidation;
 //module.exports.loginValidation = loginValidation;
 module.exports.createPlayerValidation = createPlayerValidation;
 module.exports.createMatchValidation = createMatchValidation;
+module.exports.createTeamValidation = createTeamValidation;

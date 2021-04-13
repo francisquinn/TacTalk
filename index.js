@@ -38,12 +38,9 @@ const Team = require('./team');
 const Game = require('./game');
 const User = require ('./user');
 
-
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
 
-//validate(getIdValidation, {}, {} ),
 app.get('/user/games/delete',  async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
@@ -53,14 +50,13 @@ app.get('/user/games/delete',  async (req, res) =>
         {
             const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId) };
             dbo.collection("games").deleteOne(searchQuery);
-            res.end(JSON.stringify({code:200}));
+            res.status(200).send({message: "Game deleted"});
              db.close();
         }catch(ex)
         {
-            res.end(JSON.stringify({code:500}));
+            res.status(500).send({message: "Unable to delete game"});
              db.close();
         }
-       
 })
 
 app.get('/user/possessions/delete', async (req, res) => 
@@ -72,14 +68,13 @@ app.get('/user/possessions/delete', async (req, res) =>
     {
         const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId), "possessions.possession_id": req.query.pid };
         dbo.collection("games").deleteOne(searchQuery);
-        res.end(JSON.stringify({code:200}));
+        res.status(200).send({message: "Possession successfully deleted"});
         db.close();
     }catch(ex)
     {
-        res.end(JSON.stringify({code:500}));
+        res.status(500).send({message: "Unable to delete possession"});
         db.close();
     }
-    
 })
 
 app.get('/user/game_events/delete', async (req, res) => 
@@ -91,21 +86,19 @@ app.get('/user/game_events/delete', async (req, res) =>
     {
         const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId), "possessions.possession_id": req.query.pid, "possessions.events.event_id": req.query.eid };
         dbo.collection("games").deleteOne(searchQuery);
-        res.end(JSON.stringify({code:200}));
+        res.status(200).send({message: "Game event deleted"});
         db.close();
     }catch(ex)
     {
-        res.end(JSON.stringify({code:500}));
+        res.status(500).send({message: "Unable to delete game event"});
         db.close();
     }
-    
 })
 
 
 //validate(getIdValidation, {}, {} ),
 app.get('/user/games/get/id',  async (req, res) => 
 {
-    
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
     const dbo = db.db("TacTalk");
     res.setHeader('Content-Type', 'application/json');
@@ -114,24 +107,17 @@ app.get('/user/games/get/id',  async (req, res) =>
         const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId)};
         
         var result = await dbo.collection("games").findOne(searchQuery);
-        res.end(JSON.stringify({code:200, result: result}));
+        res.status(200).send({ message: "Game successfully retrived", result: result});
         db.close();
         
     }catch(ex)
     {
-        res.end(JSON.stringify({code:500}));
+        res.status(500).send({message: "unable to retrieve game"});
         db.close();
     }
-   
 })
 
-
-
-
-
 //-----------------------------------------------------------------------------------------------------------------------------------------------
-//getting game details by game id
-//validate(getIdValidation, {}, {} ),
 app.get('/user/games/get/game_by_id',  async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
@@ -142,23 +128,16 @@ app.get('/user/games/get/game_by_id',  async (req, res) =>
         const searchQuery = { _id: new MongoDB.ObjectID(req.query.object_id)};
         
         var result = await dbo.collection("games").findOne(searchQuery);
-        res.end(JSON.stringify({code:200, result: result}));
+        res.status(200).send({message: "Id retrived", result: result});
         db.close();
-        
+       
     }catch(ex)
-    {
-        
-        res.end(JSON.stringify({code:500 , error:ex.toString()}));
+    {   
+        res.status(500).send({message: "Unable to retireve id",error:ex.toString()});
         db.close();
     }
-    
 })
 //--------------------------------------------------------------------------------------------------------------------------------------
-
-//----------------------------------------------------------------------------------------------------------------------------------
-//getting game details based off userid - WORKS
-//currently dispays all details
-//validate(getUserMatchDetailsByIdValidation, {}, {} ),
 app.get('/user/games/get/user_game_details',  async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
@@ -172,23 +151,17 @@ app.get('/user/games/get/user_game_details',  async (req, res) =>
         var result = await dbo.collection("games").findOne(searchQuery);
 
 
-        res.end(JSON.stringify({code:200, result: result}));
+        res.status(200).send({message: "Successfully retreived game", result: result});
         db.close();
         
     }catch(ex)
     {
-        res.end(JSON.stringify({code:500, error:ex.toString()}));
+        res.status(500).send({message: "Unable to retrive game", error:ex.toString()});
         db.close();
     }
-    
 })
 //--------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
-
-
-
-//validate(getIdValidation, {}, {} ),
 app.get('/user/users/get_secure',  async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
@@ -198,18 +171,15 @@ app.get('/user/users/get_secure',  async (req, res) =>
     {
         const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId)};
         var result = await dbo.collection("games").findOne(searchQuery);
-        res.end(JSON.stringify({code:200, result: result}));
+        res.send(200).send({message: "Success", result: result});
         db.close();
         
     }catch(ex)
     {
-        res.end(JSON.stringify({code:500}));
+        res.satus(500).send({message: "Failure"});
         db.close();
-    }
-    
+    }    
 })
-
-
 
 
 app.post('/user/game_events/create', async (req, res) => 
@@ -234,15 +204,14 @@ app.post('/user/game_events/create', async (req, res) =>
         await dbo.collection("games").updateOne(searchQuery, updateDocument, function(err)
         {
             if (err) return;
-            res.end(JSON.stringify({event:newGameEventObject},{code:200}));
+            res.status(200).send({message:"Game event created",event:newGameEventObject});
             db.close();
         });
     }catch(ex)
     {
-        res.end(JSON.stringify({code:500,error:ex.toString()}));
+        res.status(500).send({message:"Unable to create game event",error:ex.toString()});
         db.close();
-    }
-    
+    }    
 })
 
 app.get('/user/game_events/update', async (req, res) => 
@@ -267,19 +236,17 @@ app.get('/user/game_events/update', async (req, res) =>
             if (err) return;
             
             res.write(JSON.stringify(newGameEventObject));
-            res.end(JSON.stringify({code:200}));
+            res.status(200).send({message: "Game event updated"});
             db.close();
         });
     }catch(ex)
     {
-        res.end(JSON.stringify({code:500,error:ex.toString()}));
+        res.status(500).send({message:"Unable to update game event",error:ex.toString()});
         db.close();
     }
-    
 })
 
 //------------------------------------------------------------------------------------------------------------------
-//moving match from active to finished
 app.get('/user/active_games/move_from_active_to_finished', async (req, res) => 
 {
     const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
@@ -292,22 +259,17 @@ app.get('/user/active_games/move_from_active_to_finished', async (req, res) =>
         var newActiveGameObject = await dbo.collection("active_games").findOne(searchQuery);
         await dbo.collection("finished_games").insertOne(newActiveGameObject);
         dbo.collection("active_games").deleteOne(searchQuery);
-        
-        
-        
-        
-        res.end(JSON.stringify({code:200, object: newActiveGameObject}));
-        db.close();s
+       
+        res.status(200).send({message: "game successful moved to finished", object: newActiveGameObject});
+        db.close();
     }catch(ex)
     {
-        res.end(JSON.stringify({code:500}));
+        res.status(500).send({message: "Unable to move active game to finished game"});
         db.close();
     }
-    
 })
 
 //----------------------------------------------------------------------------------------------------------------
-
 app.get('/', async (req, res) => 
 {
     var fs = require("fs");
@@ -351,13 +313,14 @@ app.get('/cloud/createInput', CloudFunction.createInput);
 app.get('/dev/games/event_to_text',EventToText.eventToText);
 app.get('/dev/util/clear_game',Util.resetGame);
 
-app.get('/user/players/delete_player_by_id', Player.deletePlayer);
-app.get('/user/players/get/player_details_by_id', Player.readPlayer);
+app.get('/user/players/delete_player', Player.deletePlayer);
+app.get('/user/players/get/player_details', Player.readPlayer);
 app.get('/user/players/update_player', Player.updatePlayer);
 app.get('/user/users/get/search_similar_players_by_name',Player.similarName);
 app.get('/user/players/all_players', Player.allPlayers);
 app.get('/user/users/get/user_details',verify.LoginVerify, User.getUserDetails);
-app.get('/user/users/delete_user_by_id',verify.LoginVerify, User.deleteUser);
+app.get('/user/users/delete_user',verify.LoginVerify, User.deleteUser);
+app.get('/user/users/delete_team',verify.LoginVerify, Team.deleteTeam);
 
 app.post('/user/register', Register.registerUser);
 app.post('/user/login', Login.loginUser);

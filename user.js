@@ -17,9 +17,7 @@ module.exports = {
         const dbo = db.db("TacTalk");
         res.setHeader('Content-Type', 'application/json');
         try
-        {
-            //Details used to call method put in here
-            
+        {            
                 const token = req.header('Authentication');
                 const decoded = jwt.verify(token, process.env.TOKEN_SECRET);  
                 var userId = decoded.user_id;  
@@ -27,7 +25,7 @@ module.exports = {
             const searchQuery = { _id: new MongoDB.ObjectID(userId)};
 
             var result = await dbo.collection("users").findOne(searchQuery);
-            res.status(200).send({user_id: result.user_id, username: result.username, email: result.email});
+            res.status(200).send({message: "User Found", user_id: result._id, username: result.username, email: result.email});
             db.close();
 
         }catch(ex)
@@ -51,13 +49,18 @@ module.exports = {
         res.setHeader('Content-Type', 'application/json');
         try
         {
-            const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId)};
-            dbo.collection("users").deleteOne(searchQuery);
-            res.status(200);
+                const token = req.header('Authentication');
+                const decoded = jwt.verify(token, process.env.TOKEN_SECRET);  
+                var userId = decoded.user_id;  
+                console.log(userId);
+                
+            const searchQuery = { _id: new MongoDB.ObjectID(userId)};
+           await dbo.collection("users").deleteOne(searchQuery);
+            res.status(200).send({message: "User deleted"});
             db.close();
         }catch(ex)
         {
-            res.status(500);
+            res.status(500).send({message:"Unable to delete user"});
             db.close();
         }
 
