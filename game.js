@@ -57,7 +57,7 @@ module.exports = {
 //        
         await dbo.collection("games").insertOne(newGameObject, function(err){
             db.close();
-            res.status(200).send({message: "Game successfully created"});
+            res.status(200).send({message: "Game successfully created",  game_id:newGameObject._id, teamName: req.body.teamName, opposition:req.body.opposition });
         });
     }catch(ex)
     { 
