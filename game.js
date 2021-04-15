@@ -24,9 +24,15 @@ module.exports = {
     
     try
     {
+                const token = req.header('Authentication');
+                const decoded = jwt.verify(token, process.env.TOKEN_SECRET);  
+                var userId = decoded.user_id;  
+                console.log(userId);
+        
+        
         var newGameObject = 
                 {
-                    user_id:req.body.userId,
+                    user_id: new MongoDB.ObjectID(userId),
                     startTime:req.body.startTime,
                     gameType : req.body.gameType,
                     startDate:req.body.startDate,
