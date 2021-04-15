@@ -188,9 +188,6 @@ const createMatchValidation = (data) => {
         "any.required": `Start time is a required field`,
       }),
     gameType: Joi.string()
-      .regex(/[a-zA-Z0-9]/)
-      .max(30)
-      .min(5)
       .required()
       .messages({
         "string.base": `Game type is required`,
