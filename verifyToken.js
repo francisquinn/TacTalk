@@ -4,7 +4,7 @@ module.exports = {
     LoginVerify : function (req, res, next){
         const token = req.header('Authentication');
 
-        if(!token) return res.status(401).send('Access Denied');
+        if(!token) return res.status(401).send({message : "Access Denied"});
 
         try{
            const verified = jwt.verify(token, process.env.TOKEN_SECRET);
@@ -12,7 +12,7 @@ module.exports = {
            next();
 
         }catch(err){
-            res.status(400).send('Invalid Token');
+            res.status(400).send({message: "Invalid Token"});
         }
     
     }
@@ -22,7 +22,7 @@ module.exports = {
 //        const teamToken = req.header('TeamAuth');
 //        const loginToken = req.header('LoginAuth');
 //
-//        if(!teamToken && !loginToken) return res.status(401).send('Access Denied');
+//        if(!teamToken && !loginToken) return res.status(401).send(message: "Access Denied");
 //
 //        try{
 //        const verified = jwt.verify(teamToken, process.env.TOKEN_SECRET);
@@ -32,7 +32,7 @@ module.exports = {
 //        next();
 //
 //        }catch(err){
-//        res.status(400).send('Invalid Token');
+//        res.status(400).send(message: "Invalid Token");
 //        }
 //
 //    },
@@ -42,7 +42,7 @@ module.exports = {
 //        const loginToken = req.header('LoginAuth');
 //        const gameToken = req.header('GameAuth');
 //
-//        if(!teamToken && !loginToken && !gameToken) return res.status(401).send('Access Denied');
+//        if(!teamToken && !loginToken && !gameToken) return res.status(401).send(message: "Access Denied");
 //
 //        try{
 //        const verified = jwt.verify(teamToken, process.env.TOKEN_SECRET);
@@ -54,7 +54,7 @@ module.exports = {
 //        next();
 //
 //        }catch(err){
-//        res.status(400).send('Invalid Token');
+//        res.status(400).send(message: "Invalid Token");
 //        }
 //
 //    }

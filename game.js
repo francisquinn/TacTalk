@@ -57,11 +57,11 @@ module.exports = {
 //        
         await dbo.collection("games").insertOne(newGameObject, function(err){
             db.close();
-            res.end(JSON.stringify({code:200}));
+            res.status(200).send({message: "Game successfully created",  game_id:newGameObject._id, teamName: req.body.teamName, opposition:req.body.opposition });
         });
     }catch(ex)
     { 
-        res.end(JSON.stringify({code:500,error:ex}));
+        res.status(500).send({message: "Unable to create game", error:ex});
         db.close();
     }
 }

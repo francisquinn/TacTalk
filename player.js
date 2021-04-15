@@ -30,13 +30,13 @@ module.exports = {
 
             await dbo.collection("players").insertOne(newPlayerObject, function(err){
 
-                res.end(JSON.stringify({code:200,_id:newPlayerObject._id}));
+                res.status(200).send({message: "Player successfully created", _id:newPlayerObject._id});
                 db.close();
             });
 
         }catch(ex)
         { 
-            res.end(JSON.stringify({code:500,error:ex}));
+            res.status(500).send({message: "Unable to create player", error:ex});
             db.close();
         }
 
@@ -57,12 +57,12 @@ module.exports = {
 
             var result = await dbo.collection("players").findOne(searchQuery);
 
-            res.end(JSON.stringify({code:200, player_name: result.player_name, player_number: result.player_number}));
+            res.status(200).send({message: "Successfully retrieved player", player_name: result.player_name, player_number: result.player_number});
             db.close();
 
         }catch(ex)
         {
-            res.end(JSON.stringify({code:500, error:ex.toString()}));
+            res.status(500).send({message:"Unable to retrieve player", error:ex.toString()});
             db.close();
         }
     
@@ -79,14 +79,12 @@ module.exports = {
         res.setHeader('Content-Type', 'application/json');
         try
         {
-            //Details used to call method put in here
-//            const searchQuery = { _id: new MongoDB.ObjectID(req.query._id) };
 
             await dbo.collection("players").find({}, {projection: {_id: 0, player_name: 1, player_number: 1} }).toArray(function(err,result)
             {           
                 
                 if (err) throw err;
-                res.end(JSON.stringify({code:200, result}));
+                res.status(200).send({message: "Retrieved all players", result});
                 db.close();  
             
             });
@@ -95,7 +93,7 @@ module.exports = {
 
         }catch(ex)
         {
-            res.end(JSON.stringify({code:500, error:ex.toString()}));
+            res.status(500).send({message: "Unable to retrieve all players", error:ex.toString()});
             db.close();
         }
     
@@ -129,12 +127,12 @@ module.exports = {
                 if (err) return;
 
 
-                res.end(JSON.stringify({code:200}));
+                res.status(200).send({message:"Successfully updated players details"});
                 db.close();
             });
         }catch(ex)
         {
-            res.end(JSON.stringify({code:500,error:ex.toString()}));
+            res.status(500).send({message: "Unable to update player", error:ex.toString()});
             db.close();
         }
 
@@ -152,11 +150,11 @@ module.exports = {
         {
             const searchQuery = { _id: new MongoDB.ObjectID(req.query._id)};
             await dbo.collection("players").deleteOne(searchQuery);
-            res.end(JSON.stringify({code:200}));
+            res.status(200).send({message: "Player Successfully deleted"});
             db.close();
         }catch(ex)
         {
-            res.end(JSON.stringify({code:500}));
+            res.status(500).send({message:"Unable to delete player"});
             db.close();
         }
 
@@ -176,12 +174,12 @@ module.exports = {
             const searchQuery = { player_name: req.query.player_name };
 
             var result = await dbo.collection("players").findOne(searchQuery);
-            res.end(JSON.stringify({code:200, result: result}));
+            res.status(200).send({message: "Found player(s)", result: result});
             db.close();
 
         }catch(ex)
         {
-            res.end(JSON.stringify({code:500}));
+            res.status(500).send({message: "No players with that name"});
             db.close();
         }
     }
