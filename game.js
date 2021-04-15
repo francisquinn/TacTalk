@@ -26,7 +26,7 @@ module.exports = {
     {
         var newGameObject = 
                 {
-
+                    user_id:req.body.userId,
                     startTime:req.body.startTime,
                     gameType : req.body.gameType,
                     startDate:req.body.startDate,
