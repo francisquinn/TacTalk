@@ -20,7 +20,7 @@ module.exports = {
     
         //getting validation and displaying the error message if details are entered incorrectly
         const {error} = createMatchValidation(req.body);
-        if(error) return res.status(400).send(error.details[0].message);  
+        if(error) return res.status(400).send(error.details[0]);  
     
     try
     {
@@ -61,7 +61,7 @@ module.exports = {
         });
     }catch(ex)
     { 
-        res.status(500).send({message: "Unable to create game", error:ex});
+        res.status(400).send({message: ex});
         db.close();
     }
 }
