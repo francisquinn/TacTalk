@@ -231,6 +231,63 @@ module.exports =
             }
 
         
+    },
+    updateStats: async function(req,res)
+    {
+        const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
+            const dbo = db.db("TacTalk");
+            res.setHeader('Content-Type', 'application/json');
+            try
+            {
+                if (req.query.hasOwnProperty("dummyData"))
+                {
+                    var statsObj = 
+                    {
+                        teamGoal : 1,
+                        teamPoints : 18,
+                        teamShots : 28,
+                        teamKickouts : 23,
+                        teamTurnover : 16,
+                        teamWides : 4,
+                        oppTeamGoal : 0,
+                        oppTeamPoints : 15,
+                        oppTeamShots : 14,
+                        oppTeamTurnover : 16,
+                        
+                    }
+
+                    res.end(JSON.stringify({
+                    result: statsObj,
+                    code: 200
+                    }));
+                    return;
+                }
+                const searchQuery = { _id: new MongoDB.ObjectID(req.query.game_id)};
+
+                var activeGame = await dbo.collection("games").findOne(searchQuery);
+                var gameObject = activeGame;
+                if (!activeGame)
+                {
+                    res.end(JSON.stringify({code:200, gameStatus:"NO_ACTIVE_GAME"}));
+                }
+                else if(!activeGame.user_id.equals (new MongoDB.ObjectID(req.query.user_id)))
+                {
+                    res.end(JSON.stringify({code:200, gameStatus:"NOT_AUTHORIZED"}));
+                }else if (gameObject)
+                    {
+
+
+                        console.log(gameObject);
+                        var statResult = await stats.getCurrentStats(gameObject);
+                        console.log(statResult);
+                        res.end(JSON.stringify({code:200, gameStatus: "UPDATING",result: statResult}));
+                    }
+                    
+                    
+            }catch(ex)
+            {
+                res.end(JSON.stringify({code:200,error:ex.toString()}));
+            }
     }
 }
 

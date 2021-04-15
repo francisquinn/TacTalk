@@ -390,6 +390,7 @@ app.get('/createTrainingMaterial', async (req, res) =>
     });
 })
 
+app.get('/user/games/updateStats',UpdateGame.updateStats);
 app.get('/user/games/updateGame', UpdateGame.updateGame );
 app.get('/dictionary', CompileDictionary.dictionary);
 app.get('/cloud/dictionary/create', CompileDictionary.createDictionary);
