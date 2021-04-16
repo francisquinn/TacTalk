@@ -4,6 +4,7 @@ const MongoDB = require("mongodb");
 const dotenv = require("dotenv");
 const bodyParser = require('body-parser');
 const {createPlayerValidation} = require('./validation');
+var jwt = require("jsonwebtoken");
 dotenv.config();
 
 //create players
@@ -18,19 +19,30 @@ module.exports = {
 
            //getting validation and displaying the error message if details are entered incorrectly
             const {error} = createPlayerValidation(req.body);
-            if(error) return res.status(400).send(error.details[0].message);  
+            if(error) return res.status(400).send(error.details[0]);  
 
         try
         {
+            
+                const token = req.header('Authentication');
+                const decoded = jwt.verify(token, process.env.TOKEN_SECRET);  
+                var userId = decoded.user_id;  
+                console.log(userId);
+                
+                
+                
             var newPlayerObject = 
                     {
-                        player_name:req.body.player_name,
-                        player_number:req.body.player_number
+                        user_id: new MongoDB.ObjectID(userId),
+                        team_id:new MongoDB.ObjectID(req.body.team_id),
+                        player_name:req.body.playerName,
+                        player_number:req.body.playerNumber
                     };
 
             await dbo.collection("players").insertOne(newPlayerObject, function(err){
 
-                res.status(200).send({message: "Player successfully created", _id:newPlayerObject._id});
+                res.status(200).send({message: "Player successfully created", _id:newPlayerObject._id,player_name:req.body.playerName,
+                                        player_number:req.body.playerNumber});
                 db.close();
             });
 
