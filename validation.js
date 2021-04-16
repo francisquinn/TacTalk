@@ -81,7 +81,7 @@ const createPlayerValidation = (data) => {
 const createTeamValidation = (data) => {
   const schema = Joi.object({
     teamName: Joi.string()
-      .regex(/^[a-zA-Z]+$/)
+      .regex(/^[a-zA-Z\s]*$/)
       .max(20)
       .min(2)
       .required()
