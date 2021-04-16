@@ -48,7 +48,7 @@ module.exports =
                     hasKickout = true;
                 }
                 
-                if (getOutcomeTypeById(event.outcome_id === "turnover"))
+                if (getOutcomeTypeByID(event.outcome_id === "turnover"))
                 {
                     hasTurnover = true;
                 }
@@ -57,7 +57,7 @@ module.exports =
                 
                 processOutcome(event, statObject);                   
                 
-                if (getEventTypeById(event.event_type_id) === "pass" && getOutcomeTypeById(event.outcome_id) != "turnover" && event.team_id == 0)
+                if (getEventTypeById(event.event_type_id) === "pass" && getOutcomeTypeByID(event.outcome_id) != "turnover" && event.team_id == 0)
                 {
                     completedPass++;
                 }
