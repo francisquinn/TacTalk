@@ -57,17 +57,17 @@ module.exports =
                 
                 processOutcome(event, statObject);                   
                 
-                if (getEventTypeById(event.event_type_id) === "pass" && getOutcomeTypeById(event.outcome_id) != "turnover")
+                if (getEventTypeById(event.event_type_id) === "pass" && getOutcomeTypeById(event.outcome_id) != "turnover" && event.team_id == 0)
                 {
                     completedPass++;
                 }
                 
-                if (getEventTypeById(event.event_type_id) === "shot" && event.position_id !== -1)
+                if (getEventTypeById(event.event_type_id) === "shot" && event.position_id !== -1 && event.team_id == 0)
                 {
                     zoneShots[event.position_id-1]++;
                 }
                 
-                if (getEventTypeById(event.event_type_id) === "kickout" && event.position_id !== -1)
+                if (getEventTypeById(event.event_type_id) === "kickout" && event.position_id !== -1 && event.team_id == 0)
                 {
                     zoneKickouts[event.position_id-1]++;
                 }
@@ -114,6 +114,8 @@ module.exports =
         statObject.shotConversion = (statObject.teamGoal/statObject.teamShot) * 100;
         
         statObject.poessesion = statObject.teamPass/(statObject.teamPass+statObject.oppTeamPass);
+        
+        
         
         return statObject;
     }
