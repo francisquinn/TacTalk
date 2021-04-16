@@ -56,7 +56,8 @@ module.exports = {
 //            var decoded = jwt.decode(teamToken);
 //            console.log(decoded);
         
-                res.status(200).send({message:"Successfully created your team", _id:newTeamObject._id});
+                res.status(200).send({message:"Successfully created your team", _id:newTeamObject._id, teamName:req.body.teamName,
+                                     teamColor:req.body.teamColor, teamLevel:req.body.teamLevel });
                 
 
             

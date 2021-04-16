@@ -49,7 +49,7 @@ const registerValidation = (data) => {
 //validation for creating a player
 const createPlayerValidation = (data) => {
   const schema = Joi.object({
-    player_name: Joi.string()
+    playerName: Joi.string()
       .regex(/^[a-zA-Z]+$/)
       .max(20)
       .min(2)
@@ -62,9 +62,17 @@ const createPlayerValidation = (data) => {
         "string.pattern.base": `Name can only contain text`,
         "any.required": `"Name" is a required field`,
       }),
-    player_number: Joi.string()
+    playerNumber: Joi.string()
       //only allow jersey numbers from 1 - 29
       .regex(/^[1-2]?[0-9]$/)
+      .required()
+      .messages({
+        "string.base": `Number was not input in the correct format. It should be a number between 1 and 29`,
+        "string.pattern.base": `Number should between 1 and 29`,
+        "string.empty": `Number is a required field`,
+        "any.required": `Number is a required field`,
+      }),
+        team_id: Joi.string()
       .required()
       .messages({
         "string.base": `Number was not input in the correct format. It should be a number between 1 and 29`,
