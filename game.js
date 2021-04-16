@@ -20,13 +20,19 @@ module.exports = {
     
         //getting validation and displaying the error message if details are entered incorrectly
         const {error} = createMatchValidation(req.body);
-        if(error) return res.status(400).send(error.details[0].message);  
+        if(error) return res.status(400).send(error.details[0]);  
     
     try
     {
+                const token = req.header('Authentication');
+                const decoded = jwt.verify(token, process.env.TOKEN_SECRET);  
+                var userId = decoded.user_id;  
+                console.log(userId);
+        
+        
         var newGameObject = 
                 {
-
+                    user_id: new MongoDB.ObjectID(userId),
                     startTime:req.body.startTime,
                     gameType : req.body.gameType,
                     startDate:req.body.startDate,
@@ -61,7 +67,7 @@ module.exports = {
         });
     }catch(ex)
     { 
-        res.status(500).send({message: "Unable to create game", error:ex});
+        res.status(400).send({message: ex});
         db.close();
     }
 }

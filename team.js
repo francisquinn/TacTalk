@@ -28,9 +28,15 @@ module.exports = {
 
         try
         {
+            
+                const token = req.header('Authentication');
+                const decoded = jwt.verify(token, process.env.TOKEN_SECRET);  
+                var userId = decoded.user_id;  
+                console.log(userId);
+            
             var newTeamObject = 
                     {
-//                        team_id:new MongoDB.ObjectID(req.body.team_id),
+                       user_id: new MongoDB.ObjectID(userId),
                         teamName:req.body.teamName,
                         teamColor:req.body.teamColor,
                         teamLevel:req.body.teamLevel
