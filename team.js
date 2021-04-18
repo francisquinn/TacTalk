@@ -24,7 +24,7 @@ module.exports = {
 
                 //checking for duplicate teams
         const teamExist = await dbo.collection("teams").findOne({teamName:req.body.teamName});
-        if(teamExist) return res.status(400).send({message: "Team already exists"});
+        if(teamExist) return res.status(400).send({message: "Team Already Exists"});
 
         try
         {
@@ -46,14 +46,14 @@ module.exports = {
            await dbo.collection("teams").insertOne(newTeamObject, function(err){
                 
         
-                res.status(200).send({message:"Successfully created your team", team_id:newTeamObject._id, teamName:req.body.teamName,
+                res.status(200).send({message:"Successfully Created Your Team", team_id:newTeamObject._id, teamName:req.body.teamName,
                                      teamColor:req.body.teamColor, teamLevel:req.body.teamLevel });
                 db.close();
             });
 
         }catch(ex)
         { 
-            res.status(500).send({message:"Unable to create your team", error:ex});
+            res.status(500).send({message:"Unable To Create Your Team", error:ex});
             db.close();
         }
      },
@@ -72,14 +72,14 @@ module.exports = {
             if(teamExist)
             { 
                 await dbo.collection("teams").deleteOne(teamExist); 
-                return res.status(400).send({message: "Team Successfully deleted"});
+                return res.status(400).send({message: "Team Successfully Deleted"});
             }
-        else {return res.status(400).send({message: "Team does not exist"});}
+        else {return res.status(400).send({message: "Team Does Not Exist"});}
         
             db.close();
         }catch(ex)
         {
-            res.status(500).send({message:"Unable to delete team"});
+            res.status(500).send({message:"Unable To Delete Team"});
             db.close();
         }
 
@@ -106,14 +106,14 @@ module.exports = {
 
         const teamExist = await dbo.collection("teams").findOne({user_id: new MongoDB.ObjectID(userId)});
         
-        if (teamExist) return res.status(200).send({message: "Retrieved a team", team_id:teamExist._id, teamName:teamExist.teamName, 
+        if (teamExist) return res.status(200).send({message: "Retrieved A Team", team_id:teamExist._id, teamName:teamExist.teamName, 
             teamColor:teamExist.teamColor, teamLevel:teamExist.teamLevel});
-        else return res.status(404).send({message: "No team exists"});
+        else return res.status(404).send({message: "No Team Exists"});
 
         db.close();
         }catch(ex)
         { 
-            res.status(500).send({message:"Unable to load a team", error:ex});
+            res.status(500).send({message:"Unable To Load A Team", error:ex});
             db.close();
         }
      },

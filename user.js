@@ -30,7 +30,7 @@ module.exports = {
 
         }catch(ex)
         {
-            res.status(500).send({message: "Unable to retrive user details"});
+            res.status(500).send({message: "Unable To Retrive User Details"});
             db.close();
         }
 
@@ -56,11 +56,11 @@ module.exports = {
                 
             const searchQuery = { _id: new MongoDB.ObjectID(userId)};
            await dbo.collection("users").deleteOne(searchQuery);
-            res.status(200).send({message: "User deleted"});
+            res.status(200).send({message: "User Deleted"});
             db.close();
         }catch(ex)
         {
-            res.status(500).send({message:"Unable to delete user"});
+            res.status(500).send({message:"Unable To Delete User"});
             db.close();
         }
 

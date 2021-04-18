@@ -49,21 +49,10 @@ module.exports = {
                     active: 1,
                     current_possession: -1,
                 };
-                
-//        const gameToken = jwt.sign(
-//          { game_id: new MongoDB.ObjectID(req.body._id) },
-//          process.env.TOKEN_SECRET
-//        );
-//
-//        res.header("GameAuth", gameToken);
-//        
-//        console.log(gameToken)
-//        var decoded = jwt.decode(gameToken);
-//        console.log(decoded);
-//        
+                       
         await dbo.collection("games").insertOne(newGameObject, function(err){
             db.close();
-            res.status(200).send({message: "Game successfully created",  game_id:newGameObject._id, teamName: req.body.teamName, opposition:req.body.opposition });
+            res.status(200).send({message: "Game Successfully Created",  game_id:newGameObject._id, teamName: req.body.teamName, opposition:req.body.opposition });
         });
     }catch(ex)
     { 

@@ -38,7 +38,7 @@ module.exports = {
         res.status(200).send({ message: "Login Successful", token: token });        
         db.close();
       } else {
-        res.status(400).send({ message: "Invalid Email or Password" });
+        res.status(400).send({ message: "Invalid Email Or Password" });
         db.close();
       }
     } catch (ex) {

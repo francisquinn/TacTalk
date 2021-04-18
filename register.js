@@ -28,7 +28,7 @@ module.exports = {
 
       // Send back 400 status code with error message
       if (emailExist)
-        return res.status(400).send({ message: "Email already exists" });
+        return res.status(400).send({ message: "Email Already Exists" });
 
       var hashedPassword = passwordHash.generate(req.body.password);
       var newUserObject = {
