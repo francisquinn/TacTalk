@@ -7,7 +7,7 @@ dotenv.config();
 const registerValidation = (data) => {
   const schema = Joi.object({
     username: Joi.string()
-      .regex(/^[a-zA-Z]+$/)
+      .regex(/^[a-zA-Z\s]*$/)
       .max(50)
       .min(2)
       .required()
@@ -50,7 +50,7 @@ const registerValidation = (data) => {
 const createPlayerValidation = (data) => {
   const schema = Joi.object({
     playerName: Joi.string()
-      .regex(/^[a-zA-Z]+$/)
+      .regex(/^[a-zA-Z\s]*$/)
       .max(20)
       .min(2)
       .required()
