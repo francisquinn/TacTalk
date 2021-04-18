@@ -5,9 +5,8 @@
         <group>
             <file>file:/D:/Year4Semester2/TeamProject/TacTalkServer/TacTalk/login.js</file>
             <file>file:/D:/Year4Semester2/TeamProject/TacTalkServer/TacTalk/index.js</file>
-            <file>file:/D:/Year4Semester2/TeamProject/TacTalkServer/TacTalk/validation.js</file>
-            <file>file:/D:/Year4Semester2/TeamProject/TacTalkServer/TacTalk/verifyToken.js</file>
-            <file>file:/D:/Year4Semester2/TeamProject/TacTalkServer/TacTalk/game.js</file>
+            <file>file:/D:/Year4Semester2/TeamProject/TacTalkServer/TacTalk/player.js</file>
+            <file>file:/D:/Year4Semester2/TeamProject/TacTalkServer/TacTalk/team.js</file>
         </group>
     </open-files>
 </project-private>

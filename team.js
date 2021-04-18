@@ -45,22 +45,9 @@ module.exports = {
 
            await dbo.collection("teams").insertOne(newTeamObject, function(err){
                 
-//            const teamToken = jwt.sign(
-//              { _id: newTeamObject._id },
-//              process.env.TOKEN_SECRET
-//            );
-//
-//            // Add token in header
-//            res.setHeader("TeamAuth", teamToken);
-//            console.log(teamToken)
-//            var decoded = jwt.decode(teamToken);
-//            console.log(decoded);
         
-                res.status(200).send({message:"Successfully created your team", _id:newTeamObject._id, teamName:req.body.teamName,
+                res.status(200).send({message:"Successfully created your team", team_id:newTeamObject._id, teamName:req.body.teamName,
                                      teamColor:req.body.teamColor, teamLevel:req.body.teamLevel });
-                
-
-            
                 db.close();
             });
 
@@ -89,9 +76,6 @@ module.exports = {
             }
         else {return res.status(400).send({message: "Team does not exist"});}
         
-//            const searchQuery = { teamName: new MongoDB.ObjectID(req.query.teamName)};
-//            await dbo.collection("teams").deleteOne(searchQuery);
-//            res.status(200).send({message: "Team Successfully deleted"});
             db.close();
         }catch(ex)
         {
