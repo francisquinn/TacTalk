@@ -322,9 +322,10 @@ app.get('/user/players/all_players', Player.allPlayers);
 app.get('/user/users/get/user_details',verify.LoginVerify, User.getUserDetails);
 app.get('/user/users/delete_user',verify.LoginVerify, User.deleteUser);
 app.get('/user/users/delete_team',verify.LoginVerify, Team.deleteTeam);
+app.get('/user/check_team_exists',verify.LoginVerify, Team.checkTeam);
 
 app.post('/user/register', Register.registerUser);
 app.post('/user/login', Login.loginUser);
 app.post('/user/create_team',verify.LoginVerify, Team.createTeam);
-app.post('/user/players/create_player',verify.LoginVerify,  Player.createPlayer);
+app.post('/user/players/create_player',verify.LoginVerify, Player.createPlayer);
 app.post('/user/games/create',verify.LoginVerify, Game.createGame );

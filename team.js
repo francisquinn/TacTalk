@@ -99,10 +99,40 @@ module.exports = {
             db.close();
         }
 
-    }
+    },
     
     
+    checkTeam: async function (req, res) {
+    const db = await MongoClient.connect(process.env.DB_CONNECT, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     
+        const dbo = db.db("TacTalk");
+        res.setHeader('Content-Type', 'application/json');
+
+        try
+        {
+                        
+            const token = req.header('Authentication');
+            const decoded = jwt.verify(token, process.env.TOKEN_SECRET);  
+            var userId = decoded.user_id;  
+            console.log(userId);
+
+
+        const teamExist = await dbo.collection("teams").findOne({user_id: new MongoDB.ObjectID(userId)});
+        
+        if (teamExist) return res.status(200).send({message: "Retrieved a team", team_id:teamExist._id, teamName:teamExist.teamName, 
+            teamColor:teamExist.teamColor, teamLevel:teamExist.teamLevel});
+        else return res.status(404).send({message: "No team exists"});
+
+        db.close();
+        }catch(ex)
+        { 
+            res.status(500).send({message:"Unable to load a team", error:ex});
+            db.close();
+        }
+     },
     
     
 }
