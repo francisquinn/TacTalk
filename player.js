@@ -69,7 +69,7 @@ module.exports = {
 
             var result = await dbo.collection("players").findOne(searchQuery);
 
-            res.status(200).send({message: "Successfully Retrieved Player", player_name: result.player_name, player_number: result.player_number});
+            res.status(200).send({message: "Successfully Retrieved Player", player_id:result._id,player_name: result.player_name, player_number: result.player_number});
             db.close();
 
         }catch(ex)
@@ -98,8 +98,8 @@ module.exports = {
                 var userId = decoded.user_id;  
                 console.log(userId);
 
-            await dbo.collection("players").find({user_id: new MongoDB.ObjectID(userId),team_id:new MongoDB.ObjectID(req.body.team_id) }, 
-            {projection: {_id: 0, player_name: 1, player_number: 1} }).toArray(function(err,result)
+            await dbo.collection("players").find({user_id: new MongoDB.ObjectID(userId),team_id:new MongoDB.ObjectID(req.query.team_id) }, 
+            {projection: {_id: 1, player_name: 1, player_number: 1} }).toArray(function(err,result)
             {           
                 
                 if (err) throw err;
@@ -151,7 +151,7 @@ module.exports = {
                 if (err) return;
 
 
-                res.status(200).send({message:"Successfully Updated Player"});
+                res.status(200).send({message:"Successfully Updated Player", player_id:req.query._id});
                 db.close();
             });
         }catch(ex)
