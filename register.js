@@ -32,7 +32,8 @@ module.exports = {
 
       var hashedPassword = passwordHash.generate(req.body.password);
       var newUserObject = {
-        username: req.body.username,
+        first_name: req.body.firstName,
+        last_name: req.body.lastName,
         password: hashedPassword,
         email: req.body.email,
       };
