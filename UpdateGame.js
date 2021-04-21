@@ -3,6 +3,9 @@ const ObjectID = require("mongodb").ObjectID;
 const MongoDB = require('mongodb');
 const uri = process.env.DB_CONNECT;
 const eventPropertyList = ["event_type_id","event_position_id","player_id","team_id","outcome_id","outcome_team_id","outcome_player_id"];
+const dotenv = require("dotenv");
+const bodyParser = require('body-parser');
+dotenv.config();
 
 const defaultEvent =
         {
@@ -28,6 +31,8 @@ const defaultPossession =
         
 const defaultStatsResult = 
         {
+            game_id:0,
+            user_id:0,
             teamGoal : 0,
             teamPoints : 0,
             teamShots : 0,
@@ -63,7 +68,10 @@ module.exports =
         
             //3-20
             //first is goal second is points
-            const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
+                const db = await MongoClient.connect(process.env.DB_CONNECT, {
+                useNewUrlParser: true,
+                useUnifiedTopology: true,
+                    });
             const dbo = db.db("TacTalk");
             res.setHeader('Content-Type', 'application/json');
             try
@@ -85,13 +93,18 @@ module.exports =
                         
                     }
 
-                    res.end(JSON.stringify({
-                    result: statsObj,
-                    code: 200
-                    }));
+                    res.status(200).send({
+                    message: "Statistics Updated",    
+                    result: statsObj
+                    });
                     return;
                 }
+                
+                console.log("the game id is"+req.query.game_id);
+                
                 const searchQuery = { _id: new MongoDB.ObjectID(req.query.game_id)};
+
+                console.log("after");
 
                 var activeGame = await dbo.collection("games").findOne(searchQuery);
 
@@ -99,11 +112,11 @@ module.exports =
 
                 if (!activeGame)
                 {
-                    res.end(JSON.stringify({code:200, gameStatus:"NO_ACTIVE_GAME"}));
+                    res.status(200).send({message:"No Active Games", gameStatus:"NO_ACTIVE_GAME"});
                 }
                 else if(!activeGame.user_id.equals (new MongoDB.ObjectID(req.query.user_id)))
                 {
-                    res.end(JSON.stringify({code:200, gameStatus:"NOT_AUTHORIZED"}));
+                    res.status(200).send({message:"Not Autherised", gameStatus:"NOT_AUTHORIZED"});
                 }
                 else if (activeGame.input_list.length > 0)
                 {
@@ -219,14 +232,17 @@ module.exports =
                         console.log(gameObject);
                         var statResult = await stats.getCurrentStats(gameObject);
                         console.log(statResult);
-                        res.end(JSON.stringify({code:200, gameStatus: "UPDATING",result: statResult}));
+                        
+                        res.status(200).send({message: "Statistics Updating", gameStatus: "UPDATING",result: statResult});
                     }
 
 
                 }
                 else if (activeGame.input_list.length === 0)
                 {
-                    res.end(JSON.stringify(({code:200, gameStatus:"NO_INPUT", result: defaultStatsResult})));
+                    defaultStatsResult.game_id = activeGame._id;
+                    defaultStatsResult.user_id = activeGame.user_id;
+                    res.status(200).send({message: "Currently No Inputs", gameStatus:"NO_INPUT", result: defaultStatsResult});
                 }
 
 
@@ -234,7 +250,7 @@ module.exports =
 
             }catch(ex)
             {
-                res.end(JSON.stringify({code:500, error:ex.toString()+" at "+ex.lineNumber}));
+                res.status(500).send({message: "Error Updating Statistics", error:ex.toString()+" at "+ex.lineNumber});
                 db.close();
                 console.log("error occured");
                 return;
@@ -266,10 +282,10 @@ module.exports =
                         
                     }
 
-                    res.end(JSON.stringify({
+                    res.status(200).send({
+                    message: "Statistics Updated",
                     result: statsObj,
-                    code: 200
-                    }));
+                    });
                     return;
                 }
                 const searchQuery = { _id: new MongoDB.ObjectID(req.query.game_id)};
@@ -278,11 +294,11 @@ module.exports =
                 var gameObject = activeGame;
                 if (!activeGame)
                 {
-                    res.end(JSON.stringify({code:200, gameStatus:"NO_ACTIVE_GAME"}));
+                    res.status(200).send({message: "No Active Games", gameStatus:"NO_ACTIVE_GAME"});
                 }
                 else if(!activeGame.user_id.equals (new MongoDB.ObjectID(req.query.user_id)))
                 {
-                    res.end(JSON.stringify({code:200, gameStatus:"NOT_AUTHORIZED"}));
+                    res.status(200).send({message: "Not Autherised", gameStatus:"NOT_AUTHORIZED"});
                 }else if (gameObject)
                     {
 
@@ -290,13 +306,13 @@ module.exports =
                         console.log(gameObject);
                         var statResult = await stats.getCurrentStats(gameObject);
                         console.log(statResult);
-                        res.end(JSON.stringify({code:200, gameStatus: "UPDATING",result: statResult}));
+                        res.status(200).send({message: "Updating Statistics", gameStatus: "UPDATING",result: statResult});
                     }
                     
                     
             }catch(ex)
             {
-                res.end(JSON.stringify({code:200,error:ex.toString()}));
+                res.status(200).send({message: "Error Updating Statsitcs", error:ex.toString()});
             }
     }
 }
