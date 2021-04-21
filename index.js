@@ -50,11 +50,11 @@ app.get('/user/games/delete',  async (req, res) =>
         {
             const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId) };
             dbo.collection("games").deleteOne(searchQuery);
-            res.status(200).send({message: "Game deleted"});
+            res.status(200).send({message: "Game Deleted"});
              db.close();
         }catch(ex)
         {
-            res.status(500).send({message: "Unable to delete game"});
+            res.status(500).send({message: "Unable To Delete Game"});
              db.close();
         }
 })
@@ -68,11 +68,11 @@ app.get('/user/possessions/delete', async (req, res) =>
     {
         const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId), "possessions.possession_id": req.query.pid };
         dbo.collection("games").deleteOne(searchQuery);
-        res.status(200).send({message: "Possession successfully deleted"});
+        res.status(200).send({message: "Possession Successfully Deleted"});
         db.close();
     }catch(ex)
     {
-        res.status(500).send({message: "Unable to delete possession"});
+        res.status(500).send({message: "Unable To Delete Possession"});
         db.close();
     }
 })
@@ -86,11 +86,11 @@ app.get('/user/game_events/delete', async (req, res) =>
     {
         const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId), "possessions.possession_id": req.query.pid, "possessions.events.event_id": req.query.eid };
         dbo.collection("games").deleteOne(searchQuery);
-        res.status(200).send({message: "Game event deleted"});
+        res.status(200).send({message: "Game Event Deleted"});
         db.close();
     }catch(ex)
     {
-        res.status(500).send({message: "Unable to delete game event"});
+        res.status(500).send({message: "Unable To Delete Game Event"});
         db.close();
     }
 })
@@ -107,12 +107,12 @@ app.get('/user/games/get/id',  async (req, res) =>
         const searchQuery = { _id: new MongoDB.ObjectID(req.query.objectId)};
         
         var result = await dbo.collection("games").findOne(searchQuery);
-        res.status(200).send({ message: "Game successfully retrived", result: result});
+        res.status(200).send({ message: "Game Successfully Retrived", result: result});
         db.close();
         
     }catch(ex)
     {
-        res.status(500).send({message: "unable to retrieve game"});
+        res.status(500).send({message: "Unable To Retrieve Game"});
         db.close();
     }
 })
@@ -128,12 +128,12 @@ app.get('/user/games/get/game_by_id',  async (req, res) =>
         const searchQuery = { _id: new MongoDB.ObjectID(req.query.object_id)};
         
         var result = await dbo.collection("games").findOne(searchQuery);
-        res.status(200).send({message: "Id retrived", result: result});
+        res.status(200).send({message: "Id Retrived", result: result});
         db.close();
        
     }catch(ex)
     {   
-        res.status(500).send({message: "Unable to retireve id",error:ex.toString()});
+        res.status(500).send({message: "Unable To Retireve Id",error:ex.toString()});
         db.close();
     }
 })
@@ -151,12 +151,12 @@ app.get('/user/games/get/user_game_details',  async (req, res) =>
         var result = await dbo.collection("games").findOne(searchQuery);
 
 
-        res.status(200).send({message: "Successfully retreived game", result: result});
+        res.status(200).send({message: "Successfully Retreived Game", result: result});
         db.close();
         
     }catch(ex)
     {
-        res.status(500).send({message: "Unable to retrive game", error:ex.toString()});
+        res.status(500).send({message: "Unable To Retrive Game", error:ex.toString()});
         db.close();
     }
 })
@@ -204,12 +204,12 @@ app.post('/user/game_events/create', async (req, res) =>
         await dbo.collection("games").updateOne(searchQuery, updateDocument, function(err)
         {
             if (err) return;
-            res.status(200).send({message:"Game event created",event:newGameEventObject});
+            res.status(200).send({message:"Game Event Created",event:newGameEventObject});
             db.close();
         });
     }catch(ex)
     {
-        res.status(500).send({message:"Unable to create game event",error:ex.toString()});
+        res.status(500).send({message:"Unable To Create Game Event",error:ex.toString()});
         db.close();
     }    
 })
@@ -236,12 +236,12 @@ app.get('/user/game_events/update', async (req, res) =>
             if (err) return;
             
             res.write(JSON.stringify(newGameEventObject));
-            res.status(200).send({message: "Game event updated"});
+            res.status(200).send({message: "Game Event Updated"});
             db.close();
         });
     }catch(ex)
     {
-        res.status(500).send({message:"Unable to update game event",error:ex.toString()});
+        res.status(500).send({message:"Unable To Update Game Event",error:ex.toString()});
         db.close();
     }
 })
@@ -260,11 +260,11 @@ app.get('/user/active_games/move_from_active_to_finished', async (req, res) =>
         await dbo.collection("finished_games").insertOne(newActiveGameObject);
         dbo.collection("active_games").deleteOne(searchQuery);
        
-        res.status(200).send({message: "game successful moved to finished", object: newActiveGameObject});
+        res.status(200).send({message: "Game Successful Moved To Finished", object: newActiveGameObject});
         db.close();
     }catch(ex)
     {
-        res.status(500).send({message: "Unable to move active game to finished game"});
+        res.status(500).send({message: "Unable To Move Active Game To Finished Game"});
         db.close();
     }
 })
@@ -322,9 +322,10 @@ app.get('/user/players/all_players', Player.allPlayers);
 app.get('/user/users/get/user_details',verify.LoginVerify, User.getUserDetails);
 app.get('/user/users/delete_user',verify.LoginVerify, User.deleteUser);
 app.get('/user/users/delete_team',verify.LoginVerify, Team.deleteTeam);
+app.get('/user/check_team_exists',verify.LoginVerify, Team.checkTeam);
 
 app.post('/user/register', Register.registerUser);
 app.post('/user/login', Login.loginUser);
 app.post('/user/create_team',verify.LoginVerify, Team.createTeam);
-app.post('/user/players/create_player',verify.LoginVerify,  Player.createPlayer);
+app.post('/user/players/create_player',verify.LoginVerify, Player.createPlayer);
 app.post('/user/games/create',verify.LoginVerify, Game.createGame );

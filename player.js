@@ -41,14 +41,14 @@ module.exports = {
 
             await dbo.collection("players").insertOne(newPlayerObject, function(err){
 
-                res.status(200).send({message: "Player successfully created", _id:newPlayerObject._id,player_name:req.body.playerName,
+                res.status(200).send({message: "Player Successfully Created", player_id:newPlayerObject._id,player_name:req.body.playerName,
                                         player_number:req.body.playerNumber});
                 db.close();
             });
 
         }catch(ex)
         { 
-            res.status(500).send({message: "Unable to create player", error:ex});
+            res.status(500).send({message: "Unable To Create Player", error:ex});
             db.close();
         }
 
@@ -69,12 +69,12 @@ module.exports = {
 
             var result = await dbo.collection("players").findOne(searchQuery);
 
-            res.status(200).send({message: "Successfully retrieved player", player_name: result.player_name, player_number: result.player_number});
+            res.status(200).send({message: "Successfully Retrieved Player", player_id:result._id,player_name: result.player_name, player_number: result.player_number});
             db.close();
 
         }catch(ex)
         {
-            res.status(500).send({message:"Unable to retrieve player", error:ex.toString()});
+            res.status(500).send({message:"Unable To Retrieve Player", error:ex.toString()});
             db.close();
         }
     
@@ -91,21 +91,33 @@ module.exports = {
         res.setHeader('Content-Type', 'application/json');
         try
         {
+            
+            
+            const token = req.header('Authentication');
+                const decoded = jwt.verify(token, process.env.TOKEN_SECRET);  
+                var userId = decoded.user_id;  
+                console.log(userId);
 
-            await dbo.collection("players").find({}, {projection: {_id: 0, player_name: 1, player_number: 1} }).toArray(function(err,result)
+            await dbo.collection("players").find({user_id: new MongoDB.ObjectID(userId),team_id:new MongoDB.ObjectID(req.query.team_id) }, 
+            {projection: {_id: 1, player_name: 1, player_number: 1} }).toArray(function(err,result)
             {           
                 
                 if (err) throw err;
-                res.status(200).send({message: "Retrieved all players", result});
+                if (result.length >= 1)
+                {
+                res.status(200).send({message: "Retrieved All Players", result});
+                }else
+                {
+                res.status(404).send({message: "No Players Found"}); 
+                }
                 db.close();  
             
             });
-            
-//            db.close();
+
 
         }catch(ex)
         {
-            res.status(500).send({message: "Unable to retrieve all players", error:ex.toString()});
+            res.status(500).send({message: "Unable To Retrieve Players", error:ex.toString()});
             db.close();
         }
     
@@ -139,12 +151,12 @@ module.exports = {
                 if (err) return;
 
 
-                res.status(200).send({message:"Successfully updated players details"});
+                res.status(200).send({message:"Successfully Updated Player", player_id:req.query._id});
                 db.close();
             });
         }catch(ex)
         {
-            res.status(500).send({message: "Unable to update player", error:ex.toString()});
+            res.status(500).send({message: "Unable To Update Player", error:ex.toString()});
             db.close();
         }
 
@@ -162,11 +174,11 @@ module.exports = {
         {
             const searchQuery = { _id: new MongoDB.ObjectID(req.query._id)};
             await dbo.collection("players").deleteOne(searchQuery);
-            res.status(200).send({message: "Player Successfully deleted"});
+            res.status(200).send({message: "Player Successfully Deleted"});
             db.close();
         }catch(ex)
         {
-            res.status(500).send({message:"Unable to delete player"});
+            res.status(500).send({message:"Unable To Delete Player"});
             db.close();
         }
 
@@ -186,12 +198,12 @@ module.exports = {
             const searchQuery = { player_name: req.query.player_name };
 
             var result = await dbo.collection("players").findOne(searchQuery);
-            res.status(200).send({message: "Found player(s)", result: result});
+            res.status(200).send({message: "Found Players", result: result});
             db.close();
 
         }catch(ex)
         {
-            res.status(500).send({message: "No players with that name"});
+            res.status(500).send({message: "No Players With That Name"});
             db.close();
         }
     }

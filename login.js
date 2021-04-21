@@ -1,4 +1,6 @@
 const MongoClient = require("mongodb").MongoClient;
+const ObjectID = require("mongodb").ObjectID;
+const MongoDB = require("mongodb");
 var passwordHash = require("password-hash");
 var jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
@@ -32,14 +34,11 @@ module.exports = {
           { user_id: result._id },
           process.env.TOKEN_SECRET
         );
-        //console.log(result._id);
-        // Add token in header
-        //res.setHeader("Authentication", token);
-
-        res.status(200).send({ message: "Login Successful", token: token });
+        
+        res.status(200).send({ message: "Login Successful", token: token });        
         db.close();
       } else {
-        res.status(400).send({ message: "Invalid Email or Password" });
+        res.status(400).send({ message: "Invalid Email Or Password" });
         db.close();
       }
     } catch (ex) {

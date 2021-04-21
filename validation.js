@@ -6,18 +6,31 @@ dotenv.config();
 //valduation for register
 const registerValidation = (data) => {
   const schema = Joi.object({
-    username: Joi.string()
-      .regex(/^[a-zA-Z]+$/)
+    firstName: Joi.string()
+      .regex(/^[a-zA-Z\s]*$/)
       .max(50)
       .min(2)
       .required()
       .messages({
-        "string.base": `Name must contain text only`,
-        "string.empty": `Name cannot be empty`,
-        "string.min": `Name should have a minimum length of {#limit} characters`,
-        "string.max": `Name should have a maximum length of {#limit} characters`,
-        "string.pattern.base": `Name must contain text only`,
-        "any.required": `Name is a required field`,
+        "string.base": `First name must contain text only`,
+        "string.empty": `First name cannot be empty`,
+        "string.min": `First name should have a minimum length of {#limit} characters`,
+        "string.max": `First name should have a maximum length of {#limit} characters`,
+        "string.pattern.base": `First name must contain text only`,
+        "any.required": `First name is a required field`,
+      }),
+    lastName: Joi.string()
+      .regex(/^[a-zA-Z\s]*$/)
+      .max(50)
+      .min(2)
+      .required()
+      .messages({
+        "string.base": `Last name must contain text only`,
+        "string.empty": `Last name cannot be empty`,
+        "string.min": `Last name should have a minimum length of {#limit} characters`,
+        "string.max": `Last name should have a maximum length of {#limit} characters`,
+        "string.pattern.base": `Last name must contain text only`,
+        "any.required": `Last name is a required field`,
       }),
     email: Joi.string()
       .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
@@ -50,7 +63,7 @@ const registerValidation = (data) => {
 const createPlayerValidation = (data) => {
   const schema = Joi.object({
     playerName: Joi.string()
-      .regex(/^[a-zA-Z]+$/)
+      .regex(/^[a-zA-Z\s]*$/)
       .max(20)
       .min(2)
       .required()
@@ -72,18 +85,15 @@ const createPlayerValidation = (data) => {
         "string.empty": `Number is a required field`,
         "any.required": `Number is a required field`,
       }),
-        team_id: Joi.string()
-      .required()
-      .messages({
-        "string.base": `Number was not input in the correct format. It should be a number between 1 and 29`,
-        "string.pattern.base": `Number should between 1 and 29`,
-        "string.empty": `Number is a required field`,
-        "any.required": `Number is a required field`,
-      }),
+    team_id: Joi.string().required().messages({
+      "string.base": `Number was not input in the correct format. It should be a number between 1 and 29`,
+      "string.pattern.base": `Number should between 1 and 29`,
+      "string.empty": `Number is a required field`,
+      "any.required": `Number is a required field`,
+    }),
   });
   return schema.validate(data);
 };
-
 
 //validation for creating a team
 const createTeamValidation = (data) => {
@@ -101,22 +111,18 @@ const createTeamValidation = (data) => {
         "string.pattern.base": `Team name can only contain text`,
         "any.required": `Team name is a required field`,
       }),
-    teamColor: Joi.string()
-      .required()
-      .messages({
-        "string.base": `Color was not input in the correct format`,
-        "string.pattern.base": `Color can only contain text`,
-        "string.empty": `Color is a required field`,
-        "any.required": `Color is a required field`,
-      }),
-      teamLevel: Joi.string()
-      .required()
-      .messages({
-        "string.base": `Level was not input in the correct format`,
-        "string.pattern.base": `Level should only contain text and/or numbers`,
-        "string.empty": `Level is a required field`,
-        "any.required": `Level is a required field`,
-      })
+    teamColor: Joi.string().required().messages({
+      "string.base": `Color was not input in the correct format`,
+      "string.pattern.base": `Color can only contain text`,
+      "string.empty": `Color is a required field`,
+      "any.required": `Color is a required field`,
+    }),
+    teamLevel: Joi.string().required().messages({
+      "string.base": `Level was not input in the correct format`,
+      "string.pattern.base": `Level should only contain text and/or numbers`,
+      "string.empty": `Level is a required field`,
+      "any.required": `Level is a required field`,
+    }),
   });
   return schema.validate(data);
 };
@@ -180,64 +186,48 @@ const createTeamValidation = (data) => {
 //valduation for creating match
 const createMatchValidation = (data) => {
   const schema = Joi.object({
-    startTime: Joi.string()
-      .required()
-      .messages({
-        "string.base": `Start time was not input in the correct format. E.g. 13:25`,
-        "string.empty": `Start time is a required field`,
-        "any.required": `Start time is a required field`,
-      }),
-    gameType: Joi.string()
-      .required()
-      .messages({
-        "string.base": `Game type is required`,
-        "string.empty": `Game type is required`,
-        "string.max": `Game type can only be 30 characters long`,
-        "string.min": `Game type has to be at least 5 characters long`,
-        "any.required": `Game type is a required field`,
-      }),
-    startDate: Joi.string()
-      .required()
-      .messages({
-        "string.base": `Date is required`,
-        "string.empty": `Date is required`,
-        "any.required": `Date is a required field`,
-      }),
-    location: Joi.string()
-      .required()
-      .messages({
-        "string.base": `location is required`,
-        "string.empty": `location is required`,
-        "any.required": `location is a required field`,
-      }),
-    teamColor: Joi.string()
-      .required()
-      .messages({
-        "string.base": `Team color is required`,
-        "string.empty": `Team color is required`,
-        "any.required": `Team color is a required field`,
-      }),
-    teamName: Joi.string()
-      .required()
-      .messages({
-        "string.base": `Team name is required`,
-        "string.empty": `Team name is required`,
-        "any.required": `Team name is a required field`,
-      }),
-    oppColor: Joi.string()
-      .required()
-      .messages({
-        "string.base": `Opposition team color is required`,
-        "string.empty": `Opposition team color is required`,
-        "any.required": `Opposition team color is a required field`,
-      }),
-    opposition: Joi.string()
-      .required()
-      .messages({
-        "string.base": `Opposition team name is required`,
-        "string.empty": `Opposition team name is required`,
-        "any.required": `Opposition team name is a required field`,
-      }),
+    startTime: Joi.string().required().messages({
+      "string.base": `Start time was not input in the correct format. E.g. 13:25`,
+      "string.empty": `Start time is a required field`,
+      "any.required": `Start time is a required field`,
+    }),
+    gameType: Joi.string().required().messages({
+      "string.base": `Game type is required`,
+      "string.empty": `Game type is required`,
+      "string.max": `Game type can only be 30 characters long`,
+      "string.min": `Game type has to be at least 5 characters long`,
+      "any.required": `Game type is a required field`,
+    }),
+    startDate: Joi.string().required().messages({
+      "string.base": `Date is required`,
+      "string.empty": `Date is required`,
+      "any.required": `Date is a required field`,
+    }),
+    location: Joi.string().required().messages({
+      "string.base": `location is required`,
+      "string.empty": `location is required`,
+      "any.required": `location is a required field`,
+    }),
+    teamColor: Joi.string().required().messages({
+      "string.base": `Team color is required`,
+      "string.empty": `Team color is required`,
+      "any.required": `Team color is a required field`,
+    }),
+    teamName: Joi.string().required().messages({
+      "string.base": `Team name is required`,
+      "string.empty": `Team name is required`,
+      "any.required": `Team name is a required field`,
+    }),
+    oppColor: Joi.string().required().messages({
+      "string.base": `Opposition team color is required`,
+      "string.empty": `Opposition team color is required`,
+      "any.required": `Opposition team color is a required field`,
+    }),
+    opposition: Joi.string().required().messages({
+      "string.base": `Opposition team name is required`,
+      "string.empty": `Opposition team name is required`,
+      "any.required": `Opposition team name is a required field`,
+    }),
   });
   return schema.validate(data);
 };
