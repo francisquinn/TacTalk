@@ -41,7 +41,15 @@ const defaultStatsResult =
             oppTeamKickouts:0,
             oppTeamTurnover : 0,
             oppTeamPass:0,
-            oppTeamWides:0
+            oppTeamWides:0,
+            poessession:0,
+            passCompletion:0,
+            shotConversion:0,
+            turnoverInOurHalf:0,
+            kickoutsWon:0,
+            zoneWithMostShots:0,
+            zoneWithMostKickouts:0,
+            poessesion:0
         }
 
 const stats = require("./Stats");
