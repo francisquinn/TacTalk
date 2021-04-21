@@ -19,21 +19,28 @@ module.exports =
             oppTeamTurnover : 0,
             oppTeamPass:0,
             oppTeamWides:0,
-            poessession:0,
-            passCompletion:0,
-            shotConversion:0,
-            turnoverInOurHalf:0,
-            kickoutsWon:0,
-            zoneWithMostShots:0,
-            zoneWithMostKickouts:0,
-            poessesion:0
-            
+            teamZoneWithMostShots:0,
+            teamZoneWithMostKickouts:0,
+            oppTeamZoneWithMostShots:0,
+            oppTeamZoneWithMostKickouts:0,
+            teamPoessesion:0,
+            oppTeamPoessession:0,
+            teamPassCompletion:0,
+            oppTeamPassCompletion:0,
+            teamShotConversion:0,
+            oppTeamShotConversion:0,
+            teamKickoutsWon:0,
+            oppTeamKickoutsWon:0
         }
         
         var zoneShots = [0,0,0,0,0,0,0,0,0,0,0,0];
         var zoneKickouts = [0,0,0,0,0,0,0,0,0,0,0,0];
         
-        var completedPass = 0;
+        var oppZoneShots = [0,0,0,0,0,0,0,0,0,0,0,0];
+        var oppZoneKickouts = [0,0,0,0,0,0,0,0,0,0,0,0];
+        
+        var teamCompletedPass = 0;
+        var oppTeamCompletedPass = 0;
         
         for (var i = 0;i < json.possessions.length; i++)
         {
@@ -57,19 +64,41 @@ module.exports =
                 
                 processOutcome(event, statObject);                   
                 
-                if (getEventTypeById(event.event_type_id) === "pass" && getOutcomeTypeByID(event.outcome_id) != "turnover" && event.team_id == 0)
+                if (getEventTypeById(event.event_type_id) === "pass" && getOutcomeTypeByID(event.outcome_id) != "turnover")
                 {
-                    completedPass++;
+                    if (event.team_id == 0)
+                    {
+                        teamCompletedPass++;
+                    }
+                    else if (event.team_id == 1)
+                    {
+                        oppTeamCompletedPass++;
+                    }
                 }
                 
-                if (getEventTypeById(event.event_type_id) === "shot" && event.position_id !== -1 && event.team_id == 0)
+                if (getEventTypeById(event.event_type_id) === "shot" && event.position_id !== -1)
                 {
-                    zoneShots[event.position_id-1]++;
+                    if (event.team_id == 0)
+                    {
+                        zoneShots[event.position_id-1]++;
+                    }
+                    else if (event.team_id == 1)
+                    {
+                        oppZoneShots[event.position_id-1]++;
+                    }
                 }
                 
-                if (getEventTypeById(event.event_type_id) === "kickout" && event.position_id !== -1 && event.team_id == 0)
+                if (getEventTypeById(event.event_type_id) === "kickout" && event.position_id !== -1)
                 {
-                    zoneKickouts[event.position_id-1]++;
+                    if (event.team_id == 0)
+                    {
+                        zoneKickouts[event.position_id-1]++;
+                    }
+                    else if (event.team_id == 1)
+                    {
+                        oppZoneKickouts[event.position_id-1]++;
+                    }
+                    
                 }
                 
                 
@@ -77,7 +106,14 @@ module.exports =
             
             if (hasKickout && !hasTurnover)
             {
-                statObject.kickoutsWon++;
+                if (event.team_id == 0)
+                {
+                    statObject.teamKickoutsWon++;
+                }
+                else if (event.team_id == 1)
+                {
+                    statObject.oppTeamKickoutsWon++;
+                }
             }
         }
         
@@ -93,7 +129,7 @@ module.exports =
             }
         }
         
-        statObject.zoneWithMostShots = maxIndex;
+        statObject.teamZoneWithMostShots = maxIndex;
         
         maxIndex = -1;
         maxValue = -1;
@@ -107,14 +143,46 @@ module.exports =
             }
         }
         
-        statObject.zoneWithMostKickouts = maxIndex;
+        statObject.teamZoneWithMostKickouts = maxIndex;
         
-        statObject.passCompletion = completedPass/statObject.teamPass
+        maxIndex = -1;
+        maxValue = -1;
         
-        statObject.shotConversion = (statObject.teamGoal/statObject.teamShot) * 100;
+        for (var i = 0; i < oppZoneShots.length; i++)
+        {
+            if (oppZoneShots[i] > maxValue)
+            {
+                maxValue = oppZoneShots[i];
+                maxIndex = i+1;
+            }
+        }
         
-        statObject.poessesion = statObject.teamPass/(statObject.teamPass+statObject.oppTeamPass);
+        statObject.oppTeamZoneWithMostShots = maxIndex;
         
+        maxIndex = -1;
+        maxValue = -1;
+        
+        for (var i = 0; i < oppZoneKickouts.length; i++)
+        {
+            if (oppZoneKickouts[i] > maxValue)
+            {
+                maxValue = oppZoneKickouts[i];
+                maxIndex = i+1;
+            }
+        }
+        
+        statObject.oppTeamZoneWithMostKickouts = maxIndex;
+        
+        
+        statObject.teamPassCompletion = teamCompletedPass/statObject.teamPass;
+        statObject.oppTeamPassCompletion = oppTeamCompletedPass/statObject.oppTeamPass
+        
+        statObject.teamShotConversion = (statObject.teamGoal/statObject.teamShots) * 100;
+        statObject.oppTeamShotConversion = (statObject.oppTeamGoal/statObject.oppTeamShots);
+        
+        
+        statObject.teamPoessesion = statObject.teamPass/(statObject.teamPass+statObject.oppTeamPass);
+        statObject.oppTeamPoessesion = statObject.oppTeamPass/(statObject.teamPass+statObject.oppTeamPass);
         
         
         return statObject;
