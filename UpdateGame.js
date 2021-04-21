@@ -5,6 +5,7 @@ const uri = process.env.DB_CONNECT;
 const eventPropertyList = ["event_type_id","event_position_id","player_id","team_id","outcome_id","outcome_team_id","outcome_player_id"];
 const dotenv = require("dotenv");
 const bodyParser = require('body-parser');
+var jwt = require("jsonwebtoken");
 dotenv.config();
 
 const defaultEvent =
@@ -114,10 +115,10 @@ module.exports =
                 {
                     res.status(200).send({message:"No Active Games", gameStatus:"NO_ACTIVE_GAME"});
                 }
-                else if(!activeGame.user_id.equals (new MongoDB.ObjectID(req.query.user_id)))
-                {
-                    res.status(200).send({message:"Not Autherised", gameStatus:"NOT_AUTHORIZED"});
-                }
+//                else if(!activeGame.user_id.equals (new MongoDB.ObjectID(req.query.user_id)))
+//                {
+//                    res.status(200).send({message:"Not Autherised", gameStatus:"NOT_AUTHORIZED"});
+//                }
                 else if (activeGame.input_list.length > 0)
                 {
                     //if there is item in input list
@@ -240,8 +241,13 @@ module.exports =
                 }
                 else if (activeGame.input_list.length === 0)
                 {
+                    const token = req.header('Authentication');
+                    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);  
+                    var userId = decoded.user_id;  
+                    console.log(userId);
+                    
                     defaultStatsResult.game_id = activeGame._id;
-                    defaultStatsResult.user_id = activeGame.user_id;
+                    defaultStatsResult.user_id = new MongoDB.ObjectID(userId);
                     res.status(200).send({message: "Currently No Inputs", gameStatus:"NO_INPUT", result: defaultStatsResult});
                 }
 
@@ -284,7 +290,7 @@ module.exports =
 
                     res.status(200).send({
                     message: "Statistics Updated",
-                    result: statsObj,
+                    result: statsObj
                     });
                     return;
                 }
@@ -296,10 +302,11 @@ module.exports =
                 {
                     res.status(200).send({message: "No Active Games", gameStatus:"NO_ACTIVE_GAME"});
                 }
-                else if(!activeGame.user_id.equals (new MongoDB.ObjectID(req.query.user_id)))
-                {
-                    res.status(200).send({message: "Not Autherised", gameStatus:"NOT_AUTHORIZED"});
-                }else if (gameObject)
+//                else if(!activeGame.user_id.equals (new MongoDB.ObjectID(req.query.user_id)))
+//                {
+//                    res.status(200).send({message: "Not Autherised", gameStatus:"NOT_AUTHORIZED"});
+//                }
+                else if (gameObject)
                     {
 
 
