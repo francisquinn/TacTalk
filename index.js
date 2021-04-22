@@ -307,7 +307,7 @@ app.get('/createTrainingMaterial', async (req, res) =>
 })
 
 app.get('/user/games/updateStats',UpdateGame.updateStats);
-app.get('/user/games/updateGame', UpdateGame.updateGame );
+app.get('/user/games/updateGame', verify.Verify, UpdateGame.updateGame );
 app.get('/dictionary', CompileDictionary.dictionary);
 app.get('/cloud/dictionary/create', CompileDictionary.createDictionary);
 app.get('/cloud/createInput', CloudFunction.createInput);
@@ -319,13 +319,13 @@ app.get('/user/players/get/player_details', Player.readPlayer);
 app.get('/user/players/update_player', Player.updatePlayer);
 app.get('/user/users/get/search_similar_players_by_name',Player.similarName);
 app.get('/user/players/all_players', Player.allPlayers);
-app.get('/user/users/get/user_details',verify.LoginVerify, User.getUserDetails);
-app.get('/user/users/delete_user',verify.LoginVerify, User.deleteUser);
-app.get('/user/users/delete_team',verify.LoginVerify, Team.deleteTeam);
-app.get('/user/check_team_exists',verify.LoginVerify, Team.checkTeam);
+app.get('/user/users/get/user_details',verify.Verify, User.getUserDetails);
+app.get('/user/users/delete_user',verify.Verify, User.deleteUser);
+app.get('/user/users/delete_team',verify.Verify, Team.deleteTeam);
+app.get('/user/check_team_exists',verify.Verify, Team.checkTeam);
 
 app.post('/user/register', Register.registerUser);
 app.post('/user/login', Login.loginUser);
-app.post('/user/create_team',verify.LoginVerify, Team.createTeam);
-app.post('/user/players/create_player',verify.LoginVerify, Player.createPlayer);
-app.post('/user/games/create',verify.LoginVerify, Game.createGame );
+app.post('/user/create_team',verify.Verify, Team.createTeam);
+app.post('/user/players/create_player',verify.Verify, Player.createPlayer);
+app.post('/user/games/create',verify.Verify, Game.createGame );

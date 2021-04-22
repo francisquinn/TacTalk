@@ -1,4 +1,6 @@
-
+const MongoClient = require("mongodb").MongoClient;
+const ObjectID = require("mongodb").ObjectID;
+const MongoDB = require("mongodb");
 module.exports =
 {
     getCurrentStats: function(json)
@@ -30,8 +32,12 @@ module.exports =
             teamShotConversion:0,
             oppTeamShotConversion:0,
             teamKickoutsWon:0,
-            oppTeamKickoutsWon:0
+            oppTeamKickoutsWon:0,
+            game_id:new MongoDB.ObjectID(json._id),
+            user_id:new MongoDB.ObjectID(json.user_id)
         }
+        
+        console.log("the id is "+json._id);
         
         var zoneShots = [0,0,0,0,0,0,0,0,0,0,0,0];
         var zoneKickouts = [0,0,0,0,0,0,0,0,0,0,0,0];
