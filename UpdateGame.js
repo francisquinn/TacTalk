@@ -63,7 +63,10 @@ module.exports =
         
             //3-20
             //first is goal second is points
-            const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
+            const db = await MongoClient.connect(process.env.DB_CONNECT, {
+                useNewUrlParser: true,
+                useUnifiedTopology: true,
+              });
             const dbo = db.db("TacTalk");
             res.setHeader('Content-Type', 'application/json');
             try
@@ -244,7 +247,10 @@ module.exports =
     },
     updateStats: async function(req,res)
     {
-        const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
+        const db = await MongoClient.connect(process.env.DB_CONNECT, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+          });
             const dbo = db.db("TacTalk");
             res.setHeader('Content-Type', 'application/json');
             try

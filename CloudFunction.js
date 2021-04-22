@@ -1,14 +1,16 @@
 const MongoClient = require('mongodb').MongoClient;
 const ObjectID = require("mongodb").ObjectID;
 const MongoDB = require('mongodb');
-const uri = "mongodb+srv://RojakAdmin:RojakIsASalad@rojakcluster.ho1ff.mongodb.net/sample_analytics?retryWrites=true&w=majority";
 module.exports = 
 {
     createInput: async function(req,res)
     {
 
         
-        const db = await MongoClient.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true });
+        const db = await MongoClient.connect(process.env.DB_CONNECT, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
         const dbo = db.db("TacTalk");
         res.setHeader('Content-Type', 'application/json');
         try
