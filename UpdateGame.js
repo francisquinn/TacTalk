@@ -32,8 +32,6 @@ const defaultPossession =
         
 const defaultStatsResult = 
         {
-            game_id:0,
-            user_id:0,
             teamGoal : 0,
             teamPoints : 0,
             teamShots : 0,
