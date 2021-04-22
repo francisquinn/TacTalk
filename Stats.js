@@ -32,9 +32,7 @@ module.exports =
             teamShotConversion:0,
             oppTeamShotConversion:0,
             teamKickoutsWon:0,
-            oppTeamKickoutsWon:0,
-            game_id:new MongoDB.ObjectID(json._id),
-            user_id:new MongoDB.ObjectID(json.user_id)
+            oppTeamKickoutsWon:0
         }
         
         console.log("the id is "+json._id);

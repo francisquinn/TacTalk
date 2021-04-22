@@ -244,8 +244,9 @@ module.exports =
                     var userId = decoded.user_id;  
                     console.log(userId);
                     
-                    defaultStatsResult.game_id = activeGame._id;
-                    defaultStatsResult.user_id = new MongoDB.ObjectID(userId);
+                    game_id: new MongoDB.ObjectID(req.query.team_id);
+//                    defaultStatsResult.game_id = activeGame._id;
+                    user_id: new MongoDB.ObjectID(userId);
                     res.status(200).send({message: "Currently No Inputs", gameStatus:"NO_INPUT", result: defaultStatsResult});
                 }
 

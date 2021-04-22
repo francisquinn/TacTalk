@@ -37,9 +37,9 @@ module.exports = {
             var newTeamObject = 
                     {
                        user_id: new MongoDB.ObjectID(userId),
-                        teamName:req.body.teamName,
-                        teamColor:req.body.teamColor,
-                        teamLevel:req.body.teamLevel
+                        team_name:req.body.teamName,
+                        team_color:req.body.teamColor,
+                        team_level:req.body.teamLevel
 
                     };
 
@@ -68,11 +68,11 @@ module.exports = {
         res.setHeader('Content-Type', 'application/json');
         try
         {
-            const teamExist = await dbo.collection("teams").findOne({teamName:req.body.teamName});
+            const teamExist = await dbo.collection("teams").findOne({team_name:req.body.teamName});
             if(teamExist)
             { 
                 await dbo.collection("teams").deleteOne(teamExist); 
-                return res.status(400).send({message: "Team Successfully Deleted"});
+                return res.status(200).send({message: "Team Successfully Deleted"});
             }
         else {return res.status(400).send({message: "Team Does Not Exist"});}
         
@@ -106,8 +106,8 @@ module.exports = {
 
         const teamExist = await dbo.collection("teams").findOne({user_id: new MongoDB.ObjectID(userId)});
         
-        if (teamExist) return res.status(200).send({message: "Retrieved A Team", team_id:teamExist._id, teamName:teamExist.teamName, 
-            teamColor:teamExist.teamColor, teamLevel:teamExist.teamLevel});
+        if (teamExist) return res.status(200).send({message: "Retrieved A Team", team_id:teamExist._id, teamName:teamExist.team_name, 
+            teamColor:teamExist.team_color, teamLevel:teamExist.team_level});
         else return res.status(404).send({message: "No Team Exists"});
 
         db.close();

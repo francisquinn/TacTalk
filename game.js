@@ -33,13 +33,13 @@ module.exports = {
         var newGameObject = 
                 {
                     user_id: new MongoDB.ObjectID(userId),
-                    startTime:req.body.startTime,
-                    gameType : req.body.gameType,
-                    startDate:req.body.startDate,
+                    start_time:req.body.startTime,
+                    game_type : req.body.gameType,
+                    start_date:req.body.startDate,
                     location:req.body.location,
-                    teamColor:req.body.teamColor,
-                    teamName:req.body.teamName,
-                    oppColor:req.body.oppColor,
+                    team_color:req.body.teamColor,
+                    team_name:req.body.teamName,
+                    opp_color:req.body.oppColor,
                     opposition:req.body.opposition,
                     possessions:[],
                     last_string:[],
@@ -53,7 +53,7 @@ module.exports = {
         await dbo.collection("games").insertOne(newGameObject, function(err){
             db.close();
             res.status(200).send({message: "Game Successfully Created",  game_id:newGameObject._id, 
-                teamName: req.body.teamName, opposition:req.body.opposition });
+                team_name: req.body.teamName, opposition:req.body.opposition });
         });
     }catch(ex)
     { 
