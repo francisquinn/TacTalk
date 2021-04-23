@@ -7,10 +7,12 @@ module.exports =
         const enums = require('./enums');
         const playerRegex = /player(?:$|\W)+[^(\s)]+/;
         
-        var teamColor = game.team_color;
-        var oppTeamColor = game.opp_team_color;
+        var teamColor = game.team_color.toLowerCase();
+        var oppTeamColor = game.opp_team_color.toLowerCase();
 
         input = input.toLowerCase();
+
+        
 
         if (compareLangPossession(input,teamColor,"possession") || compareLang(input,teamColor+" team possession") || compareLangPossession(input,teamColor,"ball"))
         {
@@ -51,13 +53,10 @@ module.exports =
 
         for (var i = 0;i < enums.outcome.length;i++)
         {
-            console.log(i);
-            console.log(enums.outcome[i].keywords);
             for (var j = 0;j < enums.outcome[i].keywords.length; j++)
             {
                 if (compareLang(input,enums.outcome[i].keywords[j]))
                 {
-                    console.log("j"+j);
                     return {outcome_id:enums.outcome[i].outcomeID}
                 }
             }
@@ -107,7 +106,6 @@ module.exports =
         const defaultAligner = SWaligner();
 
         const smithWatermanDistance = defaultAligner.align(input, compare);
-        console.log(input+" + "+compare);
         const jaroWinklerDistance = natural.JaroWinklerDistance(input,compare);
 
             
@@ -130,24 +128,31 @@ function compareLang(input, compare)
         const smithWatermanDistance = defaultAligner.align(input, compare);
         const jaroWinklerDistance = natural.JaroWinklerDistance(input,compare);
 
-        if ( (input.includes(compare) || smithWatermanDistance >= 17 || jaroWinklerDistance >= 0.9) )
-        {
-            console.log(input+"|||"+compare+"|Jaro:"+jaroWinklerDistance+"|Smith:"+smithWatermanDistance.score+"|inlcusion:"+input.includes(compare));
-        }    
 
-
-    return (input.includes(compare) || smithWatermanDistance >= 17 || jaroWinklerDistance >= 0.9) 
+    return (input.includes(compare) || smithWatermanDistance >= 17 || jaroWinklerDistance >= 0.9);
 }
 
 function compareLangPossession(input, color,compare)
 {
+        const natural = require('natural');
+        const SWaligner = require('graphic-smith-waterman');
+        const defaultAligner = SWaligner();
+        
+        const smithWatermanDistance = defaultAligner.align(input, compare);
+        const jaroWinklerDistance = natural.JaroWinklerDistance(input,compare);
+
     const enums = require('./enums');
-    console.log(compare)
     for (var i = 0;i < enums.misc[compare].length;i++)
     {
         var compareString = color+" "+enums.misc[compare][i];
+        if (input.includes("ball") && compareString.includes("ball"))
+        { 
+            console.log("[[[[[[[[[[[["+compareString+"   vsvsvsvsvs   "+input+"]]]]]]]]]]]]]]]]]")
+            console.log((input.includes(compare))+"  or  "+(smithWatermanDistance >= 17) + "  or  "+(jaroWinklerDistance >= 0.9))
+        }
         if (compareLang(input, compareString))
         {
+            console.log("vallllllllllllllllllllllllllllllllid");
             return true;
         }
     }

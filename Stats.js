@@ -37,7 +37,6 @@ module.exports =
             user_id:new MongoDB.ObjectID(json.user_id)
         }
         
-        console.log("the id is "+json._id);
         
         var zoneShots = [0,0,0,0,0,0,0,0,0,0,0,0];
         var zoneKickouts = [0,0,0,0,0,0,0,0,0,0,0,0];
@@ -276,7 +275,6 @@ function processEvent(event, statObject)
 
 function processOutcome(event, statObject)
 {
-    console.log("Stat "+event.outcome_id);
     switch(event.outcome_id)
     {
         case 2:
