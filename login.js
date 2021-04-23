@@ -32,7 +32,8 @@ module.exports = {
         // Create and assign token
         const token = jwt.sign(
           { user_id: result._id },
-          process.env.TOKEN_SECRET
+          process.env.TOKEN_SECRET,
+          {expiresIn: '24h'}
         );
         
         res.status(200).send({ message: "Login Successful", token: token });        

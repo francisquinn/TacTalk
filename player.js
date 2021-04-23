@@ -29,12 +29,17 @@ module.exports = {
                 var userId = decoded.user_id;  
                 console.log(userId);
                 
+                            //checking for duplicate player number in a team
+                const teamExist = await dbo.collection("players").findOne({team_id: new MongoDB.ObjectID(req.body.team_id),
+                    player_number:req.body.playerNumber });
+                if(teamExist) return res.status(400).send({message: "Player Already Exists With The Entered Number"});
+
                 
                 
             var newPlayerObject = 
                     {
                         user_id: new MongoDB.ObjectID(userId),
-                        team_id:new MongoDB.ObjectID(req.body.team_id),
+                        team_id: new MongoDB.ObjectID(req.body.team_id),
                         player_name:req.body.playerName,
                         player_number:req.body.playerNumber
                     };

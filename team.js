@@ -23,7 +23,7 @@ module.exports = {
       if (error) return res.status(400).send(error.details[0]);
 
                 //checking for duplicate teams
-        const teamExist = await dbo.collection("teams").findOne({teamName:req.body.teamName});
+        const teamExist = await dbo.collection("teams").findOne({team_name:req.body.teamName});
         if(teamExist) return res.status(400).send({message: "Team Already Exists"});
 
         try
