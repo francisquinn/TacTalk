@@ -99,8 +99,11 @@ module.exports =
                     return;
                 }
                 
+                console.log("the game id is"+req.query.game_id);
+                
                 const searchQuery = { _id: new MongoDB.ObjectID(req.query.game_id)};
 
+                console.log("after");
 
                 var activeGame = await dbo.collection("games").findOne(searchQuery);
 
@@ -177,14 +180,11 @@ module.exports =
                                             activeGame = createGameEvent(activeGame,activeGame.game_id,activeGame.current_event,activeGame.current_possession_team,newPossession);
                                             activeGame.current_event = Object.assign({},defaultEvent);
                                             activeGame.current_event[eventPropertyList[j]] = parseResult[eventPropertyList[j]];
-                                            activeGame.current_event[eventPropertyList[j]+"_text"] = segmentString;
-                                            
                                             newPossession = false;
                                         }
                                         else // or else, add this new property to the exisiting event
                                         {
                                             activeGame.current_event[eventPropertyList[j]] = parseResult[eventPropertyList[j]];
-                                            activeGame.current_event[eventPropertyList[j]+"_text"] = segmentString;
                                         }
 
 
@@ -196,7 +196,8 @@ module.exports =
                                     }
                                 }
                             }
-
+                            
+                            console.log(JSON.stringify(activeGame))
                         }
                     }
 
@@ -225,7 +226,12 @@ module.exports =
                     var gameObject = activeGame;
                     if (gameObject)
                     {
+
+
+                        console.log(gameObject);
                         var statResult = await stats.getCurrentStats(gameObject);
+                        console.log(statResult);
+                        
                         res.status(200).send({message: "Statistics Updating", gameStatus: "UPDATING",result: statResult});
                     }
 
@@ -236,8 +242,11 @@ module.exports =
                     const token = req.header('Authentication');
                     const decoded = jwt.verify(token, process.env.TOKEN_SECRET);  
                     var userId = decoded.user_id;  
-                    defaultStatsResult.game_id = activeGame._id;
-                    defaultStatsResult.user_id = new MongoDB.ObjectID(userId);
+                    console.log(userId);
+                    
+                    game_id: new MongoDB.ObjectID(req.query.team_id);
+//                    defaultStatsResult.game_id = activeGame._id;
+                    user_id: new MongoDB.ObjectID(userId);
                     res.status(200).send({message: "Currently No Inputs", gameStatus:"NO_INPUT", result: defaultStatsResult});
                 }
 
@@ -248,6 +257,7 @@ module.exports =
             {
                 res.status(500).send({message: "Error Updating Statistics", error:ex.toString()+" at "+ex.lineNumber});
                 db.close();
+                console.log("error occured");
                 return;
             }
 
@@ -298,7 +308,10 @@ module.exports =
                 else if (gameObject)
                     {
 
+
+                        console.log(gameObject);
                         var statResult = await stats.getCurrentStats(gameObject);
+                        console.log(statResult);
                         res.status(200).send({message: "Updating Statistics", gameStatus: "UPDATING",result: statResult});
                     }
                     
@@ -330,6 +343,9 @@ function createGameEvent(gameObj,gameID,gameEvent,currentPossessionTeam, newPoss
 {
     try
     {
+        console.log("Create Event");
+        
+        
         if (gameEvent.team_id === -1)
         {
             gameEvent.team_id = currentPossessionTeam;
@@ -371,9 +387,11 @@ function createGameEvent(gameObj,gameID,gameEvent,currentPossessionTeam, newPoss
         {
             gameObj.possessions[gameObj.possessions.length-1].events.push(gameEvent);
         }
+        console.log("return gameOBJ"+JSON.stringify(gameObj));
         return gameObj;
     }catch(ex)
     {
+        console.log(ex)
     }
     
 }
