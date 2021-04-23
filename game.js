@@ -39,7 +39,7 @@ module.exports = {
                     location:req.body.location,
                     team_color:req.body.teamColor,
                     team_name:req.body.teamName,
-                    opp_color:req.body.oppColor,
+                    opp_team_color:req.body.oppColor,
                     opposition:req.body.opposition,
                     possessions:[],
                     last_string:[],
