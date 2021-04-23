@@ -180,11 +180,14 @@ module.exports =
                                             activeGame = createGameEvent(activeGame,activeGame.game_id,activeGame.current_event,activeGame.current_possession_team,newPossession);
                                             activeGame.current_event = Object.assign({},defaultEvent);
                                             activeGame.current_event[eventPropertyList[j]] = parseResult[eventPropertyList[j]];
+                                            activeGame.current_event[eventPropertyList[j]+"_text"] = segmentString;
+                                            
                                             newPossession = false;
                                         }
                                         else // or else, add this new property to the exisiting event
                                         {
                                             activeGame.current_event[eventPropertyList[j]] = parseResult[eventPropertyList[j]];
+                                            activeGame.current_event[eventPropertyList[j]+"_text"] = segmentString;
                                         }
 
 
