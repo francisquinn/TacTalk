@@ -46,8 +46,8 @@ module.exports = {
            await dbo.collection("teams").insertOne(newTeamObject, function(err){
                 
         
-                res.status(200).send({message:"Successfully Created Your Team", team_id:newTeamObject._id, teamName:req.body.teamName,
-                                     teamColor:req.body.teamColor, teamLevel:req.body.teamLevel });
+                res.status(200).send({message:"Successfully Created Your Team", team_id:newTeamObject._id, team_name:req.body.teamName,
+                                     team_color:req.body.teamColor, team_level:req.body.teamLevel });
                 db.close();
             });
 
@@ -106,8 +106,8 @@ module.exports = {
 
         const teamExist = await dbo.collection("teams").findOne({user_id: new MongoDB.ObjectID(userId)});
         
-        if (teamExist) return res.status(200).send({message: "Retrieved A Team", team_id:teamExist._id, teamName:teamExist.team_name, 
-            teamColor:teamExist.team_color, teamLevel:teamExist.team_level});
+        if (teamExist) return res.status(200).send({message: "Retrieved A Team", team_id:teamExist._id, team_name:teamExist.team_name, 
+            team_color:teamExist.team_color, team_level:teamExist.team_level});
         else return res.status(404).send({message: "No Team Exists"});
 
         db.close();
