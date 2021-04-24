@@ -57,7 +57,7 @@ module.exports.event =
         statType:"pass"
     },
     {
-        keywords:["handpass shot","hand pass shot","handpast shot","hand past shot","hampers"],
+        keywords:["handpass shot","hand pass shot","handpast shot","hand past shot","hampers","unpause"],
         eventID:11,
         defaultOutcome:1,
         defaultTeam:1,
