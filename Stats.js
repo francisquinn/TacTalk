@@ -185,7 +185,7 @@ module.exports =
         
         
         statObject.teamPoessesion = statObject.teamPass/(statObject.teamPass+statObject.oppTeamPass);
-        statObject.oppTeamPoessesion = statObject.oppTeamPass/(statObject.teamPass+statObject.oppTeamPass);
+        statObject.oppTeamPoessession = statObject.oppTeamPass/(statObject.teamPass+statObject.oppTeamPass);
         
         for (var prop in statObject) 
         {
