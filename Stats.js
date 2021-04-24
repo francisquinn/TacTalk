@@ -187,9 +187,11 @@ module.exports =
         statObject.teamPoessesion = statObject.teamPass/(statObject.teamPass+statObject.oppTeamPass);
         statObject.oppTeamPoessesion = statObject.oppTeamPass/(statObject.teamPass+statObject.oppTeamPass);
         
-        for (var prop in statObject) {
-            if (Object.prototype.hasOwnProperty.call(statObject, prop)) {
-                if (statObject[prop] === null)
+        for (var prop in statObject) 
+        {
+            if (Object.prototype.hasOwnProperty.call(statObject, prop)) 
+            {
+                if (isNaN(statObject[prop]))
                 {
                     statObject[prop] = 0;
                 }
