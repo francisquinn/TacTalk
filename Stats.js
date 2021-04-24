@@ -176,9 +176,12 @@ module.exports =
         
         statObject.oppTeamZoneWithMostKickouts = maxIndex;
         
+        var tpc = (teamCompletedPass/statObject.teamPass);
         
-        statObject.teamPassCompletion = teamCompletedPass/statObject.teamPass;
-        statObject.oppTeamPassCompletion = oppTeamCompletedPass/statObject.oppTeamPass
+        var otpc = (oppTeamCompletedPass/statObject.oppTeamPass);
+        
+        statObject.teamPassCompletion = tpc.toFixed(2);
+        statObject.oppTeamPassCompletion = otpc.toFixed(2);
         
         statObject.teamShotConversion = (statObject.teamGoal/statObject.teamShots) * 100;
         statObject.oppTeamShotConversion = (statObject.oppTeamGoal/statObject.oppTeamShots);
@@ -191,10 +194,12 @@ module.exports =
         {
             if (Object.prototype.hasOwnProperty.call(statObject, prop)) 
             {
-                if (isNaN(statObject[prop]))
+                if (isNaN(statObject[prop]) || statObject[prop] == null || statObject[prop] == "" || !isFinite(statObject[prop]))
                 {
                     statObject[prop] = 0;
                 }
+                
+                
             }
         }
         
