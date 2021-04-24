@@ -25,8 +25,8 @@ module.exports =
             teamZoneWithMostKickouts:0,
             oppTeamZoneWithMostShots:0,
             oppTeamZoneWithMostKickouts:0,
-            teamPoessesion:0,
-            oppTeamPoessession:0,
+            teamPossession:0,
+            oppTeamPossession:0,
             teamPassCompletion:0,
             oppTeamPassCompletion:0,
             teamShotConversion:0,
@@ -184,8 +184,8 @@ module.exports =
         statObject.oppTeamShotConversion = (statObject.oppTeamGoal/statObject.oppTeamShots);
         
         
-        statObject.teamPoessesion = statObject.teamPass/(statObject.teamPass+statObject.oppTeamPass);
-        statObject.oppTeamPoessession = statObject.oppTeamPass/(statObject.teamPass+statObject.oppTeamPass);
+        statObject.teamPossession = statObject.teamPass/(statObject.teamPass+statObject.oppTeamPass);
+        statObject.oppTeamPossession = statObject.oppTeamPass/(statObject.teamPass+statObject.oppTeamPass);
         
         for (var prop in statObject) 
         {
