@@ -57,7 +57,7 @@ module.exports.event =
         statType:"pass"
     },
     {
-        keywords:["handpass shot","hand pass shot","handpast shot","hand past shot","hampers","unpause"],
+        keywords:["handpass shot","hand pass shot","handpast shot","hand past shot","hampers shot","unpause shot","unpause shop"],
         eventID:11,
         defaultOutcome:1,
         defaultTeam:1,
@@ -71,7 +71,7 @@ module.exports.event =
         statType:"shot"
     },
     {
-        keywords:["handpass","hand pass","handpast","hand past","hampers"],
+        keywords:["handpass","hand pass","handpast","hand past","hampers","unpause"],
         eventID:10,
         defaultOutcome:1,
         defaultTeam:0,
@@ -189,7 +189,7 @@ module.exports.position =
 module.exports.misc =
 {
     
-    ball:["ball", "bowl", "bawl", "paul","pall","brawl"],    
+    ball:["ball", "bowl", "bawl", "paul","pall","brawl","bull"],    
     possession:["position","possession","profession"],
     team:["team","theme","tim","tin"]
     
@@ -236,7 +236,7 @@ module.exports.outcome =
         statType:"score 3"
     },
     {
-        keywords:["turnover","turn over"],
+        keywords:["turnover","turn over","nova"],
         outcomeID:8,
         statType:"turnover"
     },
