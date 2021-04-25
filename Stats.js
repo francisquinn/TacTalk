@@ -199,8 +199,10 @@ module.exports =
                     statObject[prop] = 0;
                 }
                 
+                statObject[prop] = Math.floor(statObject[prop]);
                 
             }
+            
         }
         
         return statObject;
