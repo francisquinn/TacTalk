@@ -9,16 +9,40 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".match.SetUpMatchFragment">
+    tools:context=".match.SetUpMatchFragment"
+    android:background="#202C74">
 
-    <TextView
-        android:id="@+id/SetUpMatch"
+    <LinearLayout
+        android:id="@+id/title_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/set_up_match"
-        android:textColor="@color/white"
-        android:textAlignment="center"
-        android:textSize="30sp" />
+        android:orientation="horizontal"
+        android:textColor="@color/white">
+
+        <ImageView
+            android:id="@+id/back_arrow"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="2dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/back_arrow"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/SetUpMatch"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/set_up_match"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
 
     <ScrollView
         android:id="@+id/content_view"
@@ -33,33 +57,17 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/edt_game_name"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="2"
-                android:background="@color/editTextBack"
-                android:hint="Game Name"
-                android:imeOptions="actionNext"
-                android:paddingLeft="10dp"
-                android:singleLine="true"
-                android:textColor="@color/black" />
-
             <Spinner
-                android:id="@+id/chosen_game_type"
+                android:id="@+id/game_type"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="10dp"
+                android:background="@drawable/et_custom"
                 android:layout_weight="2"
-                android:background="@color/editTextBack"
-                android:entries="@array/game_type"
-                android:hint="Chosen Game Type"
-                android:paddingLeft="10dp" />
+                android:textSize="15sp"
+                android:entries="@array/game_type" />
 
 
             <EditText
@@ -70,25 +78,26 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="2"
-                android:background="@color/editTextBack"
-                android:hint="Team Name"
+                android:background="@drawable/et_custom"
+                android:hint="Enter Team Name"
+                android:inputType="textPersonName"
                 android:imeOptions="actionNext"
                 android:paddingLeft="10dp"
                 android:singleLine="true"
+                android:textSize="15sp"
                 android:textColor="@color/black" />
 
             <Spinner
-                android:id="@+id/chosen_team_colour"
+                android:id="@+id/team_colour"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="2"
-                android:background="@color/editTextBack"
-                android:entries="@array/team_colour"
-                android:hint="Chosen Team Colour"
-                android:paddingLeft="10dp" />
+                android:textSize="15sp"
+                android:background="@drawable/et_custom"
+                android:entries="@array/team_colours" />
 
             <EditText
                 android:id="@+id/edt_opposition"
@@ -98,25 +107,26 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="2"
-                android:background="@color/editTextBack"
-                android:hint="Opposition"
-                android:imeOptions="actionNext"
+                android:background="@drawable/et_custom"
+                android:hint="@string/opposition_team_name"
+                android:inputType="textPersonName"
                 android:paddingLeft="10dp"
+                android:imeOptions="actionNext"
                 android:singleLine="true"
+                android:textSize="15sp"
                 android:textColor="@color/black" />
 
             <Spinner
-                android:id="@+id/chosen_opp_colour"
+                android:id="@+id/opp_colour"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="2"
-                android:background="@color/editTextBack"
+                android:background="@drawable/et_custom"
                 android:entries="@array/opp_colour"
-                android:hint="Chosen Opposition Colour"
-                android:paddingLeft="10dp" />
+                android:textSize="15sp"/>
 
             <EditText
                 android:id="@+id/edt_location"
@@ -126,25 +136,12 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="2"
-                android:background="@color/editTextBack"
-                android:hint="Location"
+                android:background="@drawable/et_custom"
+                android:hint="@string/match_location"
                 android:imeOptions="actionNext"
                 android:paddingLeft="10dp"
+                android:textSize="15sp"
                 android:textColor="@color/black" />
-
-            <Spinner
-                android:id="@+id/chosen_public"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="2"
-                android:background="@color/editTextBack"
-                android:entries="@array/chose_public"
-                android:hint="Chosen Public or Not"
-                android:imeOptions="actionNext"
-                android:paddingLeft="10dp" />
 
             <LinearLayout
                 android:id="@+id/nineLayout"
@@ -153,7 +150,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="10dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:textColor="@color/white">
 
                 <!-- place one TextView and one EditText inside layout using weight property -->
 
@@ -163,7 +161,8 @@
                     android:layout_height="50dp"
                     android:layout_marginRight="10dp"
                     android:layout_weight="1.2"
-                    android:background="@color/editTextBack"
+                    android:textSize="15sp"
+                    android:background="@drawable/et_custom"
                     android:gravity="center_vertical"
                     android:paddingLeft="10dp" />
 
@@ -173,10 +172,11 @@
                     android:layout_height="50dp"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="0.8"
+                    android:backgroundTint="@color/green"
                     android:hint="Select Date"
-                    android:textColor="@color/white"
                     android:onClick="onClick"
-                    android:paddingLeft="10dp" />
+                    android:paddingLeft="10dp"
+                    android:textColor="@color/white" />
 
             </LinearLayout>
 
@@ -198,7 +198,8 @@
                     android:layout_height="50dp"
                     android:layout_marginRight="10dp"
                     android:layout_weight="1.2"
-                    android:background="@color/editTextBack"
+                    android:textSize="15sp"
+                    android:background="@drawable/et_custom"
                     android:gravity="center_vertical"
                     android:paddingLeft="10dp" />
 
@@ -208,10 +209,11 @@
                     android:layout_height="50dp"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="0.8"
+                    android:backgroundTint="@color/green"
                     android:hint="Select Time"
-                    android:textColor="@color/white"
                     android:onClick="onClick"
-                    android:paddingLeft="10dp" />
+                    android:paddingLeft="10dp"
+                    android:textColor="@color/white" />
 
             </LinearLayout>
 
@@ -220,14 +222,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/btn_custom"
+                android:backgroundTint="@color/green"
                 android:onClick="onClick"
+                android:padding="15dp"
                 android:text="@string/done_button"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white" />
 
         </LinearLayout>
 
 
     </ScrollView>
+
+    <View
+        android:id="@+id/context_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="-103dp"
+        tools:layout_editor_absoluteY="62dp" />
 
 </LinearLayout>

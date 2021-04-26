@@ -1,578 +1,477 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#202C74"
+    tools:context="com.example.tactalk.statistics.StatisticFragment">
 
-    <data>
-        <variable
-            name="statsViewModel"
-            type="com.example.tactalk.statistics.StatisticViewModel" />
-    </data>
+
+    <TextView
+        android:id="@+id/statistics_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/statistics"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/half_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="sans-serif-medium"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statistics_text" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/scoreboard"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="com.example.tactalk.statistics.StatisticFragment">
+        android:layout_height="96dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="50dp"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/half_text">
 
         <TextView
-            android:id="@+id/KickoutsB"
-            android:layout_width="327dp"
-            android:layout_height="54dp"
-            android:text="POSSESSION"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="50sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/PoessesionB"
-            android:layout_width="327dp"
-            android:layout_height="54dp"
-            android:text="KICKOUTS"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="50sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView12"
-            android:layout_width="327dp"
-            android:layout_height="54dp"
-            android:text="POSITION"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="50sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/hometeam"
-            android:layout_width="88dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="24dp"
-            android:background="@color/white"
-            android:text="DUBLIN"
-            android:textColor="@color/black"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.458"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView12" />
-
-        <TextView
-            android:id="@+id/hometeam2"
-            android:layout_width="111dp"
-            android:layout_height="36dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="84dp"
+            android:id="@+id/team_name"
+            android:layout_width="115dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:fontFamily="sans-serif-medium"
-            android:text="DUBLIN"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="30sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.123"
+            android:textColor="@color/blue"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView12" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/op2"
-            android:layout_width="111dp"
-            android:layout_height="36dp"
-            android:layout_marginTop="84dp"
-            android:layout_marginEnd="8dp"
+            android:id="@+id/opposition_team_name"
+            android:layout_width="115dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="16dp"
             android:fontFamily="sans-serif-medium"
-            android:text="KERRY"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="30sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.946"
+            android:textColor="@color/blue"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView12" />
+            app:layout_constraintTop_toBottomOf="@+id/team_name" />
 
         <TextView
-            android:id="@+id/op"
-            android:layout_width="85dp"
-            android:layout_height="29dp"
-            android:layout_marginTop="56dp"
-            android:background="@color/white"
-            android:text="KERRY"
-            android:textColor="@color/black"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.453"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView12" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="18dp"
-            android:layout_height="29dp"
-            android:layout_marginTop="56dp"
-            android:background="@color/white"
-            android:text=":"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            app:layout_constraintEnd_toStartOf="@+id/homepoints"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/homegoals"
-            app:layout_constraintTop_toBottomOf="@+id/textView12" />
-
-        <TextView
-            android:id="@+id/textView11"
-            android:layout_width="18dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="24dp"
-            android:background="#FFFFFF"
-            android:text=":"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            app:layout_constraintEnd_toStartOf="@+id/homepoints"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/homegoals"
-            app:layout_constraintTop_toBottomOf="@+id/textView12" />
-
-        <TextView
-            android:id="@+id/homepoints"
-            android:layout_width="28dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="24dp"
-            android:background="@color/white"
-            android:text="@{statsViewModel.property.result.TeamPoints}"
-            android:textAlignment="viewEnd"
-            android:textColor="@color/black"
-            android:textSize="24sp"
-            app:layout_constraintHorizontal_bias="0.71"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView12" />
-        <TextView
-            android:id="@+id/textView14"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1st Half"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView12" />
-        <TextView
-            android:id="@+id/oppoints"
-            android:layout_width="31dp"
-            android:layout_height="29dp"
-            android:layout_marginTop="56dp"
-            android:background="@color/white"
-            android:text="@{statsViewModel.property.result.oppTeamPoints}"
-            android:textAlignment="viewEnd"
-            android:textColor="@color/black"
-            android:textSize="24sp"
-            app:layout_constraintHorizontal_bias="0.708"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView12" />
-
-        <TextView
-            android:id="@+id/homegoals"
+            android:id="@+id/team_goals"
             android:layout_width="24dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="24dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="16dp"
             android:background="@color/white"
-            android:text="@{statsViewModel.property.result.teamGoal}"
-            android:textAlignment="viewEnd"
+            android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="24sp"
-            app:layout_constraintHorizontal_bias="0.602"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView12" />
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintHorizontal_weight="3"
+            app:layout_constraintStart_toEndOf="@+id/team_name"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/opgoals"
-            android:layout_width="29dp"
-            android:layout_height="29dp"
-            android:layout_marginTop="56dp"
+            android:id="@+id/team_colon"
+            android:layout_width="18dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
             android:background="@color/white"
-            android:text="@{statsViewModel.property.result.oppTeamGoal}"
-            android:textAlignment="viewEnd"
+            android:text=":"
+            android:textAlignment="center"
+            android:textColor="@color/blue"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/team_points"
+            app:layout_constraintHorizontal_bias="0.49"
+            app:layout_constraintStart_toEndOf="@+id/team_goals"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/team_points"
+            android:layout_width="24dp"
+            android:layout_height="28dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/white"
+            android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="24sp"
-            app:layout_constraintHorizontal_bias="0.602"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView12" />
-
-
-        <Button
-            android:id="@+id/second_half"
-            android:layout_width="200dp"
-            android:layout_height="64dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="528dp"
-            android:layout_marginEnd="16dp"
-            android:text="@string/second_half"
-            android:textColor="#FFFFFF"
-            app:backgroundTint="#2AC87B"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.54"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView11" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/end_game"
-            android:layout_width="200dp"
-            android:layout_height="64dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="528dp"
+
+        <TextView
+            android:id="@+id/opp_team_goals"
+            android:layout_width="24dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="6dp"
+            android:background="@color/white"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/opposition_team_name"
+            app:layout_constraintTop_toBottomOf="@+id/team_goals" />
+
+        <TextView
+            android:id="@+id/opp_team_colon"
+            android:layout_width="18dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/white"
+            android:text=":"
+            android:textAlignment="center"
+            android:textColor="@color/blue"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/opp_team_points"
+            app:layout_constraintStart_toEndOf="@+id/opp_team_goals"
+            app:layout_constraintTop_toBottomOf="@+id/team_colon" />
+
+        <TextView
+            android:id="@+id/opp_team_points"
+            android:layout_width="24dp"
+            android:layout_height="28dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="16dp"
-            android:text="@string/end_game"
-            android:textColor="#FFFFFF"
-            app:backgroundTint="#2AC87B"
+            android:background="@color/white"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView11" />
+            app:layout_constraintTop_toBottomOf="@+id/team_points" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/possession_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/possession"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scoreboard" />
+
+    <TextView
+        android:id="@+id/kickout_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/kickouts"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scoreboard" />
+
+    <TextView
+        android:id="@+id/position_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/position"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scoreboard" />
+
+    <TextView
+        android:id="@+id/team_table_text"
+        android:layout_width="144dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textAllCaps="true"
+        app:layout_constraintBaseline_toBaselineOf="@+id/oppTeam_table_text"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/oppTeam_table_text"
+        android:layout_width="144dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="sans-serif-medium"
+        android:textAlignment="textEnd"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textAllCaps="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/position_text" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/table_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/team_table_text">
 
         <TableLayout
-            android:id="@+id/tablePos"
-            android:layout_width="316dp"
-            android:layout_height="320dp"
-            android:layout_marginTop="5dp"
-
-            android:layout_marginBottom="60dp"
+            android:id="@+id/tableZone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:background="#202C74"
-            app:layout_constraintBottom_toTopOf="@+id/end_game"
+            android:divider="@color/green"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.494"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/hometeam2">
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TableRow  android:layout_marginTop="5dp"
+            <TableRow
+
+                android:layout_marginTop="5dp"
                 android:background="#2AC87B">
 
                 <TextView
-                    android:id="@+id/p1"
+                    android:id="@+id/team_zone_kickout"
                     android:layout_width="20dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
                     android:drawableBottom="@color/black"
                     android:gravity="center"
+                    android:textColor="#202C74"
                     android:textSize="18sp"
-                    android:text="@{statsViewModel.property.result.teamGoal}"
-                    android:textStyle="bold"
-                    android:textColor="#202C74" />
+                    android:textStyle="bold" />
 
                 <TextView
+
+                    android:layout_width="200dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Zone with most Kickouts"
                     android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/opp_team_zone_kickout"
+                    android:layout_width="20dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="#202C74"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </TableRow>
+
+
+            <TableRow
+                android:layout_marginTop="5dp"
+                android:background="#2AC87B">
+
+                <TextView
+                    android:id="@+id/team_zone_shots"
+                    android:layout_width="20dp"
+                    android:layout_height="fill_parent"
+                    android:layout_marginTop="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="#202C74"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Zone with most Shots"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/opp_team_zone_shots"
+                    android:layout_width="20dp"
+                    android:layout_height="fill_parent"
+                    android:layout_marginTop="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="#202C74"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+            </TableRow>
+
+
+            <ImageView
+                android:id="@+id/pitch_grid"
+                android:layout_width="match_parent"
+                android:layout_height="246dp"
+                android:background="@drawable/half_pitch"
+
+                />
+
+        </TableLayout>
+
+        <TableLayout
+            android:id="@+id/tablePossession"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#202C74"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0">
+
+            <TableRow
+                android:layout_marginTop="5dp"
+                android:background="#2AC87B">
+
+                <TextView
+                    android:id="@+id/team_score"
+                    android:layout_width="20dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:drawableBottom="@color/black"
+                    android:gravity="center"
+                    android:textColor="#202C74"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
                     android:id="@+id/p2"
                     android:layout_width="200dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:text="Score"
+                    android:textColor="@color/white"
                     android:textSize="18sp"
-                    android:text="Goals"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/p3"
-                    android:textSize="18sp"
+                    android:id="@+id/opp_team_score"
                     android:layout_width="20dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="@{statsViewModel.property.result.oppTeamGoal}"
-                    android:textStyle="bold"
-                    android:textColor="#202C74" />
+                    android:textColor="#202C74"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
             </TableRow>
 
-            <TableRow android:layout_marginTop="5dp"
+
+            <TableRow
+                android:layout_marginTop="5dp"
                 android:background="#2AC87B">
 
                 <TextView
-                    android:id="@+id/p4"
+                    android:id="@+id/team_shots_table"
                     android:layout_width="20dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
-                    android:textSize="18sp"
                     android:gravity="center"
-                    android:text="@{statsViewModel.property.result.TeamPoints}"
-                    android:textStyle="bold"
-                    android:textColor="#202C74" />
+                    android:textColor="#202C74"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <TextView
-                    android:textColor="@color/white"
                     android:layout_width="200dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:textSize="18sp"
-                    android:text="Points"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/p5"
-                    android:layout_width="20dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:textSize="18sp"
-                    android:gravity="center"
-                    android:text="@{statsViewModel.property.result.oppTeamPoints}"
-                    android:textStyle="bold"
-                    android:textColor="#202C74" />
-            </TableRow>
-
-
-            <TableRow android:layout_marginTop="5dp"
-                android:background="#2AC87B">
-
-                <TextView
-                    android:id="@+id/p6"
-                    android:layout_width="20dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:textSize="18sp"
-                    android:gravity="center"
-                    android:text="@{statsViewModel.property.result.teamShots}"
-                    android:textStyle="bold"
-                    android:textColor="#202C74" />
-
-                <TextView
-                    android:textColor="@color/white"
-                    android:layout_width="200dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:textSize="18sp"
                     android:text="Shots"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/p7"
+                    android:id="@+id/opp_team_shots_table"
                     android:layout_width="20dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
-                    android:textSize="18sp"
                     android:gravity="center"
-                    android:text="20"
-                    android:textStyle="bold"
-                    android:textColor="#202C74" />
+                    android:textColor="#202C74"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
             </TableRow>
 
-            <TableRow android:layout_marginTop="5dp"
+            <TableRow
+                android:layout_marginTop="5dp"
                 android:background="#2AC87B">
 
                 <TextView
-                    android:id="@+id/p8"
+                    android:id="@+id/team_wides"
                     android:layout_width="20dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
-                    android:textSize="18sp"
                     android:gravity="center"
-                    android:text="51%"
-                    android:textStyle="bold"
-                    android:textColor="#202C74" />
-
-                <TextView
-                    android:textColor="@color/white"
-                    android:id="@+id/wideses"
-                    android:layout_width="200dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:textSize="18sp"
-                    android:text="Possession"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/p9"
-                    android:layout_width="20dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:textSize="18sp"
-                    android:gravity="center"
-                    android:text="49%"
                     android:textColor="#202C74"
-                    android:textStyle="bold" />
-            </TableRow>
-            <TableRow android:layout_marginTop="5dp"
-                android:background="#2AC87B">
-
-                <TextView
-                    android:id="@+id/p10"
-                    android:layout_width="20dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
                     android:textSize="18sp"
-                    android:text="97%"
-                    android:textColor="#202C74"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:textColor="@color/white"
-                    android:layout_width="200dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:textSize="18sp"
-                    android:text="Pass Completion %"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/p11"
-                    android:layout_width="20dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:textSize="18sp"
-                    android:text="75%"
-                    android:textStyle="bold"
-                    android:textColor="#202C74"
-                    />
-
-
-            </TableRow>
-
-            <TableRow android:layout_marginTop="5dp"
-                android:background="#2AC87B">
-
-                <TextView
-                    android:id="@+id/p12"
-                    android:layout_width="20dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:textSize="18sp"
-                    android:text="75%"
-                    android:textColor="#202C74"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:textColor="@color/white"
-                    android:layout_width="200dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:textSize="18sp"
-                    android:text="Shot Conversion Rate"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/p13"
-                    android:layout_width="20dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:textSize="18sp"
-                    android:text="45%"
-                    android:textStyle="bold"
-                    android:textColor="#202C74"
-                    />
-
-
-            </TableRow>
-
-
-
-
-
-        </TableLayout>
-
-        <TableLayout
-            android:id="@+id/tableKickout"
-            android:layout_width="316dp"
-            android:layout_height="320dp"
-            android:layout_marginTop="5dp"
-
-            android:layout_marginBottom="60dp"
-            android:background="#202C74"
-            app:layout_constraintBottom_toTopOf="@+id/end_game"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.494"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/hometeam2">
-
-            <TableRow android:layout_marginTop="5dp"
-                android:background="#2AC87B">
-
-                <TextView
-                    android:textColor="#202C74"
-                    android:layout_width="20dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:drawableBottom="@color/black"
-                    android:gravity="center"
-                    android:textSize="18sp"
-                    android:text="25"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:textColor="@color/white"
-                    android:layout_width="200dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Kickout"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:textColor="#202C74"
-                    android:layout_width="20dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:textSize="18sp"
-                    android:text="23"
-                    android:textStyle="bold" />
-            </TableRow>
-
-            <TableRow android:layout_marginTop="5dp"    android:background="#2AC87B">
-
-                <TextView
-                    android:textColor="#202C74"
-                    android:layout_width="20dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:textSize="18sp"
-                    android:text="@{statsViewModel.property.result.teamTurnover}"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:textColor="@color/white"
-                    android:layout_width="200dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:textSize="18sp"
-                    android:text="Turnovers"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:textColor="#202C74"
-                    android:layout_width="20dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:textSize="18sp"
-                    android:text="@{statsViewModel.property.result.oppTeamTurnover}"
-                    android:textStyle="bold" />
-            </TableRow>
-            <TableRow android:layout_marginTop="5dp"
-                android:background="#2AC87B">
-
-                <TextView
-                    android:textColor="#202C74"
-                    android:layout_width="20dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:textSize="18sp"
-                    android:text="@{statsViewModel.property.result.teamWides}"
                     android:textStyle="bold" />
 
                 <TextView
@@ -587,229 +486,343 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:textColor="#202C74"
+                    android:id="@+id/opp_team_wides"
                     android:layout_width="20dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:textColor="#202C74"
                     android:textSize="18sp"
-                    android:text="15"
                     android:textStyle="bold" />
 
             </TableRow>
 
-            <TableRow android:layout_marginTop="5dp"
+            <TableRow
+                android:layout_marginTop="5dp"
                 android:background="#2AC87B">
 
                 <TextView
-                    android:textColor="#202C74"
+                    android:id="@+id/team_possession"
                     android:layout_width="20dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:textColor="#202C74"
                     android:textSize="18sp"
-                    android:text="11"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:textColor="@color/white"
+                    android:id="@+id/wideses"
                     android:layout_width="200dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:text="Possession"
+                    android:textColor="@color/white"
                     android:textSize="18sp"
-                    android:text="Turnovers in Our Half"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:textColor="#202C74"
+                    android:id="@+id/opp_team_possession"
                     android:layout_width="20dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:textColor="#202C74"
                     android:textSize="18sp"
-                    android:text="@{statsViewModel.property.result.oppTeamShots}"
                     android:textStyle="bold" />
-
             </TableRow>
 
-            <TableRow android:layout_marginTop="5dp"
+            <TableRow
+                android:layout_marginTop="5dp"
                 android:background="#2AC87B">
 
                 <TextView
-                    android:textColor="#202C74"
+                    android:id="@+id/team_pass_completion"
                     android:layout_width="20dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:textColor="#202C74"
                     android:textSize="18sp"
-                    android:text="85%"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:textColor="@color/white"
                     android:layout_width="200dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
-                    android:textSize="18sp"
                     android:gravity="center"
-                    android:text="Kickouts won %"
+                    android:text="Pass Completion %"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:textColor="#202C74"
+                    android:id="@+id/opp_team_pass_completion"
                     android:layout_width="20dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:textColor="#202C74"
                     android:textSize="18sp"
-                    android:text="70%"
                     android:textStyle="bold" />
+
+
             </TableRow>
 
+            <TableRow
+                android:layout_marginTop="5dp"
+                android:background="#2AC87B">
+
+                <TextView
+                    android:id="@+id/team_shot_conversion"
+                    android:layout_width="20dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="#202C74"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Shot Conversion Rate %"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/opp_team_shot_conversion"
+                    android:layout_width="20dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="#202C74"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+
+            </TableRow>
 
 
         </TableLayout>
 
         <TableLayout
-            android:id="@+id/tablePlayers"
-            android:layout_width="316dp"
-            android:layout_height="320dp"
-            android:layout_marginTop="5dp"
-            android:divider="@color/green"
-            android:layout_marginBottom="60dp"
+            android:id="@+id/tableKickout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:background="#202C74"
-
-            app:layout_constraintBottom_toTopOf="@+id/end_game"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.494"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/hometeam2">
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TableRow  android:layout_marginTop="5dp"    android:background="#2AC87B" >
+            <TableRow
+
+                android:layout_marginTop="5dp"
+                android:background="#2AC87B">
 
                 <TextView
-
+                    android:id="@+id/team_kickouts"
                     android:layout_width="20dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
-                    android:textColor="#202C74"
                     android:drawableBottom="@color/black"
                     android:gravity="center"
-                    android:text="4"
+                    android:textColor="#202C74"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <TextView
-
                     android:layout_width="200dp"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Zone with most Kickouts"
-                    android:textSize="18sp"
+                    android:text="Kickouts"
                     android:textColor="@color/white"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:textColor="#202C74"
+                    android:id="@+id/opp_team_kickouts"
                     android:layout_width="20dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="6"
+                    android:textColor="#202C74"
                     android:textSize="18sp"
                     android:textStyle="bold" />
             </TableRow>
 
-
-            <TableRow   android:layout_marginTop="5dp"
-                android:background="#2AC87B" >
+            <TableRow
+                android:layout_marginTop="5dp"
+                android:background="#2AC87B">
 
                 <TextView
-                    android:textColor="#202C74"
-                    android:layout_marginTop="0dp"
+                    android:id="@+id/team_turnovers"
                     android:layout_width="20dp"
-                    android:layout_height="fill_parent"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
-                    android:text="2"
                     android:gravity="center"
+                    android:textColor="#202C74"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:textColor="@color/white"
                     android:layout_width="200dp"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:text="Turnovers"
+                    android:textColor="@color/white"
                     android:textSize="18sp"
-                    android:text="Zone with most shots"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:layout_height="fill_parent"
+                    android:id="@+id/opp_team_turnovers"
                     android:layout_width="20dp"
-                    android:layout_marginTop="0dp"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
-                    android:textColor="#202C74"
                     android:gravity="center"
-                    android:text="3"
+                    android:textColor="#202C74"
                     android:textSize="18sp"
                     android:textStyle="bold" />
-
             </TableRow>
 
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="246dp"
-                android:background="@drawable/half_pitch"
+            <TableRow
+                android:layout_marginTop="5dp"
+                android:background="#2AC87B">
 
-                />
+                <TextView
+                    android:id="@+id/team_kickouts_won"
+                    android:layout_width="20dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="#202C74"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Kickouts won %"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/opp_team_kickouts_won"
+                    android:layout_width="20dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="#202C74"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </TableRow>
+
 
         </TableLayout>
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent">
 
         <RadioGroup
             android:id="@+id/radioGroup"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="56dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:orientation="horizontal"
+            android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.505"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <RadioButton
                 android:id="@+id/radioButton"
-                android:layout_width="wrap_content"
+                android:layout_width="126dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginBottom="68dp"
-                android:text="POSSESSION"
                 android:textColor="@color/white" />
 
             <RadioButton
                 android:id="@+id/radioButton2"
-                android:layout_width="wrap_content"
+                android:layout_width="114dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
                 android:layout_marginBottom="68dp"
-                android:text="KICKOUTS"
                 android:textColor="@color/white" />
 
             <RadioButton
                 android:id="@+id/radioButton3"
-                android:layout_width="wrap_content"
+                android:layout_width="114dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
                 android:layout_marginBottom="68dp"
-                android:text="POSITION "
                 android:textColor="@color/white" />
         </RadioGroup>
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+
+    <Button
+        android:id="@+id/second_half"
+        android:layout_width="200dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/second_half_button"
+        android:textColor="#FFFFFF"
+        app:backgroundTint="#2AC87B"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.54"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/end_game"
+        android:layout_width="200dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/end_game"
+        android:textColor="#FFFFFF"
+        app:backgroundTint="#2AC87B"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:id="@+id/content_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

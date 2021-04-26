@@ -1,35 +1,30 @@
-package com.example.tactalk
-
+package com.example.tactalk.team
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
 import android.widget.ImageView
-import android.widget.Toast
-import com.example.tactalk.login.LoginFragment
+import androidx.appcompat.app.AppCompatActivity
+import com.example.tactalk.MainActivity
+import com.example.tactalk.R
 import com.example.tactalk.main.MainMenuFragment
 import com.example.tactalk.network.RetrofitClient
 import com.example.tactalk.network.SessionManager
 import com.example.tactalk.network.TacTalkAPI
-import com.example.tactalk.team.CreateTeamFragment
-import com.example.tactalk.team.CreateTeamResponse
-import com.example.tactalk.team.ManageTeamFragment
-import com.example.tactalk.team.TeamManager
 import com.example.tactalk.user.UserFragment
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_create_team.*
-import kotlinx.android.synthetic.main.fragment_set_up_match.*
 import kotlinx.android.synthetic.main.fragment_set_up_match.edt_team_name
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
+import kotlin.concurrent.timerTask
 
-class MainActivity : AppCompatActivity() {
+class CreateTeamFragment : AppCompatActivity() {
 
     lateinit var tacTalkAPI: TacTalkAPI
     private var compositeDisposable = CompositeDisposable()
@@ -43,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.fragment_create_team)
 
         // TacTalk API
         val retrofit = RetrofitClient.getInstance()
@@ -51,20 +46,36 @@ class MainActivity : AppCompatActivity() {
         sessionManager = SessionManager(this)
         teamManager = TeamManager(this)
 
-        // check team method call
-        checkTeamExists()
-
     }
 
-    // check if user has a team
-    private fun checkTeamExists() {
+    fun onClick(view: View) {
+        when (view.id) {
+            R.id.btn_add_team -> {
+                // call create team method
+                createTeam(
+                    edt_team_name.text.toString(),
+                    add_team_color.selectedItem.toString(),
+                    add_team_level.selectedItem.toString()
+                )
+            }
+        }
+    }
+
+    // create team method
+    private fun createTeam(teamName: String, teamColor: String, teamLevel: String) {
 
         val contextView: View = findViewById(R.id.content_view)
 
         // TacTalk API call
-        // extract token
-        tacTalkAPI.checkTeamExists(token = "${sessionManager.getAuthToken()}")
+        // extract auth token
+        tacTalkAPI.createTeam(
+            teamName,
+            teamColor,
+            teamLevel,
+            token = "${sessionManager.getAuthToken()}"
+        )
             .enqueue(object : Callback<CreateTeamResponse> {
+                // handle failed response
                 override fun onFailure(call: Call<CreateTeamResponse>, t: Throwable) {
                     Snackbar.make(contextView, t.message.toString(), 3000)
                         .setBackgroundTint(resources.getColor(R.color.green))
@@ -81,9 +92,11 @@ class MainActivity : AppCompatActivity() {
 
                     if (errorResponse != null) {
                         try {
-                            // if user does not have a team
-                            // redirect to the create team page
-                            createTeamNav()
+                            // display error message
+                            val errorMessage = JSONObject(response.errorBody()!!.string())
+                            Snackbar.make(contextView, errorMessage.getString("message"), 5000)
+                                .setBackgroundTint(resources.getColor(R.color.red))
+                                .show()
                         } catch (e: Exception) {
                             Snackbar.make(contextView, e.message.toString(), 3000)
                                 .setBackgroundTint(resources.getColor(R.color.green))
@@ -91,15 +104,19 @@ class MainActivity : AppCompatActivity() {
                         }
                     } else if (teamResponse != null) {
                         try {
-                            // save team details
+                            // save team details in shared preferences
                             teamManager.saveTeam(
                                 teamResponse.team_id,
                                 teamResponse.team_name,
                                 teamResponse.team_color,
                                 teamResponse.team_level
                             )
-                            // redirect to main menu
-                            mainMenuNav()
+                            Snackbar.make(contextView, teamResponse.message, 5000)
+                                .setBackgroundTint(resources.getColor(R.color.green))
+                                .show()
+                            Timer().schedule(timerTask {
+                                createTeamComplete()
+                            }, 3000)
                         } catch (e: Exception) {
                             Snackbar.make(contextView, e.message.toString(), 3000)
                                 .setBackgroundTint(resources.getColor(R.color.green))
@@ -110,13 +127,12 @@ class MainActivity : AppCompatActivity() {
             })
     }
 
-    private fun createTeamNav() {
-        startActivity(Intent(this, CreateTeamFragment::class.java))
-        finish()
-    }
-
-    private fun mainMenuNav() {
+    // direct to main menu
+    private fun createTeamComplete(){
         startActivity(Intent(this, MainMenuFragment::class.java))
         finish()
     }
+
+    // disable back button
+    override fun onBackPressed() {}
 }

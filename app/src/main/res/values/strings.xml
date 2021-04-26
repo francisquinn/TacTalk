@@ -5,36 +5,46 @@
     <string name="set_up_match">SET UP MATCH</string>
 
     <string-array name="game_type">
-        <item>Please Select A Game Type</item>
+        <item>Select Game Type</item>
         <item>Championship</item>
         <item>Friendly</item>
-        <item>Europe Cup</item>
-        <item>Others</item>
+        <item>League</item>
     </string-array>
 
-    <string-array name="team_colour">
-        <item>Please Select A Team Colour</item>
+    <string-array name="team_colours">
+        <item>Select A Team Colour</item>
         <item>Blue</item>
         <item>Green</item>
+        <item>Red</item>
+        <item>Yellow</item>
+        <item>White</item>
+        <item>Black</item>
+        <item>Purple</item>
+        <item>Orange</item>
     </string-array>
 
     <string-array name="opp_colour">
-        <item>Please Select A Opposition Colour</item>
+        <item>Select An Opposition Colour</item>
         <item>Blue</item>
         <item>Green</item>
+        <item>Red</item>
+        <item>Yellow</item>
+        <item>White</item>
+        <item>Black</item>
+        <item>Purple</item>
+        <item>Orange</item>
     </string-array>
 
-    <string-array name="chose_public">
-        <item>Please Chosen Public or Not</item>
-        <item>Yes</item>
-        <item>Not</item>
+    <string-array name="team_level">
+        <item>Select the Team Level</item>
+        <item>Local</item>
+        <item>Inter-County</item>
     </string-array>
-
 
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="NextHalf">NextHalf</string>
-    <string name="second_half">Start Second Half</string>
+    <string name="second_half_button">Start Second Half</string>
     <string name="end_game">End Game</string>
     <string name="Pause">Pause</string>
     <string name="Stop">Stop</string>
@@ -44,7 +54,8 @@
     <string name="HomeButton">Home</string>
     <string name="view_statistics">View Statistics</string>
     <string name="BackButton">Back</string>
-    <string name="FirstHalf">1st Half</string>
+    <string name="first_half">1st Half</string>
+    <string name="second_half">1st Half</string>
     <string name="TeamA">DUBLIN</string>
     <string name="TeamB">KERRY</string>
     <string name="EndHalf">End Half</string>
@@ -61,30 +72,44 @@
     <string name="login_password_hint">Password</string>
     <string name="password_require">Password must contain: At least 8 characters, 1 uppercase letter, 1 number and 1 special character (!,$,@ etc.)</string>
     <string name="project_name">TacTalk</string>
-    <string name="manage_team">Manage Team</string>
+
+    <!-- Strings related to ManageTeam -->
+    <string name="manage_team">MANAGE TEAM</string>
+    <string name="add_player_name">Player Name</string>
+    <string name="add_player_number">Player Number</string>
+    <string name="add_player">Add Player</string>
+    <string name="back_to_main_menu">Back To Main Menu</string>
+    <string name="team_player">Player Overview</string>
+    <string name="add_player_text">ADD A PLAYER</string>
+    <string name="add_team_text">CREATE A TEAM</string>
+    <string name="manage_player">MANAGE PLAYER</string>
+
     <string name="set_up_matchs">Set up match</string>
     <string name="logo_img">logo</string>
-    <string name="register_name">Name</string>
+    <string name="register_first_name">First Name</string>
+    <string name="register_last_name">Last Name</string>
+    <string name="confirm_password">Confirm Password</string>
     <string name="mobile_number">Mobile Number</string>
     <string name="register_button">Register</string>
     <string name="create_account">CREATE AN ACCOUNT</string>
     <string name="have_account">Already have an account? Sign In</string>
     <string name="new_user">New user? Register Now</string>
-    <string name="team_player">Player</string>
     <string name="team_number">Number</string>
-    <string name="bio">Ryan Smith        1
-    \n\nJohn Doe        2
-    \nPaddy Brady        3</string>
     <string name="done_button">Done</string>
     <string name="match_date">dd/mm/yy</string>
     <string name="match_opposition">Opposition</string>
     <string name="match_location">Location</string>
     <string name="Set_Up_Match">SETUP MATCH</string>
-    <string name="ManageTeam">MANAGE TEAM</string>
     <string name="Record">Record</string>
     <string name="game_over">GAME OVER</string>
 
     <string name="working">Working</string>
     <string name="stopped">Stopped</string>
+    <string name="logout">Logout</string>
+    <string name="opposition_team_name">Enter Opposition Team Name</string>
+    <string name="statistics">STATISTICS</string>
+    <string name="possession">POSSESSION</string>
+    <string name="kickouts">KICKOUTS</string>
+    <string name="position">POSITION</string>
 
 </resources>

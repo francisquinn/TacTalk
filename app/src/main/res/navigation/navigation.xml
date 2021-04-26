@@ -61,7 +61,7 @@
     </fragment>
     <fragment
         android:id="@+id/endGameFragment"
-        android:name="com.example.tactalk.EndGameFragment"
+        android:name="com.example.tactalk.end.EndGameFragment"
         android:label="EndGameFragment" >
         <action
             android:id="@+id/EndToMain"

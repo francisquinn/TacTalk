@@ -1,28 +1,44 @@
 package com.example.tactalk.user
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import com.example.tactalk.R
-import com.example.tactalk.databinding.FragmentUserPageBinding
+import com.example.tactalk.login.LoginFragment
+import com.example.tactalk.main.MainMenuFragment
+import com.example.tactalk.team.ManageTeamFragment
+import kotlinx.android.synthetic.main.fragment_user_page.*
 
-class UserFragment : AppCompatActivity()  {
 
-    private val userViewModel: UserViewModel by lazy {
-        ViewModelProvider(this).get(UserViewModel::class.java)
-    }
+class UserFragment : AppCompatActivity() {
 
-    private lateinit var binding: FragmentUserPageBinding
+    private lateinit var userManager: UserManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.fragment_user_page)
 
-        binding = DataBindingUtil.setContentView(this, R.layout.fragment_user_page)
+        userManager = UserManager(this)
+        val name = userManager.getUserFullName()
+        val email = userManager.getUserEmail()
 
-        binding.lifecycleOwner = this
+        // display name and email
+        user_name.text = name
+        user_email.text = email
 
-        binding.userViewModel = userViewModel
+        // logout redirect
+        logout_button.setOnClickListener {
+            val intent = Intent(this, LoginFragment::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(intent)
+            finish()
+        }
+
+        // back arrow
+        back_arrow.setOnClickListener {
+            finish()
+        }
 
     }
 }

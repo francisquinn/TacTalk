@@ -1,53 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
+    android:id="@+id/frameLayout3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#202C74"
-    tools:context=".login.LoginFragment">
+    tools:context=".player.AddPlayerFragment">
+
+    <ImageView
+        android:id="@+id/user_account"
+        android:layout_width="50dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/user_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/user_icon"
+        tools:visibility="visible" />
 
     <ImageView
         android:id="@+id/tactalk_logo"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:layout_marginTop="24dp"
-        android:contentDescription="@string/logo_img"
+        android:layout_width="86dp"
+        android:layout_height="74dp"
+        android:layout_marginTop="16dp"
         android:src="@drawable/white_logo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/white_logo" />
+        app:layout_constraintEnd_toStartOf="@+id/user_account"
+        app:layout_constraintHorizontal_bias="0.531"
+        app:layout_constraintStart_toEndOf="@+id/back_arrow"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/back_arrow"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/back_arrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/Appname"
-        android:layout_width="160dp"
+        android:id="@+id/add_player_txt"
+        android:layout_width="230dp"
         android:layout_height="40dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="40dp"
         android:fontFamily="sans-serif-medium"
-        android:text="@string/project_name"
+        android:text="@string/add_player_text"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tactalk_logo" />
 
     <EditText
-        android:id="@+id/edt_email"
+        android:id="@+id/add_playerName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/et_custom"
-        android:hint="@string/modifiedEditText"
-        android:inputType="textEmailAddress"
+        android:hint="@string/add_player_name"
+        android:inputType="textPersonName"
         android:maxLines="1"
         android:padding="15dp"
         android:selectAllOnFocus="true"
@@ -55,81 +77,65 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Appname" />
+        app:layout_constraintTop_toBottomOf="@+id/add_player_txt" />
 
     <EditText
-        android:id="@+id/edt_password"
+        android:id="@+id/add_playerNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/et_custom"
-        android:hint="@string/prompt_password"
+        android:hint="@string/add_player_number"
         android:imeOptions="actionDone"
-        android:inputType="textPassword"
+        android:inputType="number"
         android:padding="15dp"
         android:selectAllOnFocus="true"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edt_email" />
+        app:layout_constraintTop_toBottomOf="@+id/add_playerName" />
 
     <Button
-        android:id="@+id/btn_login"
+        android:id="@+id/btn_add_player"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="16dp"
-        android:fontFamily="@font/roboto_regular"
+        android:padding="15dp"
         android:onClick="onClick"
-        android:text="@string/sign_in"
+        android:fontFamily="@font/roboto_regular"
+        android:text="@string/add_player"
         android:textColor="@android:color/white"
         android:textSize="16sp"
-        android:padding="15dp"
         app:backgroundTint="#2AC87B"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edt_password" />
-
-
-    <TextView
-        android:id="@+id/goRegister"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:focusable="true"
-        android:onClick="onClick"
-        android:textColor="@color/white"
-        android:text="@string/new_user"
-        android:textAlignment="center"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="32dp" />
+        app:layout_constraintTop_toBottomOf="@+id/add_playerNumber" />
 
     <com.github.ybq.android.spinkit.SpinKitView
         android:id="@+id/progress"
+        style="@style/SpinKitView.Large.Wave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="90dp"
         android:visibility="gone"
-        style="@style/SpinKitView.Large.Wave"
         app:SpinKit_Color="@color/green"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.473"
+        app:layout_constraintHorizontal_bias="0.477"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_login" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_add_player" />
 
     <View
         android:id="@+id/content_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="-103dp"
-        tools:layout_editor_absoluteY="62dp" />
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

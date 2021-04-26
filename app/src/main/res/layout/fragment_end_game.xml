@@ -5,7 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#202C74"
-    tools:context=".EndGameFragment">
+    tools:context=".end.EndGameFragment">
+
+    <ImageView
+        android:id="@+id/user_account"
+        android:layout_width="50dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/user_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.912"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/user_icon"
+        tools:visibility="visible" />
 
     <ImageView
         android:id="@+id/logo"
@@ -26,8 +40,6 @@
         android:textColor="@color/white"
         android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/logo"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -40,7 +52,7 @@
         android:layout_marginStart="50dp"
         android:layout_marginTop="56dp"
         android:layout_marginEnd="50dp"
-        android:background="#2AC87B"
+        android:padding="15dp"
         android:fontFamily="@font/roboto_regular"
         android:text="@string/view_statistics"
         android:textColor="@android:color/white"
@@ -61,7 +73,7 @@
         android:layout_marginStart="50dp"
         android:layout_marginTop="100dp"
         android:layout_marginEnd="50dp"
-        android:background="#2AC87B"
+        android:padding="15dp"
         android:fontFamily="@font/roboto_regular"
         android:text="@string/HomeButton"
         android:textColor="@android:color/white"
@@ -77,14 +89,15 @@
         android:layout_width="257dp"
         android:layout_height="62dp"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="136dp"
+        android:layout_marginTop="70dp"
         android:layout_marginEnd="50dp"
         android:fontFamily="sans-serif-medium"
         android:gravity="center_horizontal"
         android:text="@string/game_over"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
-        android:textSize="36sp"
+        android:textSize="30sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />

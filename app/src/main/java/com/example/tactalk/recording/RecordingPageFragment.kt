@@ -5,18 +5,20 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.SystemClock
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.Chronometer
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
-import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import com.example.tactalk.R
-import com.example.tactalk.databinding.FragmentRecordingPageBinding
-import com.example.tactalk.network.statistics.StatsProperty
+import com.example.tactalk.match.GameManager
+import com.example.tactalk.network.RetrofitClient
+import com.example.tactalk.network.SessionManager
+import com.example.tactalk.network.TacTalkAPI
 import com.example.tactalk.statistics.StatisticFragment
+import com.example.tactalk.statistics.StatsProperty
 import com.github.squti.androidwaverecorder.WaveRecorder
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -26,6 +28,10 @@ import com.google.firebase.storage.ktx.storage
 import com.google.firebase.storage.ktx.storageMetadata
 import com.visualizer.amplitude.AudioRecordView
 import kotlinx.android.synthetic.main.fragment_recording_page.*
+import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.File
 import java.util.*
 import kotlin.concurrent.timerTask
@@ -33,16 +39,26 @@ import kotlin.concurrent.timerTask
 class RecordingPageFragment : AppCompatActivity() {
 
     lateinit var storage: FirebaseStorage
+    lateinit var tacTalkAPI: TacTalkAPI
+    private lateinit var sessionManager: SessionManager
     private lateinit var audioRecordView: AudioRecordView
-
-    /*private val recordViewModel: RecordingViewModel by lazy {
-        ViewModelProvider(this).get(RecordingViewModel::class.java)
-    }*/
-    private val recordViewModel: RecordingViewModel by viewModels()
-
-
+    private lateinit var gameManager: GameManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.fragment_recording_page)
+
+        val retrofit = RetrofitClient.getInstance()
+        tacTalkAPI = retrofit.create(TacTalkAPI::class.java)
+        sessionManager = SessionManager(this)
+
+        gameManager = GameManager(this)
+        val game_id = gameManager.getGameID()
+        val teamName = gameManager.getTeamName()
+        val oppositionName = gameManager.getOppositionName()
+
+        team_name.text = teamName
+        opposition_team_name.text = oppositionName
 
         // Google Cloud Storage Bucket
         storage = Firebase.storage("gs://tactalk-bucket")
@@ -57,27 +73,22 @@ class RecordingPageFragment : AppCompatActivity() {
         var num = 1
 
         // Current timestamp
-        val tsLong = System.currentTimeMillis() / 1000
-        val ts = tsLong.toString()
+        val timestampLong = System.currentTimeMillis() / 1000
+        val timestamp = timestampLong.toString()
 
-        // Match timer
-        // Retrieve value from Intent
+        // Retrieve values from Intent
         val timerVal = intent.getIntExtra("timerVal", 0)
+        val halfText = intent.getStringExtra("halfText")
 
         // test file name with hardcoded game_id, order number and timestamp
-        var fileName = "/game_60084b37e8c56c0978f5b004_" + num + "_" + ts + "_f.wav"
+        var fileName = "/game_" + game_id + "_" + num + "_" + timestamp + "_f.wav"
 
         // cache path & set up recorder
         var filePath: String = externalCacheDir?.absolutePath + fileName
         var waveRecorder = WaveRecorder(filePath)
         waveRecorder.waveConfig.sampleRate = 32000
 
-        super.onCreate(savedInstanceState)
-
-        val binding: FragmentRecordingPageBinding = DataBindingUtil.setContentView(this, R.layout.fragment_recording_page)
-        binding.lifecycleOwner = this
-        binding.recordViewModel = recordViewModel
-
+        // Match clock
         val clock: Chronometer = findViewById(R.id.match_time)
         clock.typeface = ResourcesCompat.getFont(this, R.font.orbitron_medium)
         clock.base = SystemClock.elapsedRealtime() - timerVal
@@ -98,7 +109,6 @@ class RecordingPageFragment : AppCompatActivity() {
         }, 0, 100)
 
 
-
         // Stop the recorder at 15 seconds, upload the file from cache,
         // then start the recorder again
         recordingTimer.scheduleAtFixedRate(timerTask {
@@ -110,7 +120,7 @@ class RecordingPageFragment : AppCompatActivity() {
             deleteExternalStorage(fileName)
 
             num++
-            fileName = "/game_60084b37e8c56c0978f5b004_" + num + "_" + ts + "_f.wav"
+            fileName = "/game_" + game_id + "_" + num + "_" + timestamp + "_f.wav"
             filePath = externalCacheDir?.absolutePath + fileName
             waveRecorder = WaveRecorder(filePath)
             waveRecorder.waveConfig.sampleRate = 32000
@@ -164,21 +174,31 @@ class RecordingPageFragment : AppCompatActivity() {
                 Log.d("Recorder", "Recording Started after pause")
             }
         }
+
+        if (halfText == "first") {
+            half_text.text = "1st Half"
+        } else if (halfText == "second") {
+            half_text.text = "2nd Half"
+        }
+
     }
 
     override fun onResume() {
         super.onResume()
 
-        /*val scoreTimer = Timer()
+        // calls statistics method every 30 seconds
+        val scoreTimer = Timer()
         scoreTimer.schedule(object : TimerTask() {
             override fun run() {
                 getScore()
             }
-        }, 0, 5000)*/
+        }, 0, 30000)
     }
 
     // function to upload audio file to the cloud
     private fun cloudUploader(filePath: String, fileName: String, storageRef: StorageReference) {
+
+        val contextView: View = findViewById(R.id.content_view)
         // Retrieve the file from the filePath
         val file = Uri.fromFile(File(filePath))
 
@@ -202,18 +222,20 @@ class RecordingPageFragment : AppCompatActivity() {
             Log.d("Recorder", "Upload is paused")
         }.addOnFailureListener {
             // Handle unsuccessful uploads
+            Snackbar.make(contextView, "Audio Upload Failed!", 5000)
+                .setBackgroundTint(resources.getColor(R.color.red))
+                .show()
         }.addOnSuccessListener {
 
         }
     }
 
     private fun getScore() {
-
-        recordViewModel.getStatisticProperties()
-        Log.i("ScoreTest", "getting score..")
-
+        // call statistics method
+        getMatchStatistics()
     }
 
+    // clear file from external storage
     private fun deleteExternalStorage(fileName: String) {
         val filePath = externalCacheDir?.absolutePath
         try {
@@ -224,6 +246,62 @@ class RecordingPageFragment : AppCompatActivity() {
         } catch (e: Exception) {
             Log.e("CacheDelete", "Exception while deleting file " + e.message)
         }
+    }
+
+    // get statistics call
+    private fun getMatchStatistics() {
+
+        val contextView: View = findViewById(R.id.content_view)
+
+        // TacTalk API call
+        // extract game id and auth token
+        tacTalkAPI.getMatchStatistics(
+            game_id = "${gameManager.getGameID()}",
+            token = "${sessionManager.getAuthToken()}"
+        ).enqueue(object : Callback<StatsProperty> {
+            // handle failed response
+            override fun onFailure(call: Call<StatsProperty>, t: Throwable) {
+                Snackbar.make(contextView, t.message.toString(), 3000)
+                    .setBackgroundTint(resources.getColor(R.color.green))
+                    .show()
+            }
+
+            // handle response
+            override fun onResponse(
+                call: Call<StatsProperty>,
+                response: Response<StatsProperty>
+            ) {
+                val statsResponse = response.body()
+                val errorResponse = response.errorBody()
+
+                if (errorResponse != null) {
+                    try {
+                        // display error
+                        val errorMessage = JSONObject(response.errorBody()!!.string())
+                        Snackbar.make(contextView, errorMessage.getString("message"), 5000)
+                            .setBackgroundTint(resources.getColor(R.color.red))
+                            .show()
+                    } catch (e: Exception) {
+                        Snackbar.make(contextView, e.message.toString(), 3000)
+                            .setBackgroundTint(resources.getColor(R.color.green))
+                            .show()
+                    }
+                } else if (statsResponse != null) {
+                    try {
+                        // display score
+                        team_goals.text = statsResponse.result.teamGoal.toString()
+                        team_points.text = statsResponse.result.teamPoints.toString()
+
+                        opp_team_goals.text = statsResponse.result.oppTeamGoal.toString()
+                        opp_team_points.text = statsResponse.result.oppTeamPoints.toString()
+                    } catch (e: Exception) {
+                        Snackbar.make(contextView, e.message.toString(), 3000)
+                            .setBackgroundTint(resources.getColor(R.color.green))
+                            .show()
+                    }
+                }
+            }
+        })
     }
 
     // disable back button
